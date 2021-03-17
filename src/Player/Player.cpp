@@ -7,26 +7,25 @@ void Player::move(char chr)
 {
     if (chr == 'w')
     {
-        // position.up()
+        position.addY();
     }
     else if (chr == 'a')
     {
-        // position.left();
+        position.subX();
     }
     else if (chr == 's')
     {
-        // position.down();
+        position.subY();
     }
     else if (chr == 'd')
     {
-        // position.right();
+        position.addX();
     }
     else
     {
-        // invalid move
+        // throw error
     }
-}
-// Bergerak ke satu petak ke kiri, kanan, atas, atau bawah
+} // Bergerak ke satu petak ke kiri, kanan, atas, atau bawah
 
 void Player::showEngimon(Engimon const &engimonList)
 {
@@ -54,7 +53,7 @@ void Player::printMenu()
     cout << "==================================================================" << endl
          << "|| Welcome Player ! Type the menu below :                       ||" << endl
          << "==================================================================" << endl
-         << "|| w, a, s, d : Bergerak 1 arah                                 ||" << endl
+         << "|| move <w, a, s, d> : Bergerak 1 arah                                 ||" << endl
          << "|| show engimon : Menampilkan engimon yang dimiliki             ||" << endl
          << "|| profile engimon <nama engimon> : Menampilkan profile engimon ||" << endl
          << "|| active engimon <name engimon> : Menggunakan engimon          ||" << endl
