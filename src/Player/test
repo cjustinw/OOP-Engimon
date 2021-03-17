@@ -1,0 +1,73 @@
+Player memiliki beberapa commands yang bisa dipilih pemain pada suatu
+waktu:
+i. Bergerak ke satu petak ke kiri, kanan, atas, atau bawah
+ii. Menampilkan list engimon yang dimiliki
+iii. Menampilkan data lengkap suatu engimon (setiap atribut kelas)
+1. Juga harus menampilkan nama parent beserta spesies mereka
+iv. Mengecek dan mengganti active engimon
+v. Menampilkan list skill item yang dimiliki
+vi. Menggunakan skill item pada suatu engimon
+vii. Melaksanakan breeding antara 2 engimon
+viii. Melakukan battle dengan suatu engimon yang berada didekatnya
+(adjacent tiles) yaitu satu petak di sebelah kiri, kanan, atas, dan
+bawah.
+1. Ketika ingin melakukan battle, tampilkan detail engimon lawan
+ke layar
+Untuk flow UI dan tampilan UI dibebaskan asalkan dapat mendukung
+delapan kebutuhan diatas. Beberapa command akan dijelaskan lebih
+detail di poin-poin selanjutnya
+
+b. Player memiliki inventory yang bertugas untuk menyimpan informasi
+mengenai benda-benda yang dimiliki player. Adapun ketentuan mengenai
+inventory adalah sebagai berikut:
+i. Merupakan class generic yang minimal menampung objek-objek hasil
+instansiasi 2 buah kelas berikut:
+1. Engimon
+a. Merupakan kelas yang digunakan untuk mewakili satu
+engimon yang dimiliki oleh player.
+b. Boleh terdapat engimon dengan nama yang sama
+dalam inventory.
+c. Gunakan kelas engimon yang digunakan untuk
+mewakili engimon lain di factory.
+
+2. Skill Item
+a. Ekuivalen dengan TM (Technical Machine) dan HM
+(Hidden Machine) di game Engimon.
+b. Memiliki atribut jumlah. Dengan demikian, tidak boleh
+terdapat skill dengan nama yang berbeda sama
+(duplikat) dalam inventory.
+c. Anda dapat menggunakan kelas skill yang sama
+dengan kelas skill pada poin spek 2.
+d. Memiliki method learn. Engimon hanya dapat
+mempelajari skill yang kompatibel dengan elemennya.
+ii. PERHATIAN: satu instansi inventory tidak harus mampu menampung
+keduanya sekaligus
+iii. Dapat menggunakan Container dari Standard Template Library (STL)
+untuk mengimplementasikan inventory. Pilihlah container yang paling
+sesuai menurut anda.
+
+Tugas Besar 1 IF2210/Pemrograman Berorientasi Objek sem. 2 2020/2021
+
+05/03/2020 pg. 3 of
+iv. Terdapat atribut max capacity. Jumlah engimon + skill items dalam
+inventory tidak boleh melebihi kapasitas maksimum tersebut.
+c. Player memiliki satu active engimon dengan ketentuan sebagai berikut:
+i. Engimon tersebut mengikuti gerakan player dari belakang.
+ii. Active engimon tidak diperbolehkan keluar dari map atau menabrak
+objek lain
+iii. Jika aturan poin ii dilanggar, lemparlah sebuah kasus exception.
+Kemudian dalam catch blok berikanlah pesan ke layar (isi pesan
+bebas) dan lakukanlah reposisi agar posisi engimon tidak melanggar
+poin ii (mekanisme pemilihan posisi baru dibebaskan).
+iv. Dapat berinteraksi dengan player:
+1. Ketika player berinteraksi dengan active engimon, maka
+mereka akan mengeluarkan teks unik berdasarkan nama
+spesies engimonnya. Teks yang dikeluarkan sesuai dengan
+template:
+[&lt;NAMA_ENGIMON&gt;]: &lt;teks bebas&gt;
+&lt;NAMA_ENGIMON&gt; = nama engimon yang diinteraksikan
+&lt;teks bebas&gt; = slogan bebas dan unik per spesies engimon
+
+v. Player dapat melakukan switch out active engimon.
+1. Player dapat menggantikan active engimon dengan engimon
+lain dari inventory.
