@@ -110,8 +110,8 @@ class Inventory{
 		int max_capacity; //kapasitas maksimum
 		int Neff; // nilai efektif array
 		//Atribut
-        string* inventory;
-        E* Engi;
+        	string* inventory;
+        	E* Engi;
 		S* Skill;
 		
 };
