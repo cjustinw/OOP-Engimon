@@ -32,7 +32,14 @@ void Map::setWidth(int new_W) {
 
 // mengembalikan reference sel di posisi (x,y)
 Cell& Map::at(int x, int y) {
+    if (x < 1 || x > length || y < 1 || y > length) {
+        throw "Out of bound exception.\n";
+    }
     return area[(width - y)*length + (x - 1)];
+}
+
+Cell& Map::at(Point p) {
+    return this->at(p.getX(), p.getY());
 }
 
 void Map::view() {
@@ -44,18 +51,29 @@ void Map::view() {
     }
 }
 
+void Map::moveObject(Point P1, Point P2) {
+    this->at(P1) >> this->at(P2);
+}
+
 // game-related
 
 Point Map::getPlayerPosition() {
-    int x, y;
+    int x,y;
     bool found = false;
+
+    y = 1;
     while (y <= width && !found) {
+        
+        x = 1;
         while (x <= length && !found) {
             if (this->at(x,y).isPlayer())
                 found = true;
-            x++;
+            else {    
+                x++;
+            }
         }
-        y++;
+        
+        if (!found) y++;
     }
     // if (!found) {
     //     throw eror
@@ -63,10 +81,33 @@ Point Map::getPlayerPosition() {
     return Point(x,y);
 }
 
-void Map::movePlayerUp() {}
-void Map::movePlayerDown() {}
-void Map::movePlayerRight() {}
-void Map::movePlayerLeft() {}
+void Map::movePlayerUp() {
+    Point player = this->getPlayerPosition();
+    int x = player.getX();
+    int y = player.getY();
+    this->at(player) >> this->at(x, y+1);
+}
+
+void Map::movePlayerDown() {
+    Point player = this->getPlayerPosition();
+    int x = player.getX();
+    int y = player.getY();
+    this->at(player) >> this->at(x, y-1);
+}
+
+void Map::movePlayerRight() {
+    Point player = this->getPlayerPosition();
+    int x = player.getX();
+    int y = player.getY();
+    this->at(player) >> this->at(x+1, y);
+}
+
+void Map::movePlayerLeft() {
+    Point player = this->getPlayerPosition();
+    int x = player.getX();
+    int y = player.getY();
+    this->at(player) >> this->at(x-1, y);
+}
 
 // starting state untuk map, spawn beberapa engimon
 void Map::initialSpawn() {

@@ -2,6 +2,7 @@
 
 int main() {
     Map map(15,15);
+    char choice;
 
     map.view();
 
@@ -13,6 +14,40 @@ int main() {
     map.at(8,6).setObject('E');
 
     map.view();
+    map.getPlayerPosition().printPoint();
+    while (1) {
+        try {
+            cin >> choice;     
+            switch (choice) {
+            case 'w':
+                map.movePlayerUp();
+                break;
+            
+            case 'd':
+                map.movePlayerRight();
+                break;
+
+            case 'a':
+                map.movePlayerLeft();
+                break;
+
+            case 's':
+                map.movePlayerDown();
+                break;
+
+            default:
+                break;
+            }
+
+            map.view();
+            map.getPlayerPosition().printPoint();   
+        } 
+        catch (char const * s) {
+            map.view();
+            map.getPlayerPosition().printPoint();             
+            cout << s;
+        }
+    }
 
     return 0;
 }

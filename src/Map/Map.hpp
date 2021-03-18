@@ -3,13 +3,30 @@
 
 #include "Cell.hpp"
 #include "../Point/Point.hpp"
-#include <vector>
+#include <string>
 #include <iostream>
 
 using namespace std;
 
 #define DEFAULT_LENGTH 30
 #define DEFAULT_WIDTH 30
+
+
+//**** Struktur Map ****//
+/*
+    ---------------------
+    |          (max,max)|
+    |                   |
+    |                   |
+    |                   |
+    |                   |
+    |                   |
+    |                   |
+    | (1,1)             |
+    ---------------------
+*/
+//**********************//
+
 
 class Map {
 private:
@@ -35,6 +52,9 @@ public:
     Cell& at(Point P);
 
     void view();
+
+    // memindahkan object dari posisi P1 ke P2
+    void moveObject(Point P1, Point P2);
 
     // game-related
     Point getPlayerPosition();
