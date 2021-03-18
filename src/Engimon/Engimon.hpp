@@ -1,17 +1,25 @@
 #include<string>
+#include"../Element/Element.hpp"
+#include"../Point/Point.hpp"
+
 using namespace std;
 
 #ifndef _ENGIMON_HPP_
 #define _ENGIMON_HPP_
 
+#define MAX_CUMULATIVE_EXP 1000
+
 class Engimon
 {
-    private:
+    protected:
         string name;
         string species;
         //parentNames & species Bagusnya pakai tipe data apa ???
+        string species;
         Element* elements; /* Bagusnya pakai tipe data apa ??? */
-        Skill* skills;  /* Bagusnya pakai tipe data apa ??? */
+        /* Skill* skills;   Bagusnya pakai tipe data apa ??? */
+        int numOfElmts;
+        int numOfSkills;
         int level;
         int exp;
         int cumulativeExp;
@@ -20,28 +28,25 @@ class Engimon
     public:
         /* Constructor */ 
         Engimon(string name);
-        Engimon(const Engimon&);
 
         /* Desctructor */
         ~Engimon();
 
-        /* Operator */
-        void operator=(const Engimon&);
-
         /* Getter */
         string getName();
         string getSpecies();
+        Element* getElement();
         int getCurrentLevel();
         int getCurrentExp();
         Point getPosition();
-        int getPower();
+        int getPower(const Engimon& enemy);
 
         /* Setter */
         void expUp(int);
         void levelUp();
-        void learnSkill(Skill);
+        //void learnSkill(Skill);
         void setActive();
-        void setPosition();
+        void setPosition(int,int);
         void setLevelAfterBreeding();
 
         /* Conditional Checking */
@@ -51,8 +56,8 @@ class Engimon
 
         /* Other Methods */
         void status(); 
-        void interact();
-        Engimon breed(const Engimon&);
+        virtual void interact();
+        Engimon* breed(const Engimon&, string);
         
 };
 
@@ -61,13 +66,9 @@ class Bulbasaur : public Engimon
     public:
         /* Constructor */ 
         Bulbasaur(string name);
-        Bulbasaur(const Bulbasaur&);
 
         /* Desctructor */
         ~Bulbasaur();
-
-        /* Operator */
-        void operator=(const Bulbasaur&);
 
         /* Other Methods */
         void interact();
@@ -78,13 +79,9 @@ class Charmander : public Engimon
     public:
         /* Constructor */ 
         Charmander(string name);
-        Charmander(const Charmander&);
 
         /* Desctructor */
         ~Charmander();
-
-        /* Operator */
-        void operator=(const Charmander&);
  
         /* Other Methods */
         void interact();
@@ -95,13 +92,9 @@ class Squirtle : public Engimon
     public:
         /* Constructor */ 
         Squirtle(string name);
-        Squirtle(const Squirtle&);
 
         /* Desctructor */
         ~Squirtle();
-
-        /* Operator */
-        void operator=(const Squirtle&);
 
         /* Other Methods */
         void interact();
