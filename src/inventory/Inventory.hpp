@@ -10,14 +10,14 @@ template<class E, class S>
 class Inventory{
 	public:
 		//Default Constructor: set max_capacity = 100; Neff = 0
-		Inventory():Inventory(100){	
-            this->Neff = 0;
-            this->inventory = new string[this->max_capacity];
-            this->Engi = new E[this->Neff];
-            int sisa_efektif = this->max_capacity - this->Neff;
-            this->Skill = new S[sisa_efektif];
+	Inventory():Inventory(100){	
+            	this->Neff = 0;
+            	this->inventory = new string[this->max_capacity];
+            	this->Engi = new E[this->Neff];
+            	int sisa_efektif = this->max_capacity - this->Neff;
+            	this->Skill = new S[sisa_efektif];
 
-            set_union(begin(this->Engi), end(this->Engi),
+            	set_union(begin(this->Engi), end(this->Engi),
                         begin(this->Skill), end(this->Skill),
                         inserter(this->inventory, begin(this->inventory)));
 
