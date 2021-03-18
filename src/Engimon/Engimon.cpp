@@ -16,8 +16,7 @@ Engimon::Engimon(string name)
 /* Desctructor */
 Engimon::~Engimon()
 {
-    delete this->elements;
-    // delete this->skills;
+    
 }
 
 /* Getter */
@@ -31,7 +30,7 @@ string Engimon::getSpecies()
     return this->species;
 }
 
-Element* Engimon::getElement()
+vector<Element> Engimon::getElement()
 {
     return this->elements;
 }
@@ -54,9 +53,9 @@ Point Engimon::getPosition()
 int Engimon::getPower(const Engimon& enemy)
 {
     int maxAdvantage = 0;
-    for(int i = 0; i < this->numOfSkills; i++)
+    for(int i = 0; i < this->elements.size(); i++)
     {
-        for(int j = 0; j < enemy.numOfElmts; j++)
+        for(int j = 0; j < enemy.elements.size(); j++)
         {
             /*
             int advantage = this->elements[i].elementAdvantage(enemy.elements[j]);
@@ -79,10 +78,11 @@ void Engimon::expUp(int exp)
 
 void Engimon::levelUp()
 {
-    if(this->exp >= this->level*100)
+    int lvl = this->exp / this->level*100;
+    if(lvl > 0)
     {
-        this->exp -= this->level*100;
-        this->level++;
+        this->level += lvl;
+        this->exp = this->exp % this->level*100;
     }
 }
 
@@ -145,13 +145,14 @@ Engimon* Engimon::breed(const Engimon& other, string name)
 
 Bulbasaur::Bulbasaur(string name) : Engimon(name)
 {
-
+    // this->elements.push_back();
+    // this->skills.push_back();
 }
 
 /* Desctructor */
 Bulbasaur::~Bulbasaur()
 {
-    
+
 }
 
 /* Other Methods */
@@ -164,13 +165,14 @@ void Bulbasaur::interact()
 
 Charmander::Charmander(string name) : Engimon(name)
 {
-
+    //this->elements.push_back();
+    // this->skills.push_back();
 }
 
 /* Desctructor */
 Charmander::~Charmander()
 {
-
+    
 }
 
 /* Other Methods */
@@ -183,7 +185,8 @@ void Charmander::interact()
 
 Squirtle::Squirtle(string name) : Engimon(name)
 {
-
+    //this->elements.push_back();
+    // this->skills.push_back();
 }
 
 /* Desctructor */

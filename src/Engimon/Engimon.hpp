@@ -1,4 +1,5 @@
 #include<string>
+#include<vector>
 #include"../Element/Element.hpp"
 #include"../Point/Point.hpp"
 
@@ -16,10 +17,9 @@ class Engimon
         string species;
         //parentNames & species Bagusnya pakai tipe data apa ???
         string species;
-        Element* elements; /* Bagusnya pakai tipe data apa ??? */
-        /* Skill* skills;   Bagusnya pakai tipe data apa ??? */
-        int numOfElmts;
-        int numOfSkills;
+        vector<Element> elements; 
+        /* vector<Skill> skills; */
+        int maxSkills;
         int level;
         int exp;
         int cumulativeExp;
@@ -35,7 +35,7 @@ class Engimon
         /* Getter */
         string getName();
         string getSpecies();
-        Element* getElement();
+        vector<Element> getElement();
         int getCurrentLevel();
         int getCurrentExp();
         Point getPosition();
