@@ -35,6 +35,9 @@ int main() {
                 map.movePlayerDown();
                 break;
 
+            case 'q':
+                exit(0);
+
             default:
                 break;
             }
@@ -51,3 +54,9 @@ int main() {
 
     return 0;
 }
+
+/*
+g++ -c *.cpp ../Point/Point.cpp
+
+g++ -o driver driver.cpp Map.o Cell.o Point.o
+*/

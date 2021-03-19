@@ -1,5 +1,6 @@
 #include "Map.hpp"
  
+// ctor
 Map::Map(int len, int wid) {
     length = len;
     width = wid;
@@ -9,6 +10,40 @@ Map::Map(int len, int wid) {
     this->at(1,1).setObject('P');
 }
 
+// cctor
+Map::Map(const Map& other) {
+    length = other.getLength();
+    width = other.getWidth();
+
+    int size = length * width;
+
+    area = new Cell[size];
+
+    for (int i = 0; i < size; i++) {
+        area[i] = other.area[i];
+    }
+}
+
+// operator assignment
+Map& Map::operator=(const Map& other) {
+
+    if (this->getSize() != other.getSize()) {
+        delete[] area;
+        area = new Cell[other.getSize()];
+    }
+    length = other.getLength();
+    width = other.getWidth();
+
+    int size = length * width;
+    
+    for (int i = 0; i < size; i++) {
+        area[i] = other.area[i];
+    }
+
+    return *this;
+}
+
+// dtor
 Map::~Map() {
     delete[] area;
 }
@@ -22,6 +57,10 @@ int Map::getWidth() const {
     return width;
 }
 
+int Map::getSize() const {
+    return length * width;
+}
+
 void Map::setLength(int new_L) {
     length = new_L;
 }
@@ -31,14 +70,14 @@ void Map::setWidth(int new_W) {
 }
 
 // mengembalikan reference sel di posisi (x,y)
-Cell& Map::at(int x, int y) {
+Cell& Map::at(int x, int y) const {
     if (x < 1 || x > length || y < 1 || y > length) {
         throw "Out of bound exception.\n";
     }
     return area[(width - y)*length + (x - 1)];
 }
 
-Cell& Map::at(Point p) {
+Cell& Map::at(Point p) const {
     return this->at(p.getX(), p.getY());
 }
 
@@ -57,7 +96,7 @@ void Map::moveObject(Point P1, Point P2) {
 
 // game-related
 
-Point Map::getPlayerPosition() {
+Point Map::getPlayerPosition() const {
     int x,y;
     bool found = false;
 

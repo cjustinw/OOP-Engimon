@@ -37,19 +37,26 @@ private:
     Cell *area;
 
 public:
+    // ctor
     Map(int len = DEFAULT_LENGTH, int wid = DEFAULT_WIDTH);
+    // cctor
+    Map(const Map& );
+    // operator assignment
+    Map& operator=(const Map&);
+    // dtor
     ~Map();
 
     // selektor
     int getLength() const;
     int getWidth() const;
+    int getSize() const;
 
     void setLength(int new_L);
     void setWidth(int new_W);
 
     // mengembalikan reference sel di posisi (x,y)
-    Cell& at(int x, int y);
-    Cell& at(Point P);
+    Cell& at(int x, int y) const;
+    Cell& at(Point P) const;
 
     void view();
 
@@ -57,7 +64,7 @@ public:
     void moveObject(Point P1, Point P2);
 
     // game-related
-    Point getPlayerPosition();
+    Point getPlayerPosition() const;
 
     void movePlayerUp();
     void movePlayerDown();
