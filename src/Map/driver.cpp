@@ -1,8 +1,9 @@
 #include "Map.hpp"
 
 int main() {
-    Map map(15,15);
-    char choice;
+    Point player(1,1);
+    Map map(player);
+    string choice;
 
     map.view();
 
@@ -14,33 +15,11 @@ int main() {
     map.at(8,6).setObject('E');
 
     map.view();
-    map.getPlayerPosition().printPoint();
+    player.printPoint();
     while (1) {
         try {
             cin >> choice;     
-            switch (choice) {
-            case 'w':
-                map.movePlayerUp();
-                break;
-            
-            case 'd':
-                map.movePlayerRight();
-                break;
-
-            case 'a':
-                map.movePlayerLeft();
-                break;
-
-            case 's':
-                map.movePlayerDown();
-                break;
-
-            case 'q':
-                exit(0);
-
-            default:
-                break;
-            }
+            map.setPlayerPosition(player, choice);
 
             map.view();
             map.getPlayerPosition().printPoint();   

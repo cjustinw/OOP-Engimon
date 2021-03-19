@@ -9,7 +9,7 @@
 using namespace std;
 
 #define DEFAULT_LENGTH 30
-#define DEFAULT_WIDTH 30
+#define DEFAULT_WIDTH 15
 
 
 //**** Struktur Map ****//
@@ -44,6 +44,7 @@ public:
     // operator assignment
     Map& operator=(const Map&);
     // dtor
+    Map(Point player);
     ~Map();
 
     // selektor
@@ -64,12 +65,17 @@ public:
     void moveObject(Point P1, Point P2);
 
     // game-related
-    Point getPlayerPosition() const;
 
+    void setPlayerPosition(Point player, string option);
+
+    Point getPlayerPosition();
+    /*
     void movePlayerUp();
     void movePlayerDown();
     void movePlayerRight();
     void movePlayerLeft();
+
+    */
 
     // starting state untuk map, spawn beberapa engimon
     void initialSpawn();

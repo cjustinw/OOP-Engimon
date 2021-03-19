@@ -1,13 +1,11 @@
 #include "Map.hpp"
  
-// ctor
-Map::Map(int len, int wid) {
-    length = len;
-    width = wid;
+Map::Map(Point player) {
+    length = DEFAULT_LENGTH;
+    width = DEFAULT_WIDTH;
 
     area = new Cell[length*width];
-
-    this->at(1,1).setObject('P');
+    this->at(player).setObject('P');
 }
 
 // cctor
@@ -94,9 +92,31 @@ void Map::moveObject(Point P1, Point P2) {
     this->at(P1) >> this->at(P2);
 }
 
+void Map::setPlayerPosition(Point player, string option)
+{
+    int x = player.getX();
+    int y = player.getY();
+    if (option == "w")
+    {    
+        this->at(player) >> this->at(x, y+1);
+    }
+    else if (option == "a")
+    {
+        this->at(player) >> this->at(x-1, y);
+    }
+    else if (option == "s")
+    {
+        this->at(player) >> this->at(x, y-1);
+    }
+    else if (option == "d")
+    {
+        this->at(player) >> this->at(x+1, y);
+    }
+}
+
 // game-related
 
-Point Map::getPlayerPosition() const {
+Point Map::getPlayerPosition() {
     int x,y;
     bool found = false;
 
@@ -119,7 +139,7 @@ Point Map::getPlayerPosition() const {
     // } 
     return Point(x,y);
 }
-
+/*
 void Map::movePlayerUp() {
     Point player = this->getPlayerPosition();
     int x = player.getX();
@@ -147,6 +167,7 @@ void Map::movePlayerLeft() {
     int y = player.getY();
     this->at(player) >> this->at(x-1, y);
 }
+*/
 
 // starting state untuk map, spawn beberapa engimon
 void Map::initialSpawn() {
