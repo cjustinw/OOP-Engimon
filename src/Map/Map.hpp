@@ -38,13 +38,13 @@ private:
 
 public:
     // ctor
-    Map(int len = DEFAULT_LENGTH, int wid = DEFAULT_WIDTH);
+    // Map(int len = DEFAULT_LENGTH, int wid = DEFAULT_WIDTH);
+    Map(Point player = Point(1,1));
     // cctor
     Map(const Map& );
     // operator assignment
     Map& operator=(const Map&);
     // dtor
-    Map(Point player);
     ~Map();
 
     // selektor

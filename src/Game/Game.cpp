@@ -1,9 +1,11 @@
 #include "Game.hpp"
+#include "../Map/MapLoader.hpp"
 
 Game::Game()
 {
+    MapLoader mapLoader;
     this->player = new Player();
-    this->map = new Map(this->player->getPlayerPosition());
+    this->map = mapLoader.load();
     this->status = true;
 }
 
