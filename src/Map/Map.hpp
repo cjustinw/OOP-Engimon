@@ -65,8 +65,9 @@ public:
     void moveObject(Point P1, Point P2);
 
     // game-related
-
+    /*
     void setPlayerPosition(Point player, string option);
+    */
 
     Point getPlayerPosition();
     /*
@@ -76,8 +77,8 @@ public:
     void movePlayerLeft();
 
     */
-
-    bool isPositionValid(Point P); 
+    bool isPositionValid(Point P);
+    bool isWildEngimonPositionValid(Point P); 
 
     // starting state untuk map, spawn beberapa engimon
     void initialSpawn();

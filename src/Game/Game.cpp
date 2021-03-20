@@ -45,9 +45,65 @@ void Game::playerOption()
     cin >> option;
     if(option == "w" || option == "a" || option == "s" || option == "d")
     {
-        this->map->setPlayerPosition(this->player->getPlayerPosition(), option);
-        this->player->move(option);
-        this->moveWildEngimon();
+        Point P;
+        P.setX(player->getPlayerPosition().getX());
+        P.setY(player->getPlayerPosition().getY());
+        if (option == "w")
+        {    
+            P.addY();
+        }
+        else if (option == "a")
+        {
+            P.subX();
+        }
+        else if (option == "s")
+        {
+            P.subY();
+        }
+        else if (option == "d")
+        {
+            P.addX();
+        }
+        if(P.getX() > 0 && P.getX() < map->getLength() && P.getY() > 0 && P.getY() < map->getWidth())
+        {
+            if(map->at(P).getObject() != '-')
+            {
+                auto j = wildEngimon.begin();
+                for(int i = 0; i < wildEngimon.size(); i++)
+                {
+                    if(wildEngimon[i]->getPosition().getX() == P.getX() && wildEngimon[i]->getPosition().getY() == P.getY())
+                    {
+                        /* Battle */
+                        wildEngimon[i]->showDescription();
+                        wildEngimon.erase(j);
+                    }
+                    j++;
+                }
+                map->at(P).setObject('P');
+                map->at(player->getPlayerPosition()).setObject('-');
+                player->move(option);
+            }
+            else{
+                this->moveWildEngimon();
+                if(map->at(P).getObject() != '-')
+                {
+                    auto j = wildEngimon.begin();
+                    for(int i = 0; i < wildEngimon.size(); i++)
+                    {
+                        if(wildEngimon[i]->getPosition().getX() == P.getX() && wildEngimon[i]->getPosition().getY() == P.getY())
+                        {
+                            /* Battle */
+                            wildEngimon[i]->showDescription();
+                            wildEngimon.erase(j);
+                        }
+                        j++;
+                    }
+                }
+                map->at(P).setObject('P');
+                map->at(player->getPlayerPosition()).setObject('-');
+                player->move(option);
+            }
+        }
     }
     else if (option == "quit")
     {
@@ -66,7 +122,7 @@ void Game::createWildEngimon()
             Position.setY(rand() % map->getWidth() + 1);
         } while (!map->isPositionValid(Position));
 
-        int level = rand() % 5 + 1;
+        int level = rand() % 10 + 1;
         int random = rand() % 2 + 1;
 
         wildEngimon.push_back(CreateEngimon(random, level, Position, false));
@@ -76,19 +132,44 @@ void Game::createWildEngimon()
             switch (wildEngimon.back()->getElement()[0]->getElmt())
             {
             case FIRE:
-                map->at(Position).setObject('f');
+                if(level > 5){
+                    map->at(Position).setObject('F');
+                }
+                else{
+                    map->at(Position).setObject('f');
+                }
                 break;
             case ELECTRIC:
-                map->at(Position).setObject('e');
+                if(level > 5){
+                    map->at(Position).setObject('E');
+                }
+                else{
+                    map->at(Position).setObject('e');
+                }
                 break; 
             case WATER:
-                map->at(Position).setObject('w');
+                if(level > 5){
+                    map->at(Position).setObject('W');
+                }
+                else{
+                    map->at(Position).setObject('w');
+                }
                 break;
             case GROUND:
-                map->at(Position).setObject('g');
+                if(level > 5){
+                    map->at(Position).setObject('G');
+                }
+                else{
+                    map->at(Position).setObject('g');
+                }
                 break; 
             case ICE:
-                map->at(Position).setObject('i');
+                if(level > 5){
+                    map->at(Position).setObject('I');
+                }
+                else{
+                    map->at(Position).setObject('i');
+                }
                 break;
             default:
                 break;
@@ -125,7 +206,7 @@ void Game::moveWildEngimon()
             default:
                 break;
             }
-        } while (!map->isPositionValid(Position));
+        } while (!map->isWildEngimonPositionValid(Position));
 
         map->at(Position).setObject(map->at(wildEngimon[i]->getPosition()).getObject());
         map->at(wildEngimon[i]->getPosition()).setObject('-');

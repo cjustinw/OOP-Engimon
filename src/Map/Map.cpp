@@ -92,6 +92,7 @@ void Map::moveObject(Point P1, Point P2) {
     this->at(P1) >> this->at(P2);
 }
 
+/*
 void Map::setPlayerPosition(Point player, string option)
 {
     int x = player.getX();
@@ -113,6 +114,7 @@ void Map::setPlayerPosition(Point player, string option)
         this->at(player) >> this->at(x+1, y);
     }
 }
+*/
 
 // game-related
 
@@ -168,12 +170,23 @@ void Map::movePlayerLeft() {
     this->at(player) >> this->at(x-1, y);
 }
 */
-
 bool Map::isPositionValid(Point P)
 {
     if( P.getX() > 0 && P.getX() < length && P.getY() > 0 && P.getY() < width)
     {
         if(this->at(P).getObject() == '-')
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Map::isWildEngimonPositionValid(Point P)
+{
+    if( P.getX() > 0 && P.getX() < length && P.getY() > 0 && P.getY() < width)
+    {
+        if(this->at(P).getObject() == '-' || this->at(P).getObject() == 'P')
         {
             return true;
         }

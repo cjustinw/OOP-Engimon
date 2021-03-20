@@ -13,7 +13,6 @@ Map* MapLoader::load(string filename) {
     while (getline(infile, line)) {
         i = 0;
         while (line[i] != '\n' && line[i]) {
-            cout << "(" << i << ", " << j << ")" <<endl;
             map->at(i+1, j).setObject(line[i]);
             i++;
         }
