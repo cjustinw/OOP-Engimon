@@ -7,6 +7,7 @@ Game::Game()
     this->player = new Player();
     this->map = mapLoader.load();
     this->status = true;
+    this->createWildEngimon();
 }
 
 Game::~Game()
@@ -50,5 +51,46 @@ void Game::playerOption()
     else if (option == "quit")
     {
         this->status = false;
+    }
+}
+
+void Game::createWildEngimon()
+{
+    for(int i = 0; i < 10; i++)
+    {
+        Point Position;
+        do{
+            Position.setX(rand() % map->getLength() + 1);
+            Position.setY(rand() % map->getWidth() + 1);
+        } while (!map->isPositionValid(Position));
+
+        int level = rand() % 5 + 1;
+        int random = rand() % 2 + 1;
+
+        wildEngimon.push_back(CreateEngimon(random, level, Position, false));
+
+        if(wildEngimon.back()->getElement().size() == 1)
+        {
+            switch (wildEngimon.back()->getElement()[0]->getElmt())
+            {
+            case FIRE:
+                map->at(Position).setObject('f');
+                break;
+            case ELECTRIC:
+                map->at(Position).setObject('e');
+                break; 
+            case WATER:
+                map->at(Position).setObject('w');
+                break;
+            case GROUND:
+                map->at(Position).setObject('g');
+                break; 
+            case ICE:
+                map->at(Position).setObject('i');
+                break;
+            default:
+                break;
+            }
+        }
     }
 }

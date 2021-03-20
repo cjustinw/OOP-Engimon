@@ -77,6 +77,8 @@ public:
 
     */
 
+    bool isPositionValid(Point P); 
+
     // starting state untuk map, spawn beberapa engimon
     void initialSpawn();
     
