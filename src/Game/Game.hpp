@@ -19,7 +19,8 @@ class Game
         ~Game();
 
         void createWildEngimon();
-        
+        void moveWildEngimon();
+
         bool getStatus();
         
         void printMenu();

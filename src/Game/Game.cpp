@@ -47,6 +47,7 @@ void Game::playerOption()
     {
         this->map->setPlayerPosition(this->player->getPlayerPosition(), option);
         this->player->move(option);
+        this->moveWildEngimon();
     }
     else if (option == "quit")
     {
@@ -56,6 +57,7 @@ void Game::playerOption()
 
 void Game::createWildEngimon()
 {
+    /* Buat coba2 dulu, nanti disesuaikan lagi */
     for(int i = 0; i < 10; i++)
     {
         Point Position;
@@ -92,5 +94,41 @@ void Game::createWildEngimon()
                 break;
             }
         }
+    }
+}
+
+void Game::moveWildEngimon()
+{
+    /* Buat coba2 dulu, nanti disesuaikan lagi */
+    for(int i = 0; i < wildEngimon.size(); i++)
+    {
+        Point Position;
+        do
+        {
+            Position.setX(wildEngimon[i]->getPosition().getX());
+            Position.setY(wildEngimon[i]->getPosition().getY());
+            int option = rand() % 4 + 1;
+            switch (option)
+            {
+            case 1:
+                Position.addY();
+                break;
+            case 2:
+                Position.addX();
+                break;
+            case 3:
+                Position.subX();
+                break;
+            case 4:
+                Position.subY();
+                break;
+            default:
+                break;
+            }
+        } while (!map->isPositionValid(Position));
+
+        map->at(Position).setObject(map->at(wildEngimon[i]->getPosition()).getObject());
+        map->at(wildEngimon[i]->getPosition()).setObject('-');
+        wildEngimon[i]->setPosition(Position.getX(), Position.getY());
     }
 }
