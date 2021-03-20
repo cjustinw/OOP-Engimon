@@ -2,15 +2,15 @@
 
 /* Engimon */
 
-Engimon::Engimon(string name)
+Engimon::Engimon(int lvl, Point pos, bool child)
 {
-    this->name = name;
-    level = 1;
+    level = lvl;
     exp = 0;
     cumulativeExp = 0;
     active = false;
-    position.setX(0);
-    position.setY(0);
+    this->child = child;
+    position.setX(pos.getX());
+    position.setY(pos.getY());
 }
 
 /* Desctructor */
@@ -20,22 +20,22 @@ Engimon::~Engimon()
 }
 
 /* Getter */
-string Engimon::getName()
+string Engimon::getName() const
 {
     return name;
 }
 
-string Engimon::getSpecies()
+string Engimon::getSpecies() const
 {
     return species;
 }
 
-vector<Element*> Engimon::getElement()
+vector<Element*> Engimon::getElement() const
 {
     return elements;
 }
 
-string Engimon::getElementName()
+string Engimon::getElementName() const
 {
     string elmt = "";
     for(int i = 0; i < elements.size(); i++)
@@ -68,22 +68,22 @@ string Engimon::getElementName()
     return elmt;
 }
 
-int Engimon::getCurrentLevel()
+int Engimon::getCurrentLevel() const
 {
     return level;
 }
 
-int Engimon::getCurrentExp()
+int Engimon::getCurrentExp() const
 {
     return exp;
 }
 
-Point Engimon::getPosition()
+Point Engimon::getPosition() const
 {
     return position;
 }
 
-int Engimon::getPower(const Engimon& enemy)
+int Engimon::getPower(const Engimon& enemy) const
 {
     int maxAdvantage = 0;
     for(int i = 0; i < this->elements.size(); i++)
@@ -102,7 +102,22 @@ int Engimon::getPower(const Engimon& enemy)
     return this->level * maxAdvantage /* + SUM(every  skill’s  base  power  *  Mastery Level) */;
 }
 
+int Engimon::getID() const
+{
+    return ID;
+}
+
+string Engimon::getParent() const
+{
+    return parent;
+}
+
 /* Setter */
+void Engimon::setName(string name)
+{
+    this->name = name;
+}
+
 void Engimon::expUp(int exp)
 {
     this->exp += exp;
@@ -136,6 +151,11 @@ void Engimon::setLevelAfterBreeding()
     level -= 30;
 }
 
+void Engimon::setParent(string S)
+{
+    this->parent.assign(S);
+}
+
 /* Conditional Checking */
 bool Engimon::isMaxCumulativeExp()
 {
@@ -152,6 +172,11 @@ bool Engimon::isPositionValid()
     /* dari class map ada method cek position valid? */
 }
 
+bool Engimon::isChild()
+{
+    return child;
+}
+
 /* Other Methods */
 void Engimon::showDescription()
 {
@@ -160,9 +185,12 @@ void Engimon::showDescription()
          << "========================================" << endl
          << "|| Name        : " << getName()  << endl
          << "|| Species     : " << getSpecies()  << endl
-         << "|| Elements    : " << getElementName() << endl
-         << "|| Parent      : " << endl 
-         << "|| Skills      : " << endl   
+         << "|| Elements    : " << getElementName() << endl;
+    if(isChild())
+    {
+        cout << "|| Parent      : " << getParent() << endl;
+    }    
+    cout << "|| Skills      : " << endl   
          << "|| Level       : " << getCurrentLevel() <<endl
          << "|| EXP         : " << getCurrentExp() << endl
          << "========================================" << endl;
@@ -175,33 +203,42 @@ void Engimon::interact()
 
 Engimon* Engimon::breed(const Engimon& other, string name)
 {
-    /* */
-}
-
-/* Bulbasaur */
-
-Bulbasaur::Bulbasaur(string name) : Engimon(name)
-{
-    // this->elements.push_back();
-    // this->skills.push_back();
-}
-
-/* Desctructor */
-Bulbasaur::~Bulbasaur()
-{
-
-}
-
-/* Other Methods */
-void Bulbasaur::interact()
-{
-    cout << "Aaaaaaa.... " << endl;
+    Engimon* E;
+    Point P(0,0);
+    if(this->elements.size() == 1 && other.elements.size() == 1)
+    {
+        if(this->getElement()[0]->getElmt() == other.getElement()[0]->getElmt())
+        {
+           E = CreateEngimon(this->getID(), 0, P, true);
+        }
+        else
+        {
+            int thisAdvantage = this->getElement()[0]->elementAdvantage(other.getElement()[0]->getElmt());
+            int otherAdvantage = other.getElement()[0]->elementAdvantage(this->getElement()[0]->getElmt());
+            if(thisAdvantage > otherAdvantage)
+            {
+                E = CreateEngimon(this->getID(), 1, P, true);
+            }
+            else if(thisAdvantage < otherAdvantage)
+            {
+                E = CreateEngimon(other.getID(), 1, P, true);
+            }
+            else
+            {
+                /* Nanti untuk yang anaknya kombinasi elementv*/
+            }
+        }
+    }
+    E->setName(name);
+    E->setParent("[(" + this->getName() + " : " + this->getSpecies() + ") x (" + other.getName() + " : " + other.getSpecies() + ")]");
+    return E;
 }
 
 /* Charmander */
-
-Charmander::Charmander(string name) : Engimon(name)
+Charmander::Charmander(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
 {
+    ID = 1;
+    name = "Charmander";
     species = "Charmander";
     elements.push_back(new Fire());
     // this->skills.push_back();
@@ -219,10 +256,14 @@ void Charmander::interact()
     cout << "Charmander: " << endl;
 }
 
+
+
 /* Squirtle */
 
-Squirtle::Squirtle(string name) : Engimon(name)
+Squirtle::Squirtle(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
 {
+    ID = 2;
+    name = "Squirtle";
     species = "Squirtle";
     elements.push_back(new Water());
     // this->skills.push_back();
@@ -238,4 +279,18 @@ Squirtle::~Squirtle()
 void Squirtle::interact()
 {
     cout << "Squirtle: " << endl;
+}
+
+
+Engimon* CreateEngimon(int ID, int lvl, Point pos, bool child)
+{
+    switch (ID)
+    {
+    case 1:
+        return new Charmander(lvl, pos, child);
+    case 2:
+        return new Squirtle(lvl, pos, child);
+    default:
+        return new Engimon(lvl, pos, child);
+    }
 }
