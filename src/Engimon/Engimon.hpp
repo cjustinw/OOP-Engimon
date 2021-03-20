@@ -1,6 +1,12 @@
 #include<string>
 #include<vector>
+#include<iomanip>
 #include"../Element/Element.hpp"
+#include"../Element/Electric.hpp"
+#include"../Element/Fire.hpp"
+#include"../Element/Ground.hpp"
+#include"../Element/Ice.hpp"
+#include"../Element/Water.hpp"
 #include"../Point/Point.hpp"
 
 using namespace std;
@@ -16,8 +22,7 @@ class Engimon
         string name;
         string species;
         //parentNames & species Bagusnya pakai tipe data apa ???
-        string species;
-        vector<Element> elements; 
+        vector<Element*> elements; 
         /* vector<Skill> skills; */
         int maxSkills;
         int level;
@@ -35,7 +40,8 @@ class Engimon
         /* Getter */
         string getName();
         string getSpecies();
-        vector<Element> getElement();
+        vector<Element*> getElement();
+        string getElementName();
         int getCurrentLevel();
         int getCurrentExp();
         Point getPosition();
@@ -55,7 +61,7 @@ class Engimon
         bool isPositionValid();
 
         /* Other Methods */
-        void status(); 
+        void showDescription(); 
         virtual void interact();
         Engimon* breed(const Engimon&, string);
         

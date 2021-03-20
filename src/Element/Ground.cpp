@@ -7,6 +7,10 @@ Ground::Ground() {
     Elmt = GROUND;
 }
 
+ElmtType Ground::getElmt() {
+    return GROUND;
+}
+
 float Ground::elementAdvantage(ElmtType Elmt) {
     switch (Elmt) {
         case ICE:

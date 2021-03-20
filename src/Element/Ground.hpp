@@ -8,6 +8,7 @@ using namespace std;
 class Ground: public Element {
 public:
     Ground();
+    ElmtType getElmt();
     float elementAdvantage(ElmtType Elmt);
 };
 

@@ -11,6 +11,7 @@ protected:
     ElmtType Elmt;
 
 public:
+    virtual ElmtType getElmt() = 0;
     virtual float elementAdvantage(ElmtType Elmt) = 0;
 };
 

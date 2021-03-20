@@ -8,6 +8,7 @@ using namespace std;
 class Water: public Element {
 public:
     Water();
+    ElmtType getElmt();
     float elementAdvantage(ElmtType Elmt);
 };
 

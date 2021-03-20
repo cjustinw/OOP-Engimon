@@ -7,6 +7,10 @@ Water::Water() {
     Elmt = WATER;
 }
 
+ElmtType Water::getElmt() {
+    return WATER;
+}
+
 float Water::elementAdvantage(ElmtType Elmt) {
     switch (Elmt) {
         case ELECTRIC:

@@ -7,6 +7,10 @@ Fire::Fire() {
     Elmt = FIRE;
 }
 
+ElmtType Fire::getElmt() {
+    return FIRE;
+}
+
 float Fire::elementAdvantage(ElmtType Elmt) {
     switch (Elmt) {
         case WATER:

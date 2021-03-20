@@ -7,6 +7,10 @@ Ice::Ice() {
     Elmt = ICE;
 }
 
+ElmtType Ice::getElmt() {
+    return ICE;
+}
+
 float Ice::elementAdvantage(ElmtType Elmt) {
     switch (Elmt) {
         case FIRE:

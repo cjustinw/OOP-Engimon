@@ -7,6 +7,10 @@ Electric::Electric() {
     Elmt = ELECTRIC;
 }
 
+ElmtType Electric::getElmt() {
+    return ELECTRIC;
+}
+
 float Electric::elementAdvantage(ElmtType Elmt) {
     switch (Elmt) {
         case GROUND:
