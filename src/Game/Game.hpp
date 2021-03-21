@@ -1,6 +1,7 @@
 #ifndef _GAME_HPP_
 #define _GAME_HPP_
 
+#include <time.h>
 #include <vector>
 #include "../Engimon/Engimon.hpp"
 #include "../Player/Player.hpp"

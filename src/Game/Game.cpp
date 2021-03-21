@@ -114,6 +114,7 @@ void Game::playerOption()
 void Game::createWildEngimon()
 {
     /* Buat coba2 dulu, nanti disesuaikan lagi */
+    srand(time(0));
     for(int i = 0; i < 10; i++)
     {
         Point Position;

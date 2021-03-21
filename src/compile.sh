@@ -1,0 +1,1 @@
+g++ -o Main.exe Main.cpp Game/Game.cpp Map/Map.cpp Map/Cell.cpp Player/Player.cpp Point/Point.cpp Map/MapLoader.cpp Engimon/Engimon.cpp Element/Fire.cpp Element/Water.cpp Element/Electric.cpp Element/Ground.cpp Element/Ice.cpp
