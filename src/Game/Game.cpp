@@ -66,7 +66,7 @@ void Game::playerOption()
         }
         if(P.getX() > 0 && P.getX() < map->getLength() && P.getY() > 0 && P.getY() < map->getWidth())
         {
-            if(map->at(P).getObject() != '-')
+            if(map->at(P).getObject() != '-' && map->at(P).getObject() != 'o')
             {
                 auto j = wildEngimon.begin();
                 for(int i = 0; i < wildEngimon.size(); i++)
@@ -79,8 +79,16 @@ void Game::playerOption()
                     }
                     j++;
                 }
+
                 map->at(P).setObject('P');
-                map->at(player->getPlayerPosition()).setObject('-');
+                if(map->at(player->getPlayerPosition()).getType() == GRASS)
+                {
+                    map->at(player->getPlayerPosition()).setObject('-');
+                }
+                else
+                {
+                    map->at(player->getPlayerPosition()).setObject('o');
+                }
                 player->move(option);
             }
             else{
@@ -100,7 +108,14 @@ void Game::playerOption()
                     }
                 }
                 map->at(P).setObject('P');
-                map->at(player->getPlayerPosition()).setObject('-');
+                if(map->at(player->getPlayerPosition()).getType() == GRASS)
+                {
+                    map->at(player->getPlayerPosition()).setObject('-');
+                }
+                else
+                {
+                    map->at(player->getPlayerPosition()).setObject('o');
+                }
                 player->move(option);
             }
         }
@@ -124,7 +139,17 @@ void Game::createWildEngimon()
         } while (!map->isPositionValid(Position));
 
         int level = rand() % 10 + 1;
-        int random = rand() % 2 + 1;
+
+        int random;
+
+        if(map->at(Position).getObject() == '-')
+        {
+            random =  1; //rand() % 2 + 1;
+        }
+        else
+        {
+            random = 2; //rand() % 2 + 1;
+        }
 
         wildEngimon.push_back(CreateEngimon(random, level, Position, false));
 
@@ -185,11 +210,22 @@ void Game::moveWildEngimon()
     /* Buat coba2 dulu, nanti disesuaikan lagi */
     for(int i = 0; i < wildEngimon.size(); i++)
     {
+        bool isGrass, found = false;
         Point Position;
-        do
+        while(!found)
         {
+            
             Position.setX(wildEngimon[i]->getPosition().getX());
             Position.setY(wildEngimon[i]->getPosition().getY());
+
+            if(map->at(Position).getType() == GRASS)
+            {
+                isGrass = true;
+            }
+            else
+            {
+                isGrass = false;
+            }
             
             int option = rand() % 4 + 1;
             switch (option)
@@ -209,10 +245,25 @@ void Game::moveWildEngimon()
             default:
                 break;
             }
-        } while (!map->isWildEngimonPositionValid(Position));
+            
+            if(map->isWildEngimonPositionValid(Position, isGrass))
+            {
+                found = true;
+            }
+        }
 
-        map->at(Position).setObject(map->at(wildEngimon[i]->getPosition()).getObject());
-        map->at(wildEngimon[i]->getPosition()).setObject('-');
-        wildEngimon[i]->setPosition(Position.getX(), Position.getY());
+        if(found)
+        {
+            map->at(Position).setObject(map->at(wildEngimon[i]->getPosition()).getObject());
+            if(isGrass)
+            {
+                map->at(wildEngimon[i]->getPosition()).setObject('-');
+            }
+            else
+            {
+                map->at(wildEngimon[i]->getPosition()).setObject('o');
+            }
+            wildEngimon[i]->setPosition(Position.getX(), Position.getY());
+        }
     }
 }

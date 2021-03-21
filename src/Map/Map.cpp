@@ -174,7 +174,7 @@ bool Map::isPositionValid(Point P)
 {
     if( P.getX() > 0 && P.getX() < length && P.getY() > 0 && P.getY() < width)
     {
-        if(this->at(P).getObject() == '-')
+        if(this->at(P).getObject() == '-' || this->at(P).getObject() == 'o')
         {
             return true;
         }
@@ -182,13 +182,23 @@ bool Map::isPositionValid(Point P)
     return false;
 }
 
-bool Map::isWildEngimonPositionValid(Point P)
+bool Map::isWildEngimonPositionValid(Point P, bool G)
 {
     if( P.getX() > 0 && P.getX() < length && P.getY() > 0 && P.getY() < width)
     {
-        if(this->at(P).getObject() == '-' || this->at(P).getObject() == 'P')
+        if(G)
         {
-            return true;
+            if(this->at(P).getObject() == '-' || this->at(P).getObject() == 'P')
+            {
+                return true;
+            }
+        }
+        else
+        {
+            if(this->at(P).getObject() == 'o' || this->at(P).getObject() == 'P')
+            {
+                return true;
+            }
         }
     }
     return false;

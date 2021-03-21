@@ -14,6 +14,14 @@ Map* MapLoader::load(string filename) {
         i = 0;
         while (line[i] != '\n' && line[i]) {
             map->at(i+1, j).setObject(line[i]);
+            if(map->at(i+1, j).getObject() == '-' || map->at(i+1, j).getObject() == 'P')
+            {
+                map->at(i+1, j).setType(GRASS);
+            }
+            else
+            {
+                map->at(i+1, j).setType(SEA);
+            }
             i++;
         }
         j--;
