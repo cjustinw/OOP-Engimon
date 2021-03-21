@@ -124,13 +124,14 @@ void Game::playerOption()
     {
         this->status = false;
     }
+    
 }
 
 void Game::createWildEngimon()
 {
     srand(time(0));
     /* Buat coba2 dulu, nanti disesuaikan lagi */
-    for(int i = 0; i < 10; i++)
+    for(int i = 0; i < 20; i++)
     {
         Point Position;
         do{
@@ -144,15 +145,15 @@ void Game::createWildEngimon()
 
         if(map->at(Position).getObject() == '-')
         {
-            random =  1; //rand() % 2 + 1;
+            random = rand() % (7 - 1) + 1;
         }
         else
         {
-            random = 2; //rand() % 2 + 1;
+            random = rand() % (11 - 7) + 7;
         }
-
+        // cout << random << endl;
         wildEngimon.push_back(CreateEngimon(random, level, Position, false));
-
+        
         if(wildEngimon.back()->getElement().size() == 1)
         {
             switch (wildEngimon.back()->getElement()[0]->getElmt())
@@ -214,7 +215,6 @@ void Game::moveWildEngimon()
         Point Position;
         while(!found)
         {
-            
             Position.setX(wildEngimon[i]->getPosition().getX());
             Position.setY(wildEngimon[i]->getPosition().getY());
 

@@ -244,43 +244,195 @@ Charmander::Charmander(int lvl, Point pos, bool child) : Engimon(lvl, pos, child
     // this->skills.push_back();
 }
 
-/* Desctructor */
 Charmander::~Charmander()
 {
     
 }
 
-/* Other Methods */
 void Charmander::interact()
 {
     cout << "Charmander: " << endl;
 }
 
-
-
-/* Squirtle */
-
-Squirtle::Squirtle(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
+/* Entei */
+Entei::Entei(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
 {
     ID = 2;
+    name = "Entei";
+    species = "Entei";
+    elements.push_back(new Fire());
+    // this->skills.push_back();
+}
+
+Entei::~Entei()
+{
+    
+}
+
+void Entei::interact()
+{
+    cout << "Entei: " << endl;
+}
+
+/* Pikachu */
+Pikachu::Pikachu(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
+{
+    ID = 3;
+    name = "Pikachu";
+    species = "Pikachu";
+    elements.push_back(new Electric());
+    // this->skills.push_back();
+}
+
+Pikachu::~Pikachu()
+{
+    
+}
+
+void Pikachu::interact()
+{
+    cout << "Pikachu: " << endl;
+}
+
+/* Raikou */
+Raikou::Raikou(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
+{
+    ID = 4;
+    name = "Raikou";
+    species = "Raikou";
+    elements.push_back(new Electric());
+    // this->skills.push_back();
+}
+
+Raikou::~Raikou()
+{
+    
+}
+
+void Raikou::interact()
+{
+    cout << "Raikou: " << endl;
+}
+
+/* Diglet */
+Diglet::Diglet(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
+{
+    ID = 5;
+    name = "Diglet";
+    species = "Diglet";
+    elements.push_back(new Ground());
+    // this->skills.push_back();
+}
+
+Diglet::~Diglet()
+{
+    
+}
+
+void Diglet::interact()
+{
+    cout << "Diglet: " << endl;
+}
+
+/* Groudon */
+Groudon::Groudon(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
+{
+    ID = 6;
+    name = "Groudon";
+    species = "Groudon";
+    elements.push_back(new Ground());
+    // this->skills.push_back();
+}
+
+Groudon::~Groudon()
+{
+    
+}
+
+void Groudon::interact()
+{
+    cout << "Groudon: " << endl;
+}
+
+/* Squirtle */
+Squirtle::Squirtle(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
+{
+    ID = 7;
     name = "Squirtle";
     species = "Squirtle";
     elements.push_back(new Water());
     // this->skills.push_back();
 }
 
-/* Desctructor */
 Squirtle::~Squirtle()
 {
 
 }
 
-/* Other Methods */
 void Squirtle::interact()
 {
     cout << "Squirtle: " << endl;
 }
 
+/* Gyarados */
+Gyarados::Gyarados(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
+{
+    ID = 8;
+    name = "Gyarados";
+    species = "Gyarados";
+    elements.push_back(new Water());
+    // this->skills.push_back();
+}
+
+Gyarados::~Gyarados()
+{
+
+}
+
+void Gyarados::interact()
+{
+    cout << "Gyarados: " << endl;
+}
+
+/* Glaceon */
+Glaceon::Glaceon(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
+{
+    ID = 9;
+    name = "Glaceon";
+    species = "Glaceon";
+    elements.push_back(new Ice());
+    // this->skills.push_back();
+}
+
+Glaceon::~Glaceon()
+{
+
+}
+
+void Glaceon::interact()
+{
+    cout << "Glaceon: " << endl;
+}
+
+/* Articuno */
+Articuno::Articuno(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
+{
+    ID = 10;
+    name = "Articuno";
+    species = "Articuno";
+    elements.push_back(new Ice());
+    // this->skills.push_back();
+}
+
+Articuno::~Articuno()
+{
+
+}
+
+void Articuno::interact()
+{
+    cout << "Articuno: " << endl;
+}
 
 Engimon* CreateEngimon(int ID, int lvl, Point pos, bool child)
 {
@@ -289,7 +441,23 @@ Engimon* CreateEngimon(int ID, int lvl, Point pos, bool child)
     case 1:
         return new Charmander(lvl, pos, child);
     case 2:
+        return new Entei(lvl, pos, child);
+    case 3:
+        return new Pikachu(lvl, pos, child);
+    case 4:
+        return new Raikou(lvl, pos, child);
+    case 5:
+        return new Diglet(lvl, pos, child);
+    case 6:
+        return new Groudon(lvl, pos, child);
+    case 7:
         return new Squirtle(lvl, pos, child);
+    case 8:
+        return new Gyarados(lvl, pos, child);
+    case 9:
+        return new Glaceon(lvl, pos, child);
+    case 10:
+        return new Articuno(lvl, pos, child);
     default:
         return new Engimon(lvl, pos, child);
     }

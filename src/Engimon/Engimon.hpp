@@ -73,27 +73,10 @@ class Engimon
         Engimon* breed(const Engimon&, string);
         
 };
-/*
 
-class Bulbasaur : public Engimon
-{
-    public:
-        
-        Bulbasaur(string name);
-
-        
-        ~Bulbasaur();
-
-    
-        void interact();
-};
-
-*/
-
+/* Fire Type */
 class Charmander : public Engimon
 {
-    private:
-        
     public:
         /* Constructor */ 
         Charmander(int lvl, Point pos, bool child);
@@ -104,6 +87,77 @@ class Charmander : public Engimon
         /* Other Methods */
         void interact();
 };
+
+class Entei : public Engimon
+{
+    public:
+        /* Constructor */ 
+        Entei(int lvl, Point pos, bool child);
+
+        /* Desctructor */
+        ~Entei();
+ 
+        /* Other Methods */
+        void interact();
+};
+
+/* Electric Type */
+
+class Pikachu : public Engimon
+{
+    public:
+        /* Constructor */ 
+        Pikachu(int lvl, Point pos, bool child);
+
+        /* Desctructor */
+        ~Pikachu();
+ 
+        /* Other Methods */
+        void interact();
+};
+
+class Raikou : public Engimon
+{
+    public:
+        /* Constructor */ 
+        Raikou(int lvl, Point pos, bool child);
+
+        /* Desctructor */
+        ~Raikou();
+ 
+        /* Other Methods */
+        void interact();
+};
+
+/* Ground Type */
+
+class Diglet : public Engimon
+{
+    public:
+        /* Constructor */ 
+        Diglet(int lvl, Point pos, bool child);
+
+        /* Desctructor */
+        ~Diglet();
+ 
+        /* Other Methods */
+        void interact();
+};
+
+class Groudon : public Engimon
+{
+    public:
+        /* Constructor */ 
+        Groudon(int lvl, Point pos, bool child);
+
+        /* Desctructor */
+        ~Groudon();
+ 
+        /* Other Methods */
+        void interact();
+};
+
+/* Water Type */
 
 class Squirtle : public Engimon
 {
@@ -118,7 +172,47 @@ class Squirtle : public Engimon
         void interact();
 };
 
-/* Nanti ditambah lagi Engimonnya */
+class Gyarados : public Engimon
+{
+    public:
+        /* Constructor */ 
+        Gyarados(int lvl, Point pos, bool child);
+
+        /* Desctructor */
+        ~Gyarados();
+
+        /* Other Methods */
+        void interact();
+};
+
+/* Ice Type */
+
+class Glaceon : public Engimon
+{
+    public:
+        /* Constructor */ 
+        Glaceon(int lvl, Point pos, bool child);
+
+        /* Desctructor */
+        ~Glaceon();
+
+        /* Other Methods */
+        void interact();
+};
+
+class Articuno : public Engimon
+{
+    public:
+        /* Constructor */ 
+        Articuno(int lvl, Point pos, bool child);
+
+        /* Desctructor */
+        ~Articuno();
+
+        /* Other Methods */
+        void interact();
+};
+
 
 Engimon* CreateEngimon(int ID, int lvl, Point pos, bool child);
 
