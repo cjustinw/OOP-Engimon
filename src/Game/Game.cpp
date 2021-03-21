@@ -113,8 +113,8 @@ void Game::playerOption()
 
 void Game::createWildEngimon()
 {
-    /* Buat coba2 dulu, nanti disesuaikan lagi */
     srand(time(0));
+    /* Buat coba2 dulu, nanti disesuaikan lagi */
     for(int i = 0; i < 10; i++)
     {
         Point Position;
@@ -181,6 +181,7 @@ void Game::createWildEngimon()
 
 void Game::moveWildEngimon()
 {
+    srand(time(0));
     /* Buat coba2 dulu, nanti disesuaikan lagi */
     for(int i = 0; i < wildEngimon.size(); i++)
     {
@@ -189,6 +190,7 @@ void Game::moveWildEngimon()
         {
             Position.setX(wildEngimon[i]->getPosition().getX());
             Position.setY(wildEngimon[i]->getPosition().getY());
+            
             int option = rand() % 4 + 1;
             switch (option)
             {
