@@ -12,12 +12,41 @@ Game::Game()
 
 Game::~Game()
 {
-
+    delete player;
+    delete map;
+    delete &wildEngimon;
 }
 
 bool Game::getStatus()
 {
     return this->status;
+}
+
+void Game::startGame()
+{
+    cout << "Choose your first Engimon!" << endl
+         << "   - Charmander" << endl 
+         << "   - Squirtle" << endl;
+
+    string option;
+    cout << endl << "Player input: "; cin >> option;
+    Point P(2,1);
+    map->at(P).setObject('X');
+    if(option == "Charmander")
+    {
+        player->addEngimon(*CreateEngimon(1, 1, P, false));
+        player->setActiveEngimon("Charmander");
+    }
+    else if(option == "Squirtle")
+    {
+        player->addEngimon(*CreateEngimon(7, 1, P, false));
+        player->setActiveEngimon("Squirtle");
+    }   
+    else 
+    {
+        //throw
+    }
+
 }
 
 void Game::printMenu()
@@ -28,103 +57,55 @@ void Game::printMenu()
          << "|| move <w, a, s, d> : Bergerak 1 arah                          ||" << endl
          << "|| show engimon : Menampilkan engimon yang dimiliki             ||" << endl
          << "|| profile engimon <nama engimon> : Menampilkan profile engimon ||" << endl
-         << "|| active engimon <name engimon> : Menggunakan engimon          ||" << endl
+         << "|| set active engimon <name engimon> : Menggunakan engimon      ||" << endl
          << "|| show skill item : Menampilkan skill item                     ||" << endl
          << "|| use skill item <nama skill item> : Menggunakan skill item    ||" << endl
          << "|| breed <engimon1> <engimon2> : Melakukan breeding Engimon     ||" << endl
-         << "|| battle : Melakukan battle                                    ||" << endl
          << "==================================================================" << endl;
-    // get input
+
+    map->view();
 }
 
 void Game::playerOption()
 {
-    this->player->getPlayerPosition().printPoint();
-    this->map->view();
+    // this->player->getPlayerPosition().printPoint();
     string option;
-    cin >> option;
+    cout << "Player input: "; 
+    getline(cin, option);
     if(option == "w" || option == "a" || option == "s" || option == "d")
     {
-        Point P;
-        P.setX(player->getPlayerPosition().getX());
-        P.setY(player->getPlayerPosition().getY());
-        if (option == "w")
-        {    
-            P.addY();
-        }
-        else if (option == "a")
-        {
-            P.subX();
-        }
-        else if (option == "s")
-        {
-            P.subY();
-        }
-        else if (option == "d")
-        {
-            P.addX();
-        }
-        if(P.getX() > 0 && P.getX() < map->getLength() && P.getY() > 0 && P.getY() < map->getWidth())
-        {
-            if(map->at(P).getObject() != '-' && map->at(P).getObject() != 'o')
-            {
-                auto j = wildEngimon.begin();
-                for(int i = 0; i < wildEngimon.size(); i++)
-                {
-                    if(wildEngimon[i]->getPosition().getX() == P.getX() && wildEngimon[i]->getPosition().getY() == P.getY())
-                    {
-                        /* Battle */
-                        wildEngimon[i]->showDescription();
-                        wildEngimon.erase(j);
-                    }
-                    j++;
-                }
+       movePlayer(option);
+    }
+    else if(option.find("show engimon") != string::npos)
+    {
+        player->showAllEngimon();
+    }
+    else if(option.find("profile engimon") != string::npos)
+    {
+        string engimonName = &option[16];
+        player->showEngimonDescription(engimonName);
+    }
+    else if(option.find("set active engimon") != string::npos)
+    {
+        string engimonName = &option[19];
+        player->setActiveEngimon(engimonName);
+    }
+    else if(option.find("show skill item") != string::npos)
+    {
 
-                map->at(P).setObject('P');
-                if(map->at(player->getPlayerPosition()).getType() == GRASS)
-                {
-                    map->at(player->getPlayerPosition()).setObject('-');
-                }
-                else
-                {
-                    map->at(player->getPlayerPosition()).setObject('o');
-                }
-                player->move(option);
-            }
-            else{
-                this->moveWildEngimon();
-                if(map->at(P).getObject() != '-')
-                {
-                    auto j = wildEngimon.begin();
-                    for(int i = 0; i < wildEngimon.size(); i++)
-                    {
-                        if(wildEngimon[i]->getPosition().getX() == P.getX() && wildEngimon[i]->getPosition().getY() == P.getY())
-                        {
-                            /* Battle */
-                            wildEngimon[i]->showDescription();
-                            wildEngimon.erase(j);
-                        }
-                        j++;
-                    }
-                }
-                map->at(P).setObject('P');
-                if(map->at(player->getPlayerPosition()).getType() == GRASS)
-                {
-                    map->at(player->getPlayerPosition()).setObject('-');
-                }
-                else
-                {
-                    map->at(player->getPlayerPosition()).setObject('o');
-                }
-                player->move(option);
-            }
-        }
+    }
+    else if(option.find("use skill item") != string::npos)
+    {
+
+    }
+    else if(option.find("breed") != string::npos)
+    {
+        // player->engimonBreed()
     }
     else if (option == "quit")
     {
         this->status = false;
     }
-    
 }
 
 void Game::createWildEngimon()
@@ -201,6 +182,106 @@ void Game::createWildEngimon()
             default:
                 break;
             }
+        }
+    }
+}
+
+void Game::movePlayer(string option)
+{
+    Point P;
+    P.setX(player->getPlayerPosition().getX());
+    P.setY(player->getPlayerPosition().getY());
+    if (option == "w")
+    {    
+        P.addY();
+    }
+    else if (option == "a")
+    {
+        P.subX();
+    }
+    else if (option == "s")
+    {
+        P.subY();
+    }
+    else if (option == "d")
+    {
+        P.addX();
+    }
+    if(P.getX() > 0 && P.getX() < map->getLength() && P.getY() > 0 && P.getY() < map->getWidth())
+    {
+        if(map->at(P).getObject() != '-' && map->at(P).getObject() != 'o')
+        {
+            auto j = wildEngimon.begin();
+            for(int i = 0; i < wildEngimon.size(); i++)
+            {
+                if(wildEngimon[i]->getPosition().getX() == P.getX() && wildEngimon[i]->getPosition().getY() == P.getY())
+                {
+                    /* Battle */
+                    wildEngimon[i]->showDescription();
+                    wildEngimon.erase(j);
+                }
+                j++;
+            }
+        
+            map->at(P).setObject('P');
+            map->at(player->getPlayerPosition()).setObject('X');
+            // if(map->at(player->getPlayerPosition()).getType() == GRASS)
+            // {
+            //     map->at(player->getPlayerPosition()).setObject('-');
+            // }
+            // else
+            // {
+            //     map->at(player->getPlayerPosition()).setObject('o');
+            // }
+            if(map->at(player->getActiveEngimon()->getPosition()).getType() == GRASS)
+            {
+                map->at(player->getActiveEngimon()->getPosition()).setObject('-');
+            }
+            else
+            {
+                map->at(player->getActiveEngimon()->getPosition()).setObject('o');
+            }
+            
+            player->getActiveEngimon()->setPosition(player->getPlayerPosition());
+            player->move(option);
+
+        }
+        else{
+            this->moveWildEngimon();
+            if(map->at(P).getObject() != '-')
+            {
+                auto j = wildEngimon.begin();
+                for(int i = 0; i < wildEngimon.size(); i++)
+                {
+                    if(wildEngimon[i]->getPosition().getX() == P.getX() && wildEngimon[i]->getPosition().getY() == P.getY())
+                    {
+                        /* Battle */
+                        wildEngimon[i]->showDescription();
+                        wildEngimon.erase(j);
+                    }
+                    j++;
+                }
+            }
+            map->at(P).setObject('P');
+            map->at(player->getPlayerPosition()).setObject('X');
+            // if(map->at(player->getPlayerPosition()).getType() == GRASS)
+            // {
+            //     map->at(player->getPlayerPosition()).setObject('-');
+            // }
+            // else
+            // {
+            //     map->at(player->getPlayerPosition()).setObject('o');
+            // }
+            if(map->at(player->getActiveEngimon()->getPosition()).getType() == GRASS)
+            {
+                map->at(player->getActiveEngimon()->getPosition()).setObject('-');
+            }
+            else
+            {
+                map->at(player->getActiveEngimon()->getPosition()).setObject('o');
+            }            
+            player->getActiveEngimon()->setPosition(player->getPlayerPosition());
+            player->move(option);
         }
     }
 }

@@ -34,7 +34,10 @@ void Engimon::operator=(const Engimon& other)
 /* Desctructor */
 Engimon::~Engimon()
 {
-    
+    for(int i = 0; i < elements.size(); i++)
+    {
+        delete elements[i];
+    }
 }
 
 /* Getter */
@@ -153,15 +156,21 @@ void Engimon::levelUp()
 }
 
 //void learnSkill(Skill);
-void Engimon::setActive()
+void Engimon::setActive(bool status)
 {
-    active = true;
+    active = status;
 }
 
 void Engimon::setPosition(int x, int y)
 {
     position.setX(x);
     position.setY(y);
+}
+
+void Engimon::setPosition(Point P)
+{
+    position.setX(P.getX());
+    position.setY(P.getY());
 }
 
 void Engimon::setLevelAfterBreeding()
@@ -194,18 +203,18 @@ bool Engimon::isChild()
 void Engimon::showDescription()
 {
     cout << "========================================" << endl
-         << "||                Status                  " << endl
+         << "                  Status                  " << endl
          << "========================================" << endl
-         << "|| Name        : " << getName()  << endl
-         << "|| Species     : " << getSpecies()  << endl
-         << "|| Elements    : " << getElementName() << endl;
+         << "   Name        : " << getName()  << endl
+         << "   Species     : " << getSpecies()  << endl
+         << "   Elements    : " << getElementName() << endl;
     if(isChild())
     {
-        cout << "|| Parent      : " << getParent() << endl;
+        cout << "   Parent      : " << getParent() << endl;
     }    
-    cout << "|| Skills      : " << endl   
-         << "|| Level       : " << getCurrentLevel() <<endl
-         << "|| EXP         : " << getCurrentExp() << endl
+    cout << "   Skills      : " << endl   
+         << "   Level       : " << getCurrentLevel() <<endl
+         << "   EXP         : " << getCurrentExp() << endl
          << "========================================" << endl;
 }       
 

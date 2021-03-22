@@ -3,50 +3,54 @@
 
 #include<string>
 #include "../Point/Point.hpp"
-//#include "../Engimon/Engimon.hpp"
+#include "../Engimon/Engimon.hpp"
+#include "../Inventory/Inventory.hpp"
 
 using namespace std;
 
 class Player
 {
-public:
-    Player();
-    ~Player();
-    void move(string chr);
-    Point getPlayerPosition();
-    // Bergerak ke satu petak ke kiri, kanan, atas, atau bawah
-    //void showEngimon(Engimon const &engimonList);
-    // Menampilkan list engimon yang dimiliki
-    //void profileEngimon(Engimon engimon);
-    /* Menampilkan data lengkap suatu engimon (setiap atribut kelas)
-    Juga harus menampilkan nama parent beserta spesies mereka */
-    //void activeEngimon();
-
-    /*
-
-    // Mengecek dan mengganti active engimon
-    void showSkillItem(Inventory const &inventory);
-    // Menampilkan list skill item yang dimiliki
-    void useSkillItem(Inventory item);
-    // Menggunakan skill item pada suatu engimon
-    void breed(Engimon breedA, Engimon breedB);
-    // Melaksanakan breeding antara 2 engimon
-    void battle(Engimon enemy);
-    /* Melakukan battle dengan suatu engimon yang berada didekatnya
-    (adjacent tiles) yaitu satu petak di sebelah kiri, kanan, atas, dan
-    bawah. 
+    private:
+        Inventory<Engimon> engimonInventory;
+        // Inventory<Skill> skillInventory;
+        int maxSkillItem;
+        int maxInventory;
+        Point position;
+        Engimon* activeEngimon;
     
-    */
+    public:
+        /* Constructor */
+        Player();
 
+        /* Destructor */
+        ~Player();
 
-    //void printMenu();
-    // Mencetak menu pilihan karakter
+        /* Getter */
+        int getNumOfItem();
+        Engimon* getActiveEngimon();
+        Engimon* getEngimonByIndex(int idx); 
+        Engimon* getEngimonByName(string name); 
+        Point getPlayerPosition();
 
-private:
-    //Inventory inventory;
-    Point position;
-    //Engimon engimonList[];
-    //Engimon activeEngimon;
+        /* Setter */
+        void setActiveEngimon(int idx);
+        void setActiveEngimon(string name);
+        void setEngimonName(int idx, string name);
+
+        /* Conditional Checking */
+        bool isInventoryFull();
+
+        /* Other Methods */
+        void addEngimon(Engimon& engimon);
+        // void addSkillItem(Skill& skill);
+        void move(string command);
+        void showEngimonDescription(int idx);
+        void showEngimonDescription(string name);
+        void showAllEngimon();
+        // void showAllSkillItem();
+        void engimonBreed(int idx1, int idx2, string name);
+        void engimonBreed(string name1, string name2, string name);
+        // void useSkillItem();
 };
 
 #endif

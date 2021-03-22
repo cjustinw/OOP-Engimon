@@ -5,30 +5,104 @@ using namespace std;
 
 Player::Player()
 {
-    this->position.setX(1);
-    this->position.setY(1);
+    position.setX(1);
+    position.setY(1);
+    maxSkillItem = 4;
+    maxInventory = 15;
+    activeEngimon = NULL;
 }
 
 Player::~Player()
 {
-
+    delete &engimonInventory;
 }
 
-void Player::move(string chr)
+int Player::getNumOfItem()
 {
-    if (chr == "w")
+    return engimonInventory.getNumOfElement() /* + skillInventory.getNumOfElemet() */ ;
+}
+
+Engimon* Player::getActiveEngimon()
+{
+    return activeEngimon;
+}
+
+Engimon* Player::getEngimonByIndex(int idx)
+{
+    return &engimonInventory[idx];
+}
+
+Engimon* Player::getEngimonByName(string name)
+{
+    if(engimonInventory.getNumOfElement() == 0)
+    {
+        // throw;
+    }
+    for(int i = 0; i < engimonInventory.getNumOfElement(); i++)
+    {
+        if(engimonInventory[i].getName() == name)
+        {
+            return &engimonInventory[i];
+        }
+    }
+}
+
+Point Player::getPlayerPosition()
+{
+    return this->position;
+}
+
+void Player::setActiveEngimon(int idx)
+{
+    if(activeEngimon != NULL)
+    {
+        activeEngimon->setActive(false);
+    }
+    activeEngimon = getEngimonByIndex(idx);
+    activeEngimon->setActive(true);
+}
+
+void Player::setActiveEngimon(string name)
+{
+    if(activeEngimon != NULL)
+    {
+        activeEngimon->setActive(false);
+    }
+    activeEngimon = getEngimonByName(name);
+    activeEngimon->setActive(true);
+}
+
+void Player::setEngimonName(int idx, string name)
+{
+    getEngimonByIndex(idx)->setName(name);
+}
+
+bool Player::isInventoryFull()
+{
+    return (getNumOfItem() >= maxInventory);
+}
+
+void Player::addEngimon(Engimon& engimon)
+{
+    engimonInventory.add(engimon);
+}
+
+void Player::move(string command)
+{
+    activeEngimon->setPosition(getPlayerPosition());
+    if (command == "w")
     {
         position.addY();
     }
-    else if (chr == "a")
+    else if (command == "a")
     {
         position.subX();
     }
-    else if (chr == "s")
+    else if (command == "s")
     {
         position.subY();
     }
-    else if (chr == "d")
+    else if (command == "d")
     {
         position.addX();
     }
@@ -36,40 +110,32 @@ void Player::move(string chr)
     {
         // throw error
     }
-} // Bergerak ke satu petak ke kiri, kanan, atas, atau bawah
+} 
 
-Point Player::getPlayerPosition()
+void Player::showEngimonDescription(int idx)
 {
-    return this->position;
-}
-/**
-
-void Player::showEngimon(Engimon const &engimonList)
-{
-    // engimonList.showAll();
+    getEngimonByIndex(idx)->showDescription();
 }
 
-// Menampilkan list engimon yang dimiliki
-void Player::profileEngimon(Engimon engimon);
-/* Menampilkan data lengkap suatu engimon (setiap atribut kelas)
-    Juga harus menampilkan nama parent beserta spesies mereka 
-void Player::activeEngimon();
-// Mengecek dan mengganti active engimon
-void Player::showSkillItem(Inventory const &inventory);
-// Menampilkan list skill item yang dimiliki
-void Player::useSkillItem(Inventory item);
-// Menggunakan skill item pada suatu engimon
-void Player::breed(Engimon breedA, Engimon breedB);
-// Melaksanakan breeding antara 2 engimon
-void Player::battle(Engimon enemy);
-/* Melakukan battle dengan suatu engimon yang berada didekatnya
-(adjacent tiles) yaitu satu petak di sebelah kiri, kanan, atas, dan
-bawah. 
+void Player::showEngimonDescription(string name)
+{
+    getEngimonByName(name)->showDescription();
+}
 
-*/
+void Player::showAllEngimon()
+{
+    for(int i = 0; i < engimonInventory.getNumOfElement(); i++)
+    {
+        cout << engimonInventory[i].getName() << " (" << engimonInventory[i].getSpecies()  << ")" << endl;
+    }
+}
 
+void Player::engimonBreed(int idx1, int idx2, string name)
+{
+    addEngimon(*getEngimonByIndex(idx1)->breed(*getEngimonByIndex(idx2), name));
+}
 
-
-
-
-// Mencetak menu pilihan karakter
+void Player::engimonBreed(string name1, string name2, string name)
+{
+    addEngimon(*getEngimonByName(name1)->breed(*getEngimonByName(name2), name));
+}

@@ -60,8 +60,9 @@ class Engimon
         void expUp(int);
         void levelUp();
         //void learnSkill(Skill);
-        void setActive();
+        void setActive(bool status);
         void setPosition(int,int);
+        void setPosition(Point);
         void setLevelAfterBreeding();
         void setParent(string);
 

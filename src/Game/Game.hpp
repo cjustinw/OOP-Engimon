@@ -13,17 +13,27 @@ class Game
         Player* player;
         Map* map;
         vector<Engimon*> wildEngimon;
-
         bool status;
+
     public:
+        /* Constructor */
         Game();
+
+        /* Destructor */
         ~Game();
 
+        /* Getter */
+        bool getStatus();
+
+        /* Game start */
+        void startGame();
         void createWildEngimon();
+
+        /* Movement */
+        void movePlayer(string option);
         void moveWildEngimon();
 
-        bool getStatus();
-        
+        /* Other Methods */
         void printMenu();
         void playerOption();
         

@@ -3,11 +3,14 @@
 int main()
 {
     Game* game = new Game();
-    game->printMenu();
+    game->startGame();
+    
     while(game->getStatus())
     {
+        game->printMenu();
         game->playerOption();
     }
+    delete game;
     return 0;
 }
 
