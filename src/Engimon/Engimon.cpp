@@ -2,6 +2,11 @@
 
 /* Engimon */
 
+Engimon::Engimon()
+{
+    
+}
+
 Engimon::Engimon(int lvl, Point pos, bool child)
 {
     level = lvl;
@@ -11,6 +16,19 @@ Engimon::Engimon(int lvl, Point pos, bool child)
     this->child = child;
     position.setX(pos.getX());
     position.setY(pos.getY());
+}
+
+/* Assigment Operator */
+
+void Engimon::operator=(const Engimon& other)
+{
+    level = other.level;
+    exp = other.exp;
+    cumulativeExp = other.cumulativeExp;
+    active = other.active;
+    child = other.child;
+    position.setX(other.getPosition().getX());
+    position.setY(other.getPosition().getY());
 }
 
 /* Desctructor */
@@ -167,11 +185,6 @@ bool Engimon::isActiveEngimon()
     return active;
 }
 
-bool Engimon::isPositionValid()
-{
-    /* dari class map ada method cek position valid? */
-}
-
 bool Engimon::isChild()
 {
     return child;
@@ -244,6 +257,15 @@ Charmander::Charmander(int lvl, Point pos, bool child) : Engimon(lvl, pos, child
     // this->skills.push_back();
 }
 
+ void Charmander::operator=(const Charmander& other)
+ {
+    this->operator=(other);
+    ID = other.getID();
+    name = other.getName();
+    species = other.getSpecies();
+    elements.push_back(other.getElement()[0]);
+ }
+
 Charmander::~Charmander()
 {
     
@@ -263,6 +285,15 @@ Entei::Entei(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
     elements.push_back(new Fire());
     // this->skills.push_back();
 }
+
+void Entei::operator=(const Entei& other)
+ {
+    this->operator=(other);
+    ID = other.getID();
+    name = other.getName();
+    species = other.getSpecies();
+    elements.push_back(other.getElement()[0]);
+ }
 
 Entei::~Entei()
 {
@@ -284,6 +315,15 @@ Pikachu::Pikachu(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
     // this->skills.push_back();
 }
 
+void Pikachu::operator=(const Pikachu& other)
+ {
+    this->operator=(other);
+    ID = other.getID();
+    name = other.getName();
+    species = other.getSpecies();
+    elements.push_back(other.getElement()[0]);
+ }
+
 Pikachu::~Pikachu()
 {
     
@@ -303,6 +343,15 @@ Raikou::Raikou(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
     elements.push_back(new Electric());
     // this->skills.push_back();
 }
+
+void Raikou::operator=(const Raikou& other)
+ {
+    this->operator=(other);
+    ID = other.getID();
+    name = other.getName();
+    species = other.getSpecies();
+    elements.push_back(other.getElement()[0]);
+ }
 
 Raikou::~Raikou()
 {
@@ -324,6 +373,15 @@ Diglet::Diglet(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
     // this->skills.push_back();
 }
 
+void Diglet::operator=(const Diglet& other)
+ {
+    this->operator=(other);
+    ID = other.getID();
+    name = other.getName();
+    species = other.getSpecies();
+    elements.push_back(other.getElement()[0]);
+ }
+
 Diglet::~Diglet()
 {
     
@@ -343,6 +401,15 @@ Groudon::Groudon(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
     elements.push_back(new Ground());
     // this->skills.push_back();
 }
+
+void Groudon::operator=(const Groudon& other)
+ {
+    this->operator=(other);
+    ID = other.getID();
+    name = other.getName();
+    species = other.getSpecies();
+    elements.push_back(other.getElement()[0]);
+ }
 
 Groudon::~Groudon()
 {
@@ -364,6 +431,15 @@ Squirtle::Squirtle(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
     // this->skills.push_back();
 }
 
+void Squirtle::operator=(const Squirtle& other)
+ {
+    this->operator=(other);
+    ID = other.getID();
+    name = other.getName();
+    species = other.getSpecies();
+    elements.push_back(other.getElement()[0]);
+ }
+
 Squirtle::~Squirtle()
 {
 
@@ -383,6 +459,15 @@ Gyarados::Gyarados(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
     elements.push_back(new Water());
     // this->skills.push_back();
 }
+
+void Gyarados::operator=(const Gyarados& other)
+ {
+    this->operator=(other);
+    ID = other.getID();
+    name = other.getName();
+    species = other.getSpecies();
+    elements.push_back(other.getElement()[0]);
+ }
 
 Gyarados::~Gyarados()
 {
@@ -404,6 +489,15 @@ Glaceon::Glaceon(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
     // this->skills.push_back();
 }
 
+void Glaceon::operator=(const Glaceon& other)
+ {
+    this->operator=(other);
+    ID = other.getID();
+    name = other.getName();
+    species = other.getSpecies();
+    elements.push_back(other.getElement()[0]);
+ }
+
 Glaceon::~Glaceon()
 {
 
@@ -423,6 +517,15 @@ Articuno::Articuno(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
     elements.push_back(new Ice());
     // this->skills.push_back();
 }
+
+void Articuno::operator=(const Articuno& other)
+ {
+    this->operator=(other);
+    ID = other.getID();
+    name = other.getName();
+    species = other.getSpecies();
+    elements.push_back(other.getElement()[0]);
+ }
 
 Articuno::~Articuno()
 {

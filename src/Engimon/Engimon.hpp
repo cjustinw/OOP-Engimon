@@ -34,7 +34,11 @@ class Engimon
         Point position;
     public:
         /* Constructor */ 
+        Engimon();
         Engimon(int lvl, Point pos, bool child);
+
+        /* Assigment Operator */
+        virtual void operator=(const Engimon& other);
 
         /* Desctructor */
         ~Engimon();
@@ -64,7 +68,6 @@ class Engimon
         /* Conditional Checking */
         bool isMaxCumulativeExp();
         bool isActiveEngimon();
-        bool isPositionValid();
         bool isChild();
 
         /* Other Methods */
@@ -81,6 +84,9 @@ class Charmander : public Engimon
         /* Constructor */ 
         Charmander(int lvl, Point pos, bool child);
 
+        /* Assigment Operator */
+        void operator=(const Charmander& other);
+
         /* Desctructor */
         ~Charmander();
  
@@ -93,6 +99,9 @@ class Entei : public Engimon
     public:
         /* Constructor */ 
         Entei(int lvl, Point pos, bool child);
+
+        /* Assigment Operator */
+        void operator=(const Entei& other);
 
         /* Desctructor */
         ~Entei();
@@ -109,6 +118,9 @@ class Pikachu : public Engimon
         /* Constructor */ 
         Pikachu(int lvl, Point pos, bool child);
 
+        /* Assigment Operator */
+        void operator=(const Pikachu& other);
+
         /* Desctructor */
         ~Pikachu();
  
@@ -121,6 +133,9 @@ class Raikou : public Engimon
     public:
         /* Constructor */ 
         Raikou(int lvl, Point pos, bool child);
+
+        /* Assigment Operator */
+        void operator=(const Raikou& other);
 
         /* Desctructor */
         ~Raikou();
@@ -137,6 +152,9 @@ class Diglet : public Engimon
         /* Constructor */ 
         Diglet(int lvl, Point pos, bool child);
 
+        /* Assigment Operator */
+        void operator=(const Diglet& other);
+
         /* Desctructor */
         ~Diglet();
  
@@ -149,6 +167,9 @@ class Groudon : public Engimon
     public:
         /* Constructor */ 
         Groudon(int lvl, Point pos, bool child);
+
+        /* Assigment Operator */
+        void operator=(const Groudon& other);
 
         /* Desctructor */
         ~Groudon();
@@ -165,6 +186,9 @@ class Squirtle : public Engimon
         /* Constructor */ 
         Squirtle(int lvl, Point pos, bool child);
 
+        /* Assigment Operator */
+        void operator=(const Squirtle& other);
+
         /* Desctructor */
         ~Squirtle();
 
@@ -177,6 +201,9 @@ class Gyarados : public Engimon
     public:
         /* Constructor */ 
         Gyarados(int lvl, Point pos, bool child);
+
+        /* Assigment Operator */
+        void operator=(const Gyarados& other);
 
         /* Desctructor */
         ~Gyarados();
@@ -193,6 +220,9 @@ class Glaceon : public Engimon
         /* Constructor */ 
         Glaceon(int lvl, Point pos, bool child);
 
+        /* Assigment Operator */
+        void operator=(const Glaceon& other);
+
         /* Desctructor */
         ~Glaceon();
 
@@ -205,6 +235,9 @@ class Articuno : public Engimon
     public:
         /* Constructor */ 
         Articuno(int lvl, Point pos, bool child);
+
+        /* Assigment Operator */
+        void operator=(const Articuno& other);
 
         /* Desctructor */
         ~Articuno();
