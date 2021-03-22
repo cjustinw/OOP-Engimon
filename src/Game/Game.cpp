@@ -212,7 +212,7 @@ void Game::movePlayer(string option)
     }
     if(P.getX() > 0 && P.getX() < map->getLength() && P.getY() > 0 && P.getY() < map->getWidth())
     {
-        if(map->at(P).getObject() != '-' && map->at(P).getObject() != 'o')
+        if(map->at(P).getObject() != '-' && map->at(P).getObject() != 'o' && map->at(P).getObject() != 'X')
         {
             auto j = wildEngimon.begin();
             for(int i = 0; i < wildEngimon.size(); i++)
@@ -230,14 +230,7 @@ void Game::movePlayer(string option)
         
             map->at(P).setObject('P');
             map->at(player->getPlayerPosition()).setObject('X');
-            // if(map->at(player->getPlayerPosition()).getType() == GRASS)
-            // {
-            //     map->at(player->getPlayerPosition()).setObject('-');
-            // }
-            // else
-            // {
-            //     map->at(player->getPlayerPosition()).setObject('o');
-            // }
+            
             if(!(player->getActiveEngimon()->getPosition() == P))
             {
                 if(map->at(player->getActiveEngimon()->getPosition()).getType() == GRASS)
@@ -274,14 +267,7 @@ void Game::movePlayer(string option)
             }
             map->at(P).setObject('P');
             map->at(player->getPlayerPosition()).setObject('X');
-            // if(map->at(player->getPlayerPosition()).getType() == GRASS)
-            // {
-            //     map->at(player->getPlayerPosition()).setObject('-');
-            // }
-            // else
-            // {
-            //     map->at(player->getPlayerPosition()).setObject('o');
-            // }
+
             if(!(player->getActiveEngimon()->getPosition() == P))
             {
                 if(map->at(player->getActiveEngimon()->getPosition()).getType() == GRASS)
@@ -307,7 +293,8 @@ void Game::moveWildEngimon()
     {
         bool isGrass, found = false;
         Point Position;
-        while(!found)
+        int j = 0;
+        while(!found && j < 20)
         {
             Position.setX(wildEngimon[i]->getPosition().getX());
             Position.setY(wildEngimon[i]->getPosition().getY());
@@ -344,6 +331,7 @@ void Game::moveWildEngimon()
             {
                 found = true;
             }
+            j++;
         }
 
         if(found)
