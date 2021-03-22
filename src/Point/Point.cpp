@@ -86,3 +86,8 @@ void Point::setY(int y)
 {
     this->y = y;
 }
+
+bool Point::operator==(const Point& P)
+{
+    return (x == P.x && y == P.y);
+}

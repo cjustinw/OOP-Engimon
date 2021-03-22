@@ -4,7 +4,6 @@ int main()
 {
     Game* game = new Game();
     game->startGame();
-    
     while(game->getStatus())
     {
         game->printMenu();

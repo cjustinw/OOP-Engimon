@@ -79,11 +79,13 @@ void Game::playerOption()
     else if(option.find("show engimon") != string::npos)
     {
         player->showAllEngimon();
+        system("pause");
     }
     else if(option.find("profile engimon") != string::npos)
     {
         string engimonName = &option[16];
         player->showEngimonDescription(engimonName);
+        system("pause");
     }
     else if(option.find("set active engimon") != string::npos)
     {
@@ -106,6 +108,7 @@ void Game::playerOption()
     {
         this->status = false;
     }
+    system("cls");
 }
 
 void Game::createWildEngimon()
@@ -218,7 +221,9 @@ void Game::movePlayer(string option)
                 {
                     /* Battle */
                     wildEngimon[i]->showDescription();
+                    player->addEngimon(*wildEngimon[i]);
                     wildEngimon.erase(j);
+                    system("pause");
                 }
                 j++;
             }
@@ -233,13 +238,16 @@ void Game::movePlayer(string option)
             // {
             //     map->at(player->getPlayerPosition()).setObject('o');
             // }
-            if(map->at(player->getActiveEngimon()->getPosition()).getType() == GRASS)
+            if(!(player->getActiveEngimon()->getPosition() == P))
             {
-                map->at(player->getActiveEngimon()->getPosition()).setObject('-');
-            }
-            else
-            {
-                map->at(player->getActiveEngimon()->getPosition()).setObject('o');
+                if(map->at(player->getActiveEngimon()->getPosition()).getType() == GRASS)
+                {
+                    map->at(player->getActiveEngimon()->getPosition()).setObject('-');
+                }
+                else
+                {
+                    map->at(player->getActiveEngimon()->getPosition()).setObject('o');
+                }
             }
             
             player->getActiveEngimon()->setPosition(player->getPlayerPosition());
@@ -257,7 +265,9 @@ void Game::movePlayer(string option)
                     {
                         /* Battle */
                         wildEngimon[i]->showDescription();
+                        player->addEngimon(*wildEngimon[i]);
                         wildEngimon.erase(j);
+                        system("pause");
                     }
                     j++;
                 }
@@ -272,14 +282,17 @@ void Game::movePlayer(string option)
             // {
             //     map->at(player->getPlayerPosition()).setObject('o');
             // }
-            if(map->at(player->getActiveEngimon()->getPosition()).getType() == GRASS)
+            if(!(player->getActiveEngimon()->getPosition() == P))
             {
-                map->at(player->getActiveEngimon()->getPosition()).setObject('-');
+                if(map->at(player->getActiveEngimon()->getPosition()).getType() == GRASS)
+                {
+                    map->at(player->getActiveEngimon()->getPosition()).setObject('-');
+                }
+                else
+                {
+                    map->at(player->getActiveEngimon()->getPosition()).setObject('o');
+                }            
             }
-            else
-            {
-                map->at(player->getActiveEngimon()->getPosition()).setObject('o');
-            }            
             player->getActiveEngimon()->setPosition(player->getPlayerPosition());
             player->move(option);
         }
