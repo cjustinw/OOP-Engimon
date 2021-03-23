@@ -25,8 +25,8 @@ bool Game::getStatus()
 void Game::startGame()
 {
     cout << "Choose your first Engimon!" << endl
-         << "   - Charmander" << endl 
-         << "   - Squirtle" << endl;
+         << "   - Entei" << endl 
+         << "   - Raikou" << endl;
 
     string option;
     cout << endl << "Player input: "; cin >> option;
