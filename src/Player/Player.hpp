@@ -42,6 +42,7 @@ class Player
 
         /* Other Methods */
         void addEngimon(Engimon& engimon);
+        void removeEngimon(int idx);
         // void addSkillItem(Skill& skill);
         void move(string command);
         void showEngimonDescription(int idx);

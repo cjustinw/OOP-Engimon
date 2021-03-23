@@ -130,6 +130,7 @@ int Engimon::getPower(const Engimon& enemy) const
     {
         sumPower += skills[i]->getSkillDamage();
     }
+    cout << level << " * " << maxAdvantage << " + " << sumPower;
     return this->level * maxAdvantage + sumPower;
 }
 
@@ -158,16 +159,19 @@ void Engimon::expUp(int exp)
 {
     this->exp += exp;
     cumulativeExp +=exp;
+    cout << getName() << " gains " << exp << " exp!" << endl;
 }
 
 void Engimon::levelUp()
 {
-    int lvl = exp / level*100;
+    int lvl = exp /(level*100);
     if(lvl > 0)
     {
         level += lvl;
         exp = exp % lvl*100;
+        cout << getName() << " now becomes level " << getCurrentLevel() << "!" << endl;
     }
+
 }
 
 void Engimon::learnSkill(Skill* skill)

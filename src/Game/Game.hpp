@@ -36,6 +36,7 @@ class Game
         /* Other Methods */
         void printMenu();
         void playerOption();
+        void battle(Player& P, Engimon& E, bool& winStat);
         
 };
 

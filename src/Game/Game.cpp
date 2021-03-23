@@ -32,15 +32,15 @@ void Game::startGame()
     cout << endl << "Player input: "; cin >> option;
     Point P(2,1);
     map->at(P).setObject('X');
-    if(option == "Charmander")
+    if(option == "Entei")
     {
-        player->addEngimon(*CreateEngimon(1, 1, P, false));
-        player->setActiveEngimon("Charmander");
+        player->addEngimon(*CreateEngimon(2, 5, P, false));
+        player->setActiveEngimon("Entei");
     }
-    else if(option == "Squirtle")
+    else if(option == "Raikou")
     {
-        player->addEngimon(*CreateEngimon(7, 1, P, false));
-        player->setActiveEngimon("Squirtle");
+        player->addEngimon(*CreateEngimon(4, 5, P, false));
+        player->setActiveEngimon("Raikou");
     }   
     else 
     {
@@ -80,6 +80,7 @@ void Game::playerOption()
     if(option == "w" || option == "a" || option == "s" || option == "d")
     {
        movePlayer(option);
+       
     }
     else if(option.find("show engimon") != string::npos)
     {
@@ -229,59 +230,17 @@ void Game::movePlayer(string option)
     }
     if(P.getX() > 0 && P.getX() < map->getLength() && P.getY() > 0 && P.getY() < map->getWidth())
     {
-        if(map->at(P).getObject() != '-' && map->at(P).getObject() != 'o' && map->at(P).getObject() != 'X')
+        bool winStat = true;
+        for(int i = 0; i < wildEngimon.size(); i++)
         {
-            auto j = wildEngimon.begin();
-            for(int i = 0; i < wildEngimon.size(); i++)
+            if(wildEngimon[i]->getPosition() == P)
             {
-                if(wildEngimon[i]->getPosition().getX() == P.getX() && wildEngimon[i]->getPosition().getY() == P.getY())
-                {
-                    /* Battle */
-                    wildEngimon[i]->showDescription();
-                    player->addEngimon(*wildEngimon[i]);
-                    wildEngimon.erase(j);
-                    system("pause");
-                }
-                j++;
+                battle(*player, *wildEngimon[i], winStat);
+                system("pause");
             }
-        
-            map->at(P).setObject('P');
-            map->at(player->getPlayerPosition()).setObject('X');
-            
-            if(!(player->getActiveEngimon()->getPosition() == P))
-            {
-                if(map->at(player->getActiveEngimon()->getPosition()).getType() == GRASS)
-                {
-                    map->at(player->getActiveEngimon()->getPosition()).setObject('-');
-                }
-                else
-                {
-                    map->at(player->getActiveEngimon()->getPosition()).setObject('o');
-                }
-            }
-            
-            player->getActiveEngimon()->setPosition(player->getPlayerPosition());
-            player->move(option);
-
         }
-        else{
-            this->moveWildEngimon();
-            if(map->at(P).getObject() != '-')
-            {
-                auto j = wildEngimon.begin();
-                for(int i = 0; i < wildEngimon.size(); i++)
-                {
-                    if(wildEngimon[i]->getPosition().getX() == P.getX() && wildEngimon[i]->getPosition().getY() == P.getY())
-                    {
-                        /* Battle */
-                        wildEngimon[i]->showDescription();
-                        player->addEngimon(*wildEngimon[i]);
-                        wildEngimon.erase(j);
-                        system("pause");
-                    }
-                    j++;
-                }
-            }
+        if(winStat)
+        {
             map->at(P).setObject('P');
             map->at(player->getPlayerPosition()).setObject('X');
 
@@ -298,6 +257,7 @@ void Game::movePlayer(string option)
             }
             player->getActiveEngimon()->setPosition(player->getPlayerPosition());
             player->move(option);
+            moveWildEngimon();
         }
     }
 }
@@ -353,16 +313,67 @@ void Game::moveWildEngimon()
 
         if(found)
         {
-            map->at(Position).setObject(map->at(wildEngimon[i]->getPosition()).getObject());
-            if(isGrass)
+            if(!(Position == player->getPlayerPosition()))
             {
-                map->at(wildEngimon[i]->getPosition()).setObject('-');
+                map->at(Position).setObject(map->at(wildEngimon[i]->getPosition()).getObject());
+                if(isGrass)
+                {
+                    map->at(wildEngimon[i]->getPosition()).setObject('-');
+                }
+                else
+                {
+                    map->at(wildEngimon[i]->getPosition()).setObject('o');
+                }
+                wildEngimon[i]->setPosition(Position.getX(), Position.getY());
             }
-            else
-            {
-                map->at(wildEngimon[i]->getPosition()).setObject('o');
-            }
-            wildEngimon[i]->setPosition(Position.getX(), Position.getY());
         }
+    }
+}
+
+void Game::battle(Player& P, Engimon& E, bool& winStat)
+{   
+    cout << "Wild " << E.getName() << " appeared!" << endl;
+
+    cout << endl << P.getActiveEngimon()->getName() <<" status: " << endl;
+
+    P.getActiveEngimon()->showDescription();
+
+    cout << endl << E.getName() << " status: " << endl; 
+
+    E.showDescription();
+
+    cout << endl << "Power : level * element advantage + SUM(every skill base power * Mastery Level)" << endl;
+    cout << P.getActiveEngimon()->getName() << " Power: ";
+    int playerPower = P.getActiveEngimon()->getPower(E);
+    cout << " : " << playerPower << endl;
+    cout << E.getName() << " Power: ";
+    int wildEngimonPower = E.getPower(*P.getActiveEngimon());
+    cout << " : " << wildEngimonPower << endl;
+
+    if(playerPower >= wildEngimonPower)
+    {
+        winStat = true;
+        cout << endl << P.getActiveEngimon()->getName() << " wins! " << endl;
+        int exp = 20* E.getCurrentLevel();
+        P.getActiveEngimon()->expUp(exp);
+        P.getActiveEngimon()->levelUp();
+        cout << E.getName() << " will be added to your inventory! " << endl;
+        P.addEngimon(E);
+        auto j = wildEngimon.begin();
+        for(int i = 0; i < wildEngimon.size(); i++)
+        {
+           if(wildEngimon[i]->getPosition() == E.getPosition())
+           {
+                wildEngimon.erase(j);
+                break;
+           }
+           j++;
+        }
+    }
+    else
+    {
+        winStat = false;
+        cout << endl << P.getActiveEngimon()->getName() << " is defeated! " << endl;
+        cout <<P.getActiveEngimon()->getName() << " will be removed from your inventory! " << endl;
     }
 }

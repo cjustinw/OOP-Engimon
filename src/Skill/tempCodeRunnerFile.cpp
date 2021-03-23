@@ -1,1 +1,0 @@
-g++ -o driver.exe driver.cpp Skill.cpp ../Engimon/Engimon.cpp ../Point/Point.cpp ../Element/Fire.cpp ../Element/Water.cpp ../Element/Electric.cpp ../Element/Ground.cpp ../Element/Ice.cpp
