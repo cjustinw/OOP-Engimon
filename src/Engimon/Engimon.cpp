@@ -10,6 +10,8 @@ Engimon::Engimon()
 Engimon::Engimon(int lvl, Point pos, bool child)
 {
     level = lvl;
+    maxSkills = 4;
+    numOfSkill = 1;
     exp = 0;
     cumulativeExp = 0;
     active = false;
@@ -35,6 +37,7 @@ void Engimon::operator=(const Engimon& other)
 Engimon::~Engimon()
 {
     delete &elements;
+    delete &skills;
 }
 
 /* Getter */
@@ -51,6 +54,11 @@ string Engimon::getSpecies() const
 vector<Element*> Engimon::getElement() const
 {
     return elements;
+}
+
+vector<Skill*> Engimon::getSkill() const
+{
+    return skills;
 }
 
 string Engimon::getElementName() const
@@ -117,7 +125,12 @@ int Engimon::getPower(const Engimon& enemy) const
             
         }
     }
-    return this->level * maxAdvantage /* + SUM(every  skill’s  base  power  *  Mastery Level) */;
+    int sumPower = 0;
+    for(int i = 0; i < skills.size(); i++)
+    {
+        sumPower += skills[i]->getSkillDamage();
+    }
+    return this->level * maxAdvantage + sumPower;
 }
 
 int Engimon::getID() const
@@ -128,6 +141,11 @@ int Engimon::getID() const
 string Engimon::getParent() const
 {
     return parent;
+}
+
+int Engimon::getNumOfSkills() const
+{
+    return numOfSkill;
 }
 
 /* Setter */
@@ -152,7 +170,43 @@ void Engimon::levelUp()
     }
 }
 
-//void learnSkill(Skill);
+void Engimon::learnSkill(Skill* skill)
+{
+    if(numOfSkill > maxSkills)
+    {
+        
+    }
+    bool found = false;
+    for(int i = 0; i < elements.size(); i++)
+    {
+        for(int j = 0; j < skill->getPrereqElmt().size(); j++)
+        {
+            if(elements[i]->getElmt() == skill->getPrereqElmt()[j]->getElmt())
+            {
+                found = true;
+                break;
+            }
+        }
+    }
+    if(!found)
+    {
+        //throw
+        cout << "error1" << endl;
+        return;
+    }
+    for(int i = 0; i < skills.size(); i++)
+    {
+        if(skills[i]->getSkillId() == skill->getSkillId())
+        {
+            //throw
+            cout << "error2" << endl;
+            return;
+        }
+    }
+    skill->useSkill();
+    skills.push_back(CreateSkill(skill->getSkillId()));
+    numOfSkill++;
+}
 
 void Engimon::setActive(bool status)
 {
@@ -210,8 +264,12 @@ void Engimon::showDescription()
     {
         cout << "   Parent      : " << getParent() << endl;
     }    
-    cout << "   Skills      : " << endl   
-         << "   Level       : " << getCurrentLevel() <<endl
+    cout << "   Skills      : " << endl;
+    for(int i = 0; i < skills.size(); i++)
+    {
+        cout << "                 - " << skills[i]->getSkillName() << endl; 
+    }
+    cout << "   Level       : " << getCurrentLevel() <<endl
          << "   EXP         : " << getCurrentExp() << endl
          << "========================================" << endl;
 }       
@@ -261,7 +319,7 @@ Charmander::Charmander(int lvl, Point pos, bool child) : Engimon(lvl, pos, child
     name = "Charmander";
     species = "Charmander";
     elements.push_back(new Fire());
-    // this->skills.push_back();
+    skills.push_back(new BlastBurn());
 }
 
  void Charmander::operator=(const Charmander& other)
@@ -290,7 +348,7 @@ Entei::Entei(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
     name = "Entei";
     species = "Entei";
     elements.push_back(new Fire());
-    // this->skills.push_back();
+    skills.push_back(new Eruption());
 }
 
 void Entei::operator=(const Entei& other)
@@ -319,7 +377,7 @@ Pikachu::Pikachu(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
     name = "Pikachu";
     species = "Pikachu";
     elements.push_back(new Electric());
-    // this->skills.push_back();
+    skills.push_back(new ThunderBolt());
 }
 
 void Pikachu::operator=(const Pikachu& other)
@@ -348,7 +406,7 @@ Raikou::Raikou(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
     name = "Raikou";
     species = "Raikou";
     elements.push_back(new Electric());
-    // this->skills.push_back();
+    skills.push_back(new Catastropika());
 }
 
 void Raikou::operator=(const Raikou& other)
@@ -377,7 +435,7 @@ Diglet::Diglet(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
     name = "Diglet";
     species = "Diglet";
     elements.push_back(new Ground());
-    // this->skills.push_back();
+    skills.push_back(new Dig());
 }
 
 void Diglet::operator=(const Diglet& other)
@@ -406,7 +464,7 @@ Groudon::Groudon(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
     name = "Groudon";
     species = "Groudon";
     elements.push_back(new Ground());
-    // this->skills.push_back();
+    skills.push_back(new Earthquake());
 }
 
 void Groudon::operator=(const Groudon& other)
@@ -435,7 +493,7 @@ Squirtle::Squirtle(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
     name = "Squirtle";
     species = "Squirtle";
     elements.push_back(new Water());
-    // this->skills.push_back();
+    skills.push_back(new WaterGun());
 }
 
 void Squirtle::operator=(const Squirtle& other)
@@ -464,7 +522,7 @@ Gyarados::Gyarados(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
     name = "Gyarados";
     species = "Gyarados";
     elements.push_back(new Water());
-    // this->skills.push_back();
+    skills.push_back(new OceanicOperetta());
 }
 
 void Gyarados::operator=(const Gyarados& other)
@@ -493,7 +551,7 @@ Glaceon::Glaceon(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
     name = "Glaceon";
     species = "Glaceon";
     elements.push_back(new Ice());
-    // this->skills.push_back();
+    skills.push_back(new FreezeShock());
 }
 
 void Glaceon::operator=(const Glaceon& other)
@@ -522,7 +580,7 @@ Articuno::Articuno(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
     name = "Articuno";
     species = "Articuno";
     elements.push_back(new Ice());
-    // this->skills.push_back();
+    skills.push_back(new IceBurn());
 }
 
 void Articuno::operator=(const Articuno& other)

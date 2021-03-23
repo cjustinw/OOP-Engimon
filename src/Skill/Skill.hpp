@@ -1,144 +1,214 @@
-#ifndef __SKILL_HPP__
-#define __SKILL_HPP__
+#ifndef _SKILL_HPP_
+#define _SKILL_HPP_
 
-#include<string>
-#include<vector>
-#include"Element.hpp"
+#include <string>
+#include <vector>
+#include "../Element/Element.hpp"
+#include "../Element/Electric.hpp"
+#include "../Element/Fire.hpp"
+#include "../Element/Water.hpp"
+#include "../Element/Ground.hpp"
+#include "../Element/Ice.hpp"
+
 using namespace std;
 
-class Skill{
-public:
-    Skill();
-    Skill(int, int, Element);
-    ~Skill();
-    int getBasePower();
-    
-protected:
-    int basePower;
-    int masteryLevel;
-    vector<Element*> prereqElmt;
+class Skill
+{
+    protected:
+        int id;
+        string name;
+        int basePower;
+        int masteryLevel;
+        bool item;
+        int numOfItem;
+        vector<Element*> prereqElmt;
+
+    public:
+        /* Constructor */
+        Skill();
+
+        /* Destructor */
+        ~Skill();
+
+        /* Getter */
+        string getSkillName() const;
+        int getSkillId() const;
+        int getSkillDamage() const;
+        vector<Element*> getPrereqElmt() const;
+
+        /* Setter */
+        void setItemStatus(bool status);
+        void addSkill();
+        void useSkill();
+
+        /* Other method */
+        // void learn(Engimon& E);
 };
 
-class skillItem{
-public:
-    skillItem();
-    skillItem(int);
-    virtual void learn();
-    int getJumlahSkill();
-    void useSkill();
-protected:
-    int jumlah;
-    
+/* Unique */
+class BlastBurn : public Skill
+{
+    public:
+        BlastBurn();
 };
 
-class Blaze : public Skill{
-public:
-    Blaze();
+class Eruption : public Skill
+{
+    public:
+        Eruption();
 };
 
-class innerFocus : public Skill{
-public:
-    innerFocus();
+class ThunderBolt : public Skill
+{
+    public:
+        ThunderBolt();
 };
 
-class lightningRod : public Skill{
-public:
-    lightningRod();
+class Catastropika : public Skill
+{
+    public:
+        Catastropika();
 };
 
-class Pressure : public Skill{
-public:
-    Pressure();
+class Dig : public Skill
+{
+    public:
+        Dig();
 };
 
-class sandForce : public Skill{
-public:
-    sandForce();
+class Earthquake : public Skill
+{
+    public:
+        Earthquake();
 };
 
-class Drought : public Skill{
-public:
-    Drought();
-}
-
-class rainDish : public Skill{
-public:
-    rainDish();
-}
-
-class Moxie : public Skill{
-public:
-    Moxie();
-}
-
-class iceBody : public Skill{
-public:
-    iceBody();
-}
-
-class snowCloak : public Skill{
-public:
-    snowCloak();
-}
-
-class BlazeSkill : public Skill, public skillItem{
-public:
-    BlazeSkill();
-    learn();
+class WaterGun : public Skill
+{
+    public:
+        WaterGun();
 };
 
-class innerFocusSkill : public Skill, public skillItem{
-public:
-    innerFocusSkill();
-    learn();
+class OceanicOperetta : public Skill
+{
+    public:
+        OceanicOperetta();
 };
 
-class lightningRodSkill : public Skill, public skillItem{
-public:
-    lightningRodSkill();
-    learn();
+class FreezeShock : public Skill
+{
+    public:
+        FreezeShock();
 };
 
-class PressureSkill : public Skill, public skillItem{
-public:
-    PressureSkill();
-    learn();
+class IceBurn : public Skill
+{
+    public:
+        IceBurn();
 };
 
-class sandForceSkill : public Skill, public skillItem{
-public:
-    sandForceSkill();
-    learn();
+/* Fire Type */
+
+class Ember : public Skill
+{
+    public:
+        Ember();
 };
 
-class DroughtSkill : public Skill, public skillItem{
-public:
-    DroughtSkill();
-    learn();
-}
+class FireBlast : public Skill
+{
+    public:
+        FireBlast();
+};
 
-class rainDishSkill : public Skill, public skillItem{
-public:
-    rainDishSkill();
-    learn();
-}
+class FireFang : public Skill
+{
+    public:
+        FireFang();
+};
 
-class MoxieSkill : public Skill, public skillItem{
-public:
-    MoxieSkill();
-    learn();
-}
+/* Electric Type */
 
-class iceBodySkill : public Skill, public skillItem{
-public:
-    iceBodySkill();
-    learn();
-}
+class ElectroBall : public Skill
+{
+    public:
+        ElectroBall();
+};
 
-class snowCloakSkill : public Skill, public skillItem{
-public:
-    learn();
-    snowCloakSkill();
-}
+class ThunderShock : public Skill
+{
+    public:
+        ThunderShock();
+};
+
+class VoltTackle : public Skill
+{
+    public:
+        VoltTackle();
+};
+
+/* Ground Type */
+
+class BoneRush : public Skill
+{
+    public:
+        BoneRush();
+};
+
+class Buldoze : public Skill
+{
+    public:
+        Buldoze();
+};
+
+class SandAttack : public Skill
+{
+    public:
+        SandAttack();
+};
+
+/* Water Type */
+
+class HydroCannon : public Skill
+{
+    public:
+        HydroCannon();
+};
+
+class WaterSpout : public Skill
+{
+    public:
+        WaterSpout();
+};
+
+class WaterPulse : public Skill
+{
+    public:
+        WaterPulse();
+};
+
+/* Ice Type */
+
+class IceHammer : public Skill
+{
+    public:
+        IceHammer();
+};
+
+class IceShock : public Skill
+{
+    public:
+        IceShock();
+};
+
+class FrostBreath : public Skill
+{
+    public:
+        FrostBreath();
+};
+
+Skill* CreateSkill(int ID);
+
+Skill* CreateSkillItem(int ID);
+
 
 #endif
