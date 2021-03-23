@@ -23,7 +23,7 @@ class Engimon
         string species;
         string parent;
         vector<Element*> elements; 
-        /* vector<Skill> skills; */
+        /* vector<Skill*> skills; */
         int ID;
         int maxSkills;
         int level;

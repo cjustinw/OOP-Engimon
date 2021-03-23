@@ -46,7 +46,9 @@ void Game::startGame()
     {
         //throw
     }
-
+    string engimonName;
+    cout << endl << "Give your " << player->getActiveEngimon()->getName() << " a name: "; cin >> engimonName;
+    player->setEngimonName(0, engimonName);
 }
 
 void Game::printMenu()
@@ -56,22 +58,25 @@ void Game::printMenu()
          << "==================================================================" << endl
          << "|| move <w, a, s, d> : Bergerak 1 arah                          ||" << endl
          << "|| show engimon : Menampilkan engimon yang dimiliki             ||" << endl
-         << "|| profile engimon <nama engimon> : Menampilkan profile engimon ||" << endl
-         << "|| set active engimon <name engimon> : Menggunakan engimon      ||" << endl
+         << "|| profile engimon : Menampilkan profile engimon                ||" << endl
+         << "|| set active engimon : Menggunakan engimon                     ||" << endl
          << "|| show skill item : Menampilkan skill item                     ||" << endl
          << "|| use skill item <nama skill item> : Menggunakan skill item    ||" << endl
          << "|| breed <engimon1> <engimon2> : Melakukan breeding Engimon     ||" << endl
          << "==================================================================" << endl;
-
+    
+    cout << endl << "Map:" << endl;
     map->view();
+    cout << "Your position: (" << player->getPlayerPosition().getX() << "," << player->getPlayerPosition().getY() << ")"<< endl;
+    cout << "Active Engimon: " << player->getActiveEngimon()->getName() <<  " (" << player->getActiveEngimon()->getSpecies() <<") "<< endl;
 }
 
 void Game::playerOption()
 {
-    // this->player->getPlayerPosition().printPoint();
     string option;
-    cout << "Player input: "; 
-    getline(cin, option);
+    cout << endl << "Player input: "; getline(cin, option);
+    cout << endl;
+
     if(option == "w" || option == "a" || option == "s" || option == "d")
     {
        movePlayer(option);
@@ -79,18 +84,29 @@ void Game::playerOption()
     else if(option.find("show engimon") != string::npos)
     {
         player->showAllEngimon();
+        cout << endl;
         system("pause");
     }
     else if(option.find("profile engimon") != string::npos)
     {
-        string engimonName = &option[16];
-        player->showEngimonDescription(engimonName);
+        player->showAllEngimon();
+        int num;
+        cout << endl << "Input number: "; cin >> num;
+        cout << endl;
+        player->showEngimonDescription(num-1);
+        cout << endl;
         system("pause");
     }
     else if(option.find("set active engimon") != string::npos)
     {
-        string engimonName = &option[19];
-        player->setActiveEngimon(engimonName);
+        player->showAllEngimon();
+        int num;
+        cout << endl << "Input number: "; cin >> num;
+        cout << endl;
+        player->setActiveEngimon(num-1);
+        cout << "Your active engimon changes to " << player->getActiveEngimon()->getName()  <<  " (" << player->getActiveEngimon()->getSpecies() <<") "<< endl;
+        cout << endl;
+        system("pause");
     }
     else if(option.find("show skill item") != string::npos)
     {
@@ -108,13 +124,14 @@ void Game::playerOption()
     {
         this->status = false;
     }
+    
     system("cls");
 }
 
 void Game::createWildEngimon()
 {
     srand(time(0));
-    /* Buat coba2 dulu, nanti disesuaikan lagi */
+
     for(int i = 0; i < 20; i++)
     {
         Point Position;
@@ -135,7 +152,7 @@ void Game::createWildEngimon()
         {
             random = rand() % (11 - 7) + 7;
         }
-        // cout << random << endl;
+
         wildEngimon.push_back(CreateEngimon(random, level, Position, false));
         
         if(wildEngimon.back()->getElement().size() == 1)
@@ -288,7 +305,7 @@ void Game::movePlayer(string option)
 void Game::moveWildEngimon()
 {
     srand(time(0));
-    /* Buat coba2 dulu, nanti disesuaikan lagi */
+
     for(int i = 0; i < wildEngimon.size(); i++)
     {
         bool isGrass, found = false;

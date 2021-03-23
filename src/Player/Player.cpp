@@ -54,22 +54,33 @@ Point Player::getPlayerPosition()
 
 void Player::setActiveEngimon(int idx)
 {
+    Point P(2,1);
     if(activeEngimon != NULL)
     {
+        
         activeEngimon->setActive(false);
+        P.setX(activeEngimon->getPosition().getX());
+        P.setY(activeEngimon->getPosition().getY());
+        activeEngimon->setPosition(0,0);
     }
     activeEngimon = getEngimonByIndex(idx);
     activeEngimon->setActive(true);
+    activeEngimon->setPosition(P);
 }
 
 void Player::setActiveEngimon(string name)
 {
+    Point P(2,1);
     if(activeEngimon != NULL)
     {
         activeEngimon->setActive(false);
+        P.setX(activeEngimon->getPosition().getX());
+        P.setY(activeEngimon->getPosition().getY());
+        activeEngimon->setPosition(0,0);
     }
     activeEngimon = getEngimonByName(name);
     activeEngimon->setActive(true);
+    activeEngimon->setPosition(P);
 }
 
 void Player::setEngimonName(int idx, string name)
@@ -84,6 +95,7 @@ bool Player::isInventoryFull()
 
 void Player::addEngimon(Engimon& engimon)
 {
+    engimon.setPosition(0,0);
     engimonInventory.add(engimon);
 }
 
@@ -124,9 +136,10 @@ void Player::showEngimonDescription(string name)
 
 void Player::showAllEngimon()
 {
+    cout << "Engimon list: " << endl;
     for(int i = 0; i < engimonInventory.getNumOfElement(); i++)
     {
-        cout << engimonInventory[i].getName() << " (" << engimonInventory[i].getSpecies()  << ")" << endl;
+        cout << "   " << i+1 << ". "<< engimonInventory[i].getName() << " (" << engimonInventory[i].getSpecies()  << ")" << " Lvl." << engimonInventory[i].getCurrentLevel() <<endl;
     }
 }
 

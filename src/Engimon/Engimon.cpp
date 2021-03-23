@@ -34,10 +34,7 @@ void Engimon::operator=(const Engimon& other)
 /* Desctructor */
 Engimon::~Engimon()
 {
-    for(int i = 0; i < elements.size(); i++)
-    {
-        delete elements[i];
-    }
+    delete &elements;
 }
 
 /* Getter */
@@ -156,6 +153,7 @@ void Engimon::levelUp()
 }
 
 //void learnSkill(Skill);
+
 void Engimon::setActive(bool status)
 {
     active = status;
@@ -247,12 +245,12 @@ Engimon* Engimon::breed(const Engimon& other, string name)
             }
             else
             {
-                /* Nanti untuk yang anaknya kombinasi elementv*/
+                /* Nanti untuk yang anaknya kombinasi element */
             }
         }
     }
     E->setName(name);
-    E->setParent("[(" + this->getName() + " : " + this->getSpecies() + ") x (" + other.getName() + " : " + other.getSpecies() + ")]");
+    E->setParent(this->getName() + " (" + this->getSpecies() + "), " + other.getName() + " (" + other.getSpecies() + ")");
     return E;
 }
 
