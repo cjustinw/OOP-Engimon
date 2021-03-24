@@ -182,28 +182,6 @@ bool Map::isPositionValid(Point P)
     return false;
 }
 
-bool Map::isWildEngimonPositionValid(Point P, bool G)
-{
-    if( P.getX() > 0 && P.getX() < length && P.getY() > 0 && P.getY() < width)
-    {
-        if(G)
-        {
-            if(this->at(P).getObject() == '-' || this->at(P).getObject() == 'P')
-            {
-                return true;
-            }
-        }
-        else
-        {
-            if(this->at(P).getObject() == 'o' || this->at(P).getObject() == 'P')
-            {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
 // starting state untuk map, spawn beberapa engimon
 void Map::initialSpawn() {
 

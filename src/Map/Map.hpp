@@ -78,7 +78,6 @@ public:
 
     */
     bool isPositionValid(Point P);
-    bool isWildEngimonPositionValid(Point P, bool G); 
 
     // starting state untuk map, spawn beberapa engimon
     void initialSpawn();

@@ -251,6 +251,59 @@ class Articuno : public Engimon
         void interact();
 };
 
+/* Fire Electric Type */
+
+class Rotom : public Engimon
+{
+    public:
+        /* Constructor */ 
+        Rotom(int lvl, Point pos, bool child);
+
+        /* Assigment Operator */
+        void operator=(const Rotom& other);
+
+        /* Desctructor */
+        ~Rotom();
+
+        /* Other Methods */
+        void interact();
+};
+
+/* Water Ice Type */
+
+class Lapras : public Engimon
+{
+    public:
+        /* Constructor */ 
+        Lapras(int lvl, Point pos, bool child);
+
+        /* Assigment Operator */
+        void operator=(const Lapras& other);
+
+        /* Desctructor */
+        ~Lapras();
+
+        /* Other Methods */
+        void interact();
+};
+
+/* Water Ground Type */
+
+class Swampert : public Engimon
+{
+    public:
+        /* Constructor */ 
+        Swampert(int lvl, Point pos, bool child);
+
+        /* Assigment Operator */
+        void operator=(const Swampert& other);
+
+        /* Desctructor */
+        ~Swampert();
+
+        /* Other Methods */
+        void interact();
+};
 
 Engimon* CreateEngimon(int ID, int lvl, Point pos, bool child);
 

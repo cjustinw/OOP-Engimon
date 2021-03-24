@@ -490,10 +490,40 @@ void Groudon::interact()
     cout << "Groudon: " << endl;
 }
 
+/* Rotom */
+Rotom::Rotom(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
+{
+    ID = 7;
+    name = "Rotom";
+    species = "Rotom";
+    elements.push_back(new Fire());
+    elements.push_back(new Electric());
+    skills.push_back(new Charge());
+}
+
+void Rotom::operator=(const Rotom& other)
+ {
+    this->operator=(other);
+    ID = other.getID();
+    name = other.getName();
+    species = other.getSpecies();
+    elements.push_back(other.getElement()[0]);
+ }
+
+Rotom::~Rotom()
+{
+
+}
+
+void Rotom::interact()
+{
+    cout << "Rotom: " << endl;
+}
+
 /* Squirtle */
 Squirtle::Squirtle(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
 {
-    ID = 7;
+    ID = 8;
     name = "Squirtle";
     species = "Squirtle";
     elements.push_back(new Water());
@@ -522,7 +552,7 @@ void Squirtle::interact()
 /* Gyarados */
 Gyarados::Gyarados(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
 {
-    ID = 8;
+    ID = 9;
     name = "Gyarados";
     species = "Gyarados";
     elements.push_back(new Water());
@@ -551,7 +581,7 @@ void Gyarados::interact()
 /* Glaceon */
 Glaceon::Glaceon(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
 {
-    ID = 9;
+    ID = 10;
     name = "Glaceon";
     species = "Glaceon";
     elements.push_back(new Ice());
@@ -580,7 +610,7 @@ void Glaceon::interact()
 /* Articuno */
 Articuno::Articuno(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
 {
-    ID = 10;
+    ID = 11;
     name = "Articuno";
     species = "Articuno";
     elements.push_back(new Ice());
@@ -606,6 +636,67 @@ void Articuno::interact()
     cout << "Articuno: " << endl;
 }
 
+/* Lapras */
+Lapras::Lapras(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
+{
+    ID = 12;
+    name = "Lapras";
+    species = "Lapras";
+    elements.push_back(new Water());
+    elements.push_back(new Ice());
+    skills.push_back(new Mist());
+}
+
+void Lapras::operator=(const Lapras& other)
+ {
+    this->operator=(other);
+    ID = other.getID();
+    name = other.getName();
+    species = other.getSpecies();
+    elements.push_back(other.getElement()[0]);
+ }
+
+Lapras::~Lapras()
+{
+
+}
+
+void Lapras::interact()
+{
+    cout << "Lapras: " << endl;
+}
+
+/* Swampert */
+Swampert::Swampert(int lvl, Point pos, bool child) : Engimon(lvl, pos, child)
+{
+    ID = 13;
+    name = "Swampert";
+    species = "Swampert";
+    elements.push_back(new Water());
+    elements.push_back(new Ground());
+    skills.push_back(new MudShot());
+}
+
+void Swampert::operator=(const Swampert& other)
+ {
+    this->operator=(other);
+    ID = other.getID();
+    name = other.getName();
+    species = other.getSpecies();
+    elements.push_back(other.getElement()[0]);
+ }
+
+Swampert::~Swampert()
+{
+
+}
+
+void Swampert::interact()
+{
+    cout << "Swampert: " << endl;
+}
+
+
 Engimon* CreateEngimon(int ID, int lvl, Point pos, bool child)
 {
     switch (ID)
@@ -623,13 +714,19 @@ Engimon* CreateEngimon(int ID, int lvl, Point pos, bool child)
     case 6:
         return new Groudon(lvl, pos, child);
     case 7:
-        return new Squirtle(lvl, pos, child);
+        return new Rotom(lvl, pos, child);
     case 8:
-        return new Gyarados(lvl, pos, child);
+        return new Squirtle(lvl, pos, child);
     case 9:
-        return new Glaceon(lvl, pos, child);
+        return new Gyarados(lvl, pos, child);
     case 10:
+        return new Glaceon(lvl, pos, child);
+    case 11:
         return new Articuno(lvl, pos, child);
+    case 12:
+        return new Lapras(lvl, pos, child);
+    case 13:
+        return new Swampert(lvl, pos, child);
     default:
         return new Engimon(lvl, pos, child);
     }

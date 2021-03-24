@@ -147,11 +147,38 @@ IceBurn::IceBurn() : Skill()
     prereqElmt.push_back(new Ice());
 }
 
+Charge::Charge() : Skill()
+{
+    id = 11;
+    name = "Charge";
+    basePower = 100;
+    masteryLevel = 1;
+    prereqElmt.push_back(new Electric());
+}
+
+Mist::Mist() : Skill()
+{
+    id = 12;
+    name = "Mist";
+    basePower = 130;
+    masteryLevel = 1;
+    prereqElmt.push_back(new Water());
+}
+
+MudShot::MudShot() : Skill()
+{
+    id = 13;
+    name = "Mud Shot";
+    basePower = 90;
+    masteryLevel = 1;
+    prereqElmt.push_back(new Ground());
+}
+
 /* Fire Type */
 
 Ember::Ember() : Skill()
 {
-    id = 11;
+    id = 14;
     name = "Ember";
     basePower = 40;
     masteryLevel = 1;
@@ -161,7 +188,7 @@ Ember::Ember() : Skill()
 
 FireBlast::FireBlast() : Skill()
 {
-    id = 12;
+    id = 15;
     name = "Fire Blast";
     basePower = 110;
     masteryLevel = 1;
@@ -170,7 +197,7 @@ FireBlast::FireBlast() : Skill()
 
 FireFang::FireFang() : Skill()
 {
-    id = 13;
+    id = 16;
     name = "Fire Fang";
     basePower = 65;
     masteryLevel = 1;
@@ -181,7 +208,7 @@ FireFang::FireFang() : Skill()
 
 ElectroBall::ElectroBall() : Skill()
 {
-    id = 14;
+    id = 17;
     name = "Electro Ball";
     basePower = 100;
     masteryLevel = 1;
@@ -191,7 +218,7 @@ ElectroBall::ElectroBall() : Skill()
 
 ThunderShock::ThunderShock() : Skill()
 {
-    id = 15;
+    id = 18;
     name = "Thunder Shock";
     basePower = 40;
     masteryLevel = 1;
@@ -200,7 +227,7 @@ ThunderShock::ThunderShock() : Skill()
 
 VoltTackle::VoltTackle() : Skill()
 {
-    id = 16;
+    id = 19;
     name = "Volt Tackle";
     basePower = 120;
     masteryLevel = 1;
@@ -211,7 +238,7 @@ VoltTackle::VoltTackle() : Skill()
 
 BoneRush::BoneRush() : Skill()
 {
-    id = 17;
+    id = 20;
     name = "Bone Rush";
     basePower = 50;
     masteryLevel = 1;
@@ -220,7 +247,7 @@ BoneRush::BoneRush() : Skill()
 
 Buldoze::Buldoze() : Skill()
 {
-    id = 18;
+    id = 21;
     name = "Buldoze";
     basePower = 90;
     masteryLevel = 1;
@@ -229,7 +256,7 @@ Buldoze::Buldoze() : Skill()
 
 SandAttack::SandAttack() : Skill()
 {
-    id = 19;
+    id = 22;
     name = "Sand Attack";
     basePower = 100;
     masteryLevel = 1;
@@ -240,7 +267,7 @@ SandAttack::SandAttack() : Skill()
 
 HydroCannon::HydroCannon() : Skill()
 {
-    id = 20;
+    id = 23;
     name = "Hydro Cannon";
     basePower = 150;
     masteryLevel = 1;
@@ -250,7 +277,7 @@ HydroCannon::HydroCannon() : Skill()
 
 WaterSpout::WaterSpout() : Skill()
 {
-    id = 21;
+    id = 24;
     name = "Water Spout";
     basePower = 150;
     masteryLevel = 1;
@@ -259,7 +286,7 @@ WaterSpout::WaterSpout() : Skill()
 
 WaterPulse::WaterPulse() : Skill()
 {
-    id = 22;
+    id = 25;
     name = "Water Pulse";
     basePower = 60;
     masteryLevel = 1;
@@ -270,7 +297,7 @@ WaterPulse::WaterPulse() : Skill()
 
 IceHammer::IceHammer() : Skill()
 {
-    id = 23;
+    id = 26;
     name = "Ice Hammer";
     basePower = 100;
     masteryLevel = 1;
@@ -279,7 +306,7 @@ IceHammer::IceHammer() : Skill()
 
 IceShock::IceShock() : Skill()
 {
-    id = 24;
+    id = 27;
     name = "Ice Shock";
     basePower = 50;
     masteryLevel = 1;
@@ -289,7 +316,7 @@ IceShock::IceShock() : Skill()
 
 FrostBreath::FrostBreath() : Skill()
 {
-    id = 25;
+    id = 28;
     name = "Frost Breath";
     basePower = 80;
     masteryLevel = 1;
@@ -301,35 +328,35 @@ Skill* CreateSkill(int ID)
 {
     switch (ID)
     {
-    case 11:
-        return new Ember();
-    case 12:
-        return new FireBlast();
-    case 13:
-        return new FireFang();
     case 14:
-        return new ElectroBall();
+        return new Ember();
     case 15:
-        return new ThunderShock();
+        return new FireBlast();
     case 16:
-        return new VoltTackle();
+        return new FireFang();
     case 17:
-        return new BoneRush();
+        return new ElectroBall();
     case 18:
-        return new Buldoze();
+        return new ThunderShock();
     case 19:
-        return new SandAttack();
+        return new VoltTackle();
     case 20:
-        return new HydroCannon();
+        return new BoneRush();
     case 21:
-        return new WaterSpout();
+        return new Buldoze();
     case 22:
-        return new WaterPulse();
+        return new SandAttack();
     case 23:
-        return new IceHammer();
+        return new HydroCannon();
     case 24:
-        return new IceShock();
+        return new WaterSpout();
     case 25:
+        return new WaterPulse();
+    case 26:
+        return new IceHammer();
+    case 27:
+        return new IceShock();
+    case 28:
         return new FrostBreath();
     default:
         return new Skill();
@@ -339,91 +366,91 @@ Skill* CreateSkill(int ID)
 
 Skill* CreateSkillItem(int ID)
 {
-    if( ID == 11)
+    if( ID == 14)
     {
         Skill* skill = new Ember();
         skill->setItemStatus(true);
         return skill;
     }
-    else if( ID == 12)
+    else if( ID == 15)
     {
         Skill* skill = new FireBlast();
         skill->setItemStatus(true);
         return skill;
     }
-    else if( ID == 13)
+    else if( ID == 16)
     {
         Skill* skill = new FireFang();
         skill->setItemStatus(true);
         return skill;
     }
-    else if( ID == 14)
+    else if( ID == 17)
     {
         Skill* skill = new ElectroBall();
         skill->setItemStatus(true);
         return skill;
     }
-    else if( ID == 15)
+    else if( ID == 18)
     {
         Skill* skill = new ThunderShock();
         skill->setItemStatus(true);
         return skill;
     }
-    else if( ID == 16)
+    else if( ID == 19)
     {
         Skill* skill = new VoltTackle();
         skill->setItemStatus(true);
         return skill;
     }
-    else if( ID == 17)
+    else if( ID == 20)
     {
         Skill* skill = new BoneRush();
         skill->setItemStatus(true);
         return skill;
     }
-    else if( ID == 18)
+    else if( ID == 21)
     {
         Skill* skill = new Buldoze();
         skill->setItemStatus(true);
         return skill;
     }
-    else if( ID == 19)
+    else if( ID == 22)
     {
         Skill* skill = new SandAttack();
         skill->setItemStatus(true);
         return skill;
     }
-    else if( ID == 20)
+    else if( ID == 23)
     {
         Skill* skill = new HydroCannon();
         skill->setItemStatus(true);
         return skill;
     }
-    else if( ID == 21)
+    else if( ID == 24)
     {
         Skill* skill = new WaterSpout();
         skill->setItemStatus(true);
         return skill;
     }
-    else if( ID == 22)
+    else if( ID == 25)
     {
         Skill* skill = new WaterPulse();
         skill->setItemStatus(true);
         return skill;
     }
-    else if( ID == 23)
+    else if( ID == 26)
     {
         Skill*skill = new IceHammer();
         skill->setItemStatus(true);
         return skill;
     }
-    else if( ID == 24)
+    else if( ID == 27)
     {
         Skill* skill = new IceShock();
         skill->setItemStatus(true);
         return skill;
     }
-    else if( ID == 25)
+    else if( ID == 28)
     {
         Skill* skill = new FrostBreath();
         skill->setItemStatus(true);

@@ -106,6 +106,26 @@ class IceBurn : public Skill
         IceBurn();
 };
 
+class Charge : public Skill
+{
+    public:
+        Charge();
+};
+
+class Mist : public Skill
+{
+    public:
+        Mist();
+};
+
+class MudShot : public Skill
+{
+    public:
+        MudShot();
+};
+
+
+
 /* Fire Type */
 
 class Ember : public Skill
@@ -209,6 +229,8 @@ class FrostBreath : public Skill
 Skill* CreateSkill(int ID);
 
 Skill* CreateSkillItem(int ID);
+
+Skill* RandomSkillItem(ElmtType);
 
 
 #endif

@@ -147,11 +147,11 @@ void Game::createWildEngimon()
 
         if(map->at(Position).getObject() == '-')
         {
-            random = rand() % (7 - 1) + 1;
+            random = rand() % (8 - 1) + 1;
         }
         else
         {
-            random = rand() % (11 - 7) + 7;
+            random = rand() % (14 - 8) + 8;
         }
 
         wildEngimon.push_back(CreateEngimon(random, level, Position, false));
@@ -203,6 +203,37 @@ void Game::createWildEngimon()
             default:
                 break;
             }
+        }
+        else
+        {
+            if(wildEngimon.back()->getElement()[0]->getElmt() == FIRE && wildEngimon.back()->getElement()[1]->getElmt() == ELECTRIC)
+            {
+                if(level > 5){
+                    map->at(Position).setObject('L');
+                }
+                else{
+                    map->at(Position).setObject('l');
+                }
+            }
+            else if(wildEngimon.back()->getElement()[0]->getElmt() == WATER && wildEngimon.back()->getElement()[1]->getElmt() == ICE)
+            {
+                if(level > 5){
+                    map->at(Position).setObject('S');
+                }
+                else{
+                    map->at(Position).setObject('s');
+                }
+            }
+            else if(wildEngimon.back()->getElement()[0]->getElmt() == WATER && wildEngimon.back()->getElement()[1]->getElmt() == GROUND)
+            {
+                if(level > 5){
+                    map->at(Position).setObject('N');
+                }
+                else{
+                    map->at(Position).setObject('n');
+                }
+            }
+
         }
     }
 }
@@ -304,9 +335,44 @@ void Game::moveWildEngimon()
                 break;
             }
             
-            if(map->isWildEngimonPositionValid(Position, isGrass))
+            if( Position.getX() > 0 && Position.getX() < map->getLength() && Position.getY() > 0 && Position.getY() < map->getWidth())
             {
-                found = true;
+                // cout << "test5" << endl;
+                if(isGrass)
+                {
+                    if(wildEngimon[i]->getElement().size() > 1)
+                    {
+                        if(wildEngimon[i]->getElement()[0]->getElmt() == WATER && wildEngimon[i]->getElement()[1]->getElmt() == GROUND)
+                        {
+                            if(map->at(Position).getObject() == 'o' || map->at(Position).getObject() == 'P')
+                            {
+                                found = true;
+                            }
+                        }
+                    }
+                    if(map->at(Position).getObject() == '-' || map->at(Position).getObject() == 'P')
+                    {
+                        found = true;
+                    }
+                    
+                }
+                else
+                {
+                    if(wildEngimon[i]->getElement().size() > 1)
+                    {
+                        if(wildEngimon[i]->getElement()[0]->getElmt() == WATER && wildEngimon[i]->getElement()[1]->getElmt() == GROUND)
+                        {
+                            if(map->at(Position).getObject() == '-' || map->at(Position).getObject() == 'P')
+                            {
+                                found = true;
+                            }
+                        }
+                    }
+                    if(map->at(Position).getObject() == 'o' || map->at(Position).getObject() == 'P')
+                    {
+                        found = true;
+                    }
+                }
             }
             j++;
         }
