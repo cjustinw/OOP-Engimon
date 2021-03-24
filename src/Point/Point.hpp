@@ -1,6 +1,11 @@
 #ifndef __POINT_HPP__
 #define __POINT_HPP__
 
+#define X_MAX_SIZE 30
+#define Y_MAX_SIZE 30
+#define X_MIN_SIZE 0
+#define Y_MIN_SIZE 0
+
 class Point
 {
 public:

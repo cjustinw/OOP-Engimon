@@ -2,7 +2,7 @@
 
 Cell::Cell(Type n_type, char o) {
     type = n_type;
-    if (type == SEA) {
+    if (type == SEA && object == '-') {
         object = 'o';
     } else { 
         object = o;
