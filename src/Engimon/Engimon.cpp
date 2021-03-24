@@ -36,8 +36,7 @@ void Engimon::operator=(const Engimon& other)
 /* Desctructor */
 Engimon::~Engimon()
 {
-    delete &elements;
-    delete &skills;
+
 }
 
 /* Getter */
@@ -253,6 +252,10 @@ bool Engimon::isActiveEngimon()
 bool Engimon::isChild()
 {
     return child;
+}
+bool Engimon::operator==(Engimon& other)
+{
+    return this == &other;
 }
 
 /* Other Methods */

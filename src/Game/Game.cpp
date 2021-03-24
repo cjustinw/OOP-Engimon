@@ -14,7 +14,6 @@ Game::~Game()
 {
     delete player;
     delete map;
-    delete &wildEngimon;
 }
 
 bool Game::getStatus()
@@ -441,5 +440,31 @@ void Game::battle(Player& P, Engimon& E, bool& winStat)
         winStat = false;
         cout << endl << P.getActiveEngimon()->getName() << " is defeated! " << endl;
         cout <<P.getActiveEngimon()->getName() << " will be removed from your inventory! " << endl;
+        if(map->at(player->getActiveEngimon()->getPosition()).getType() == GRASS)
+        {
+            map->at(player->getActiveEngimon()->getPosition()).setObject('-');
+        }
+        else
+        {
+            map->at(player->getActiveEngimon()->getPosition()).setObject('o');
+        }
+        player->removeEngimon(*player->getActiveEngimon());
+        if(player->getNumOfEngimon() == 0)
+        {
+            cout << "You don't have any engimon left!" << endl;
+            cout << "Game Over!" << endl << endl;
+            status = false;
+        }
+        else
+        {
+            player->showAllEngimon();
+            int num;
+            cout << endl << "Set another active engimon: "; cin >> num;
+            cout << endl;
+            player->setActiveEngimon(num-1);
+            cout << "Your active engimon changes to " << player->getActiveEngimon()->getName()  <<  " (" << player->getActiveEngimon()->getSpecies() <<") "<< endl;
+            cout << endl;
+        }
+        
     }
 }

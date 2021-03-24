@@ -22,6 +22,11 @@ int Player::getNumOfItem()
     return engimonInventory.getNumOfElement() /* + skillInventory.getNumOfElemet() */ ;
 }
 
+int Player::getNumOfEngimon()
+{
+    return engimonInventory.getNumOfElement();
+}
+
 Engimon* Player::getActiveEngimon()
 {
     return activeEngimon;
@@ -97,6 +102,22 @@ void Player::addEngimon(Engimon& engimon)
 {
     engimon.setPosition(0,0);
     engimonInventory.add(engimon);
+}
+
+void Player::removeEngimon(Engimon& engimon)
+{
+    if(*getActiveEngimon() == engimon)
+    {
+        activeEngimon = NULL;
+    }
+    for(int i = 0; i< engimonInventory.getNumOfElement(); i++)
+    {
+        if(engimonInventory[i] == engimon)
+        {
+            engimonInventory.delAt(i);
+            break;
+        }
+    }
 }
 
 void Player::move(string command)

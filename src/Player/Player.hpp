@@ -27,6 +27,7 @@ class Player
 
         /* Getter */
         int getNumOfItem();
+        int getNumOfEngimon();
         Engimon* getActiveEngimon();
         Engimon* getEngimonByIndex(int idx); 
         Engimon* getEngimonByName(string name); 
@@ -42,7 +43,7 @@ class Player
 
         /* Other Methods */
         void addEngimon(Engimon& engimon);
-        void removeEngimon(int idx);
+        void removeEngimon(Engimon& engimon);
         // void addSkillItem(Skill& skill);
         void move(string command);
         void showEngimonDescription(int idx);

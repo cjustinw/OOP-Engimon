@@ -8,7 +8,7 @@ Skill::Skill()
 
 Skill::~Skill()
 {
-    delete &prereqElmt;
+    
 }
 
 string Skill::getSkillName() const

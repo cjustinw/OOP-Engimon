@@ -76,6 +76,7 @@ class Engimon
         bool isChild();
 
         /* Other Methods */
+        bool operator==(Engimon& other);
         void showDescription(); 
         virtual void interact();
         Engimon* breed(const Engimon&, string);
