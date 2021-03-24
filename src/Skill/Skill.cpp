@@ -26,6 +26,11 @@ int Skill::getSkillDamage() const
     return basePower * masteryLevel;
 }
 
+int Skill::getNumOfItem() const
+{
+    return numOfItem;
+}
+
 vector<Element*> Skill::getPrereqElmt() const
 {
     return prereqElmt;
@@ -53,6 +58,11 @@ void Skill::useSkill()
         //throw
     }
     numOfItem--;
+}
+
+bool Skill::operator==(Skill& other)
+{
+    return (this == &other);
 }
 
 /* Unique */
@@ -460,4 +470,49 @@ Skill* CreateSkillItem(int ID)
     {
         return new Skill();
     }
+}
+
+Skill* GetRandomSkillItem(vector<Element*> element)
+{
+    srand(time(0));
+    int random;
+    if(element.size() == 1)
+    {
+        if(element[0]->getElmt() == FIRE)
+        {
+            random = rand() % (17 - 14) + 14;
+        }
+        else if(element[0]->getElmt() == ELECTRIC)
+        {
+            random = rand() % (20 - 17) + 17;
+        }
+        else if(element[0]->getElmt() == GROUND)
+        {
+            random = rand() % (23 - 20) + 20;
+        }
+        else if(element[0]->getElmt() == WATER)
+        {
+            random = rand() % (26 - 23) + 23;
+        }
+        else if(element[0]->getElmt() == ICE)
+        {
+            random = rand() % (29 - 26) + 26;
+        }
+    }
+    else
+    {
+        if(element[0]->getElmt() == FIRE && element[1]->getElmt() == ELECTRIC)
+        {
+            random = rand() % (20 - 14) + 14;
+        }
+        else if(element[0]->getElmt() == WATER && element[1]->getElmt() == ICE)
+        {
+           random = rand() % (29 - 23) + 23;
+        }
+        else if(element[0]->getElmt() == WATER && element[1]->getElmt() == GROUND)
+        {
+            random = rand() % (26 - 20) + 20;
+        }
+    }
+    return CreateSkillItem(random);
 }

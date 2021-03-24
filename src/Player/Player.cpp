@@ -98,6 +98,18 @@ bool Player::isInventoryFull()
     return (getNumOfItem() >= maxInventory);
 }
 
+Skill* Player::isSkillItemExist(Skill& skill)
+{
+    for(int i = 0; i < skillInventory.getNumOfElement(); i++)
+    {
+        if(skillInventory[i].getSkillName() == skill.getSkillName())
+        {
+            return &skillInventory[i];
+        }
+    }
+    return NULL;
+}
+
 void Player::addEngimon(Engimon& engimon)
 {
     engimon.setPosition(0,0);
@@ -118,6 +130,11 @@ void Player::removeEngimon(Engimon& engimon)
             break;
         }
     }
+}
+
+void Player::addSkillItem(Skill& skill)
+{
+    skillInventory.add(skill);
 }
 
 void Player::move(string command)
@@ -161,6 +178,15 @@ void Player::showAllEngimon()
     for(int i = 0; i < engimonInventory.getNumOfElement(); i++)
     {
         cout << "   " << i+1 << ". "<< engimonInventory[i].getName() << " (" << engimonInventory[i].getSpecies()  << ")" << " Lvl." << engimonInventory[i].getCurrentLevel() <<endl;
+    }
+}
+
+void Player::showAllSkillItem()
+{
+    cout << "Skill Item list: " << endl;
+    for(int i = 0; i < skillInventory.getNumOfElement(); i++)
+    {
+        cout << "   " << i+1 << ". "<< skillInventory[i].getSkillName() << " (x" << skillInventory[i].getNumOfItem()  << ")"  <<endl;
     }
 }
 
