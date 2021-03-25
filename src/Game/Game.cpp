@@ -69,10 +69,20 @@ void Game::startGame()
     else 
     {
         //throw
+        cout << "input tidak valid\n";
+        this->startGame();
+        return;
     }
     string engimonName;
     cout << endl << "Give your " << player->getActiveEngimon()->getName() << " a name: "; cin >> engimonName;
     player->setEngimonName(0, engimonName);
+}
+
+void Game::runGame() {
+    while(this->getStatus())
+    {
+        this->playerOption();
+    }
 }
 
 void Game::printMenu()
@@ -99,82 +109,51 @@ void Game::printMenu()
 
 void Game::playerOption()
 {
-    string option;
-    cout << endl << "Player input: "; getline(cin, option);
-    cout << endl;
+    try {
+        string option;
 
-    if(option == "w" || option == "a" || option == "s" || option == "d")
-    {
-       movePlayer(option);
+        cout << endl << "Player input: "; getline(cin, option);
+        cout << endl;
+
+        if(option == "w" || option == "a" || option == "s" || option == "d")
+        {
+            movePlayer(option);
+        }
+        else if(option.find("show engimon") != string::npos)
+        {
+            showEngimon();
+        }
+        else if(option.find("profile engimon") != string::npos)
+        {
+            profileEngimon();
+        }
+        else if(option.find("set active engimon") != string::npos)
+        {
+            setActiveEngimon();
+        }
+        else if(option.find("show skill item") != string::npos)
+        {
+            showSkillItem();
+        }
+        else if(option.find("use skill item") != string::npos)
+        {
+            useSkillItem();
+        }
+        else if(option.find("breed") != string::npos)
+        {
+        
+        }
+        else if (option == "quit")
+        {
+            this->status = false;
+        }
+
+        if(this->status) printMenu() ; // selama belum quit
+
+    } catch (ItemNotFoundException e) {
+        printMenu();
+        cout << e.what() << endl;
     }
-    else if(option.find("show engimon") != string::npos)
-    {
-        player->showAllEngimon();
-        cout << endl;
-        system("pause");
-    }
-    else if(option.find("profile engimon") != string::npos)
-    {
-        player->showAllEngimon();
-        int num;
-        cout << endl << "Input number: "; cin >> num;
-        cout << endl;
-        player->showEngimonDescription(num-1);
-        cout << endl;
-        system("pause");
-    }
-    else if(option.find("set active engimon") != string::npos)
-    {
-        player->showAllEngimon();
-        int num;
-        cout << endl << "Input number: "; cin >> num;
-        cout << endl;
-        player->setActiveEngimon(num-1);
-        cout << "Your active engimon changes to " << player->getActiveEngimon()->getName()  <<  " (" << player->getActiveEngimon()->getSpecies() <<") "<< endl;
-        cout << endl;
-        system("pause");
-    }
-    else if(option.find("show skill item") != string::npos)
-    {
-        player->showAllSkillItem();
-        cout << endl;
-        system("pause");
-    }
-    else if(option.find("use skill item") != string::npos)
-    {
-        player->showAllSkillItem();
-        int num1, num2;
-        cout << endl << "Select skill item: "; cin >> num1;
-        Skill* S = player->getSkillByIndex(num1-1);
-        cout << endl;
-        player->showEngimonBySkillItem(*player->getSkillByIndex(num1-1));
-        cout << endl  <<"Select engimon: "; cin >> num2;
-        Engimon* E = player->getEngimonByIndex(num2-1);
-        player->useSkillItem(*S, *E);
-        cout << endl;
-        system("pause");
-    }
-    else if(option.find("breed") != string::npos)
-    {
-        player->showAllEngimon();
-        int num1, num2;
-        string name;
-        cout << endl << "Select engimon 1 to breed: "; cin >> num1;
-        cout << endl << "Select engimon 2 to breed: "; cin >> num2;
-        cout << endl << "Select engimon chile name: "; cin >> name;
-        Engimon* E = player->getEngimonByIndex(num1-1)->breed(*player->getEngimonByIndex(num2-1), name);
-        cout << endl << "Congrats! " << name << " has born!";
-        cout << endl << name << " will be added to your inventory!" << endl;
-        player->addEngimon(*E);
-        cout << endl;
-        system("pause");
-    }
-    else if (option == "quit")
-    {
-        this->status = false;
-    }
-    
-    system("cls");
 }
 
 void Game::createWildEngimon()
@@ -530,4 +509,53 @@ void Game::battle(Player& P, Engimon& E, bool& winStat)
         }
         
     }
+}
+
+//******************* Player Command *******************//
+void Game::showEngimon() {
+    player->showAllEngimon();
+    cout << endl;
+    system("pause");
+}
+
+void Game::profileEngimon() {
+
+    player->showAllEngimon();
+    int num; string dummy;
+    cout << endl << "Input number: "; cin >> num; getline(cin, dummy);
+    cout << endl;
+    player->showEngimonDescription(num-1);
+    cout << endl;
+    system("pause");    
+}
+
+void Game::setActiveEngimon() {
+    player->showAllEngimon();
+    int num; string dummy;
+    cout << endl << "Input number: "; cin >> num; getline(cin, dummy);
+    cout << endl;
+    player->setActiveEngimon(num-1);
+    cout << "Your active engimon changes to " << player->getActiveEngimon()->getName()  <<  " (" << player->getActiveEngimon()->getSpecies() <<") "<< endl;
+    cout << endl;
+    system("pause");    
+}
+
+void Game::showSkillItem() {
+    player->showAllSkillItem();
+    cout << endl;
+    system("pause");
+}
+
+void Game::useSkillItem() {
+    player->showAllSkillItem();
+    int num1, num2;
+    cout << endl << "Select skill item: "; cin >> num1;
+    Skill* S = player->getSkillByIndex(num1-1);
+    cout << endl;
+    player->showEngimonBySkillItem(*player->getSkillByIndex(num1-1));
+    cout << endl  <<"Select engimon: "; cin >> num2;
+    Engimon* E = player->getEngimonByIndex(num2-1);
+    player->useSkillItem(*S, *E);
+    cout << endl;
+    system("pause");
 }

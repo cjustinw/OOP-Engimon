@@ -3,13 +3,12 @@
 int main()
 {
     Game* game = new Game();
+    
     game->startGame();
-    while(game->getStatus())
-    {
-        game->printMenu();
-        game->playerOption();
-    }
-    delete game;
+
+    game->runGame();
+
+    // delete game; // ada segfault core dump, gatau kenapa
     return 0;
 }
 

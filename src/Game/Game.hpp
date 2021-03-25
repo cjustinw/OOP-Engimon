@@ -6,6 +6,7 @@
 #include "../Engimon/Engimon.hpp"
 #include "../Player/Player.hpp"
 #include "../Map/Map.hpp"
+#include "../Exception/Exception.hpp"
 
 class Game
 {
@@ -26,6 +27,13 @@ class Game
         void battle(Player& P, Engimon& E, bool& winStat);
         void startLogo();
         void gameOverLogo();
+  
+        /* Player Command */
+        void showEngimon();
+        void profileEngimon();
+        void setActiveEngimon();
+        void showSkillItem();
+        void useSkillItem();
 
     public:
         /* Constructor */
@@ -40,9 +48,13 @@ class Game
         /* Game start */
         void startGame();
 
+        /* Game running */
+        void runGame();
+
         /* Other Methods */
         void printMenu();
         void playerOption();
+
 };
 
 #endif 

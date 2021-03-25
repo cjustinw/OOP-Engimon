@@ -39,11 +39,17 @@ Engimon* Player::getActiveEngimon()
 
 Engimon* Player::getEngimonByIndex(int idx)
 {
+    if (idx >= engimonInventory.getNumOfElement()) {
+        throw ItemNotFoundException();
+    }
     return &engimonInventory[idx];
 }
 
 Skill* Player::getSkillByIndex(int idx)
 {
+    if (idx >= skillInventory.getNumOfElement()) {
+        throw ItemNotFoundException();
+    }
     return &skillInventory[idx];
 }
 
