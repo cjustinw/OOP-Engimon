@@ -6,6 +6,7 @@
 #include "../Engimon/Engimon.hpp"
 #include "../Player/Player.hpp"
 #include "../Map/Map.hpp"
+#include "../Exception/Exception.hpp"
 
 class Game
 {
@@ -29,6 +30,9 @@ class Game
         void startGame();
         void createWildEngimon();
 
+        /* Game running */
+        void runGame();
+
         /* Movement */
         void movePlayer(string option);
         void moveWildEngimon();
@@ -38,6 +42,12 @@ class Game
         void playerOption();
         void battle(Player& P, Engimon& E, bool& winStat);
         
+        /* Player Command */
+        void showEngimon();
+        void profileEngimon();
+        void setActiveEngimon();
+        void showSkillItem();
+        void useSkillItem();
 };
 
 #endif 

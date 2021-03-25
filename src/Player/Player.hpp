@@ -5,6 +5,7 @@
 #include "../Point/Point.hpp"
 #include "../Engimon/Engimon.hpp"
 #include "../Inventory/Inventory.hpp"
+#include "../Exception/Exception.hpp"
 
 using namespace std;
 
