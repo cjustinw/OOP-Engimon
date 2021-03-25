@@ -23,6 +23,8 @@ bool Game::getStatus()
 
 void Game::startLogo()
 {
+    system("cls");    
+
     cout << "  _______ .__   __.   _______  __  .___  ___.   ______   .__   __. " << endl 
          << " |   ____||  \\ |  |  /  _____||  | |   \\/   |  /  __  \\  |  \\ |  | " << endl 
          << " |  |__   |   \\|  | |  |  __  |  | |  \\  /  | |  |  |  | |   \\|  | " << endl 
@@ -43,9 +45,7 @@ void Game::gameOverLogo()
 }
 
 void Game::startGame()
-{
-    system("cls");     
-
+{ 
     startLogo();       
     
     cout << "Choose your first Engimon!" << endl
@@ -68,8 +68,7 @@ void Game::startGame()
     }   
     else 
     {
-        //throw
-        cout << "input tidak valid\n";
+        cout << "Invalid Input!" << endl;
         this->startGame();
         return;
     }
@@ -109,12 +108,15 @@ void Game::printMenu()
 
 void Game::playerOption()
 {
-    try {
-        string option;
+    printMenu() ; 
 
-        cout << endl << "Player input: "; getline(cin, option);
-        cout << endl;
+    string option = "";
+    cout << endl << "Player input: "; 
+    getline(cin, option);
+    cout << endl;
 
+    try
+    {
         if(option == "w" || option == "a" || option == "s" || option == "d")
         {
             movePlayer(option);
@@ -141,19 +143,31 @@ void Game::playerOption()
         }
         else if(option.find("breed") != string::npos)
         {
-        
+            breed();
         }
         else if (option == "quit")
         {
             this->status = false;
         }
-
-        if(this->status) printMenu() ; // selama belum quit
-
-    } catch (ItemNotFoundException e) {
-        printMenu();
-        cout << e.what() << endl;
+        else
+        {
+            // cout << "Invalid command!" << endl << endl;
+            // system("pause");
+        }
     }
+    catch (PositionOutOfBoundaryException& err){
+        cout << err.what() << endl << endl;
+        system("pause");
+    }
+    catch (FullInventoryException& err){
+        cout << err.what() << endl << endl;
+        system("pause");
+    }
+    catch (SkillItemException& err){
+        cout << err.what() << endl << endl;
+        system("pause");
+    }
+
 }
 
 void Game::createWildEngimon()
@@ -286,7 +300,7 @@ void Game::movePlayer(string option)
     {
         P.addX();
     }
-    if(P.getX() > 0 && P.getX() < map->getLength() && P.getY() > 0 && P.getY() < map->getWidth())
+    if(P.getX() > 0 && P.getX() <= map->getLength() && P.getY() > 0 && P.getY() <= map->getWidth())
     {
         bool winStat = true;
         for(int i = 0; i < wildEngimon.size(); i++)
@@ -317,6 +331,10 @@ void Game::movePlayer(string option)
             player->move(option);
             moveWildEngimon();
         }
+    }
+    else
+    {
+        throw PositionOutOfBoundaryException();
     }
 }
 
@@ -362,7 +380,7 @@ void Game::moveWildEngimon()
                 break;
             }
             
-            if( Position.getX() > 0 && Position.getX() < map->getLength() && Position.getY() > 0 && Position.getY() < map->getWidth())
+            if( Position.getX() > 0 && Position.getX() <= map->getLength() && Position.getY() > 0 && Position.getY() <= map->getWidth())
             {
                 // cout << "test5" << endl;
                 if(isGrass)
@@ -450,19 +468,19 @@ void Game::battle(Player& P, Engimon& E, bool& winStat)
         int exp = 20* E.getCurrentLevel();
         P.getActiveEngimon()->expUp(exp);
         P.getActiveEngimon()->levelUp();
-        cout << "NUM Inventory: " << P.getNumOfAllItem() << endl;
-        if(P.isInventoryFull())
-        {
-            //throw
-        }
         cout << E.getName() << " will be added to your inventory! " << endl;
-        P.addEngimon(E);
         if(P.isInventoryFull())
         {
-            //throw
+            throw FullInventoryException();
         }
+        P.addEngimon(E);
         Skill* S = GetRandomSkillItem(E.getElement());
         cout << "You get " << S->getSkillName() << " skill item!" << endl << endl;
+        if(P.isInventoryFull())
+        {
+            delete S;
+            throw FullInventoryException();
+        }
         if(P.isSkillItemExist(*S) != NULL)
         {
             P.isSkillItemExist(*S)->addSkill();
@@ -521,8 +539,8 @@ void Game::showEngimon() {
 void Game::profileEngimon() {
 
     player->showAllEngimon();
-    int num; string dummy;
-    cout << endl << "Input number: "; cin >> num; getline(cin, dummy);
+    int num;
+    cout << endl << "Input number: "; cin >> num; 
     cout << endl;
     player->showEngimonDescription(num-1);
     cout << endl;
@@ -531,8 +549,8 @@ void Game::profileEngimon() {
 
 void Game::setActiveEngimon() {
     player->showAllEngimon();
-    int num; string dummy;
-    cout << endl << "Input number: "; cin >> num; getline(cin, dummy);
+    int num;
+    cout << endl << "Input number: "; cin >> num;
     cout << endl;
     player->setActiveEngimon(num-1);
     cout << "Your active engimon changes to " << player->getActiveEngimon()->getName()  <<  " (" << player->getActiveEngimon()->getSpecies() <<") "<< endl;
@@ -541,12 +559,20 @@ void Game::setActiveEngimon() {
 }
 
 void Game::showSkillItem() {
+    if(player->getNumOfSkillItem() == 0)
+    {
+        throw SkillItemException();
+    }
     player->showAllSkillItem();
     cout << endl;
     system("pause");
 }
 
 void Game::useSkillItem() {
+    if(player->getNumOfSkillItem() == 0)
+    {
+        throw SkillItemException();
+    }
     player->showAllSkillItem();
     int num1, num2;
     cout << endl << "Select skill item: "; cin >> num1;
@@ -556,6 +582,22 @@ void Game::useSkillItem() {
     cout << endl  <<"Select engimon: "; cin >> num2;
     Engimon* E = player->getEngimonByIndex(num2-1);
     player->useSkillItem(*S, *E);
+    cout << endl;
+    system("pause");
+}
+
+void Game::breed()
+{
+    player->showAllEngimon();
+    int num1, num2;
+    string name;
+    cout << endl << "Select engimon 1 to breed: "; cin >> num1;
+    cout << endl << "Select engimon 2 to breed: "; cin >> num2;
+    cout << endl << "Select engimon chile name: "; cin >> name;
+    Engimon* E = player->getEngimonByIndex(num1-1)->breed(*player->getEngimonByIndex(num2-1), name);
+    cout << endl << "Congrats! " << name << " has born!";
+    cout << endl << name << " will be added to your inventory!" << endl;
+    player->addEngimon(*E);
     cout << endl;
     system("pause");
 }

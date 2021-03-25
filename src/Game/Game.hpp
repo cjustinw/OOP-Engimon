@@ -34,6 +34,7 @@ class Game
         void setActiveEngimon();
         void showSkillItem();
         void useSkillItem();
+        void breed();
 
     public:
         /* Constructor */

@@ -19,7 +19,12 @@ Player::~Player()
 
 int Player::getNumOfAllItem()
 {
-    return skillInventory.getNumOfElement() + engimonInventory.getNumOfElement();
+    int skillCount = 0;
+    for(int i = 0; i < getNumOfSkillItem(); i++)
+    {
+        skillCount += skillInventory[i].getNumOfItem(); 
+    }
+    return engimonInventory.getNumOfElement()+ skillCount;
 }
 
 int Player::getNumOfSkillItem()
@@ -141,10 +146,6 @@ void Player::move(string command)
     else if (command == "d")
     {
         position.addX();
-    }
-    else
-    {
-        // throw error
     }
 } 
 

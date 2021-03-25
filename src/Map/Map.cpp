@@ -149,7 +149,7 @@ Point Map::getPlayerPosition() {
 
 bool Map::isPositionValid(Point P)
 {
-    if( P.getX() > 0 && P.getX() < length && P.getY() > 0 && P.getY() < width)
+    if( P.getX() > 0 && P.getX() <= length && P.getY() > 0 && P.getY() <= width)
     {
         if(this->at(P).getObject() == '-' || this->at(P).getObject() == 'o')
         {
