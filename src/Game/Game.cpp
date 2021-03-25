@@ -14,7 +14,6 @@ Game::~Game()
 {
     delete player;
     delete map;
-    delete &wildEngimon;
 }
 
 bool Game::getStatus()
@@ -111,7 +110,9 @@ void Game::playerOption()
     }
     else if(option.find("show skill item") != string::npos)
     {
-
+        player->showAllSkillItem();
+        cout << endl;
+        system("pause");
     }
     else if(option.find("use skill item") != string::npos)
     {
@@ -119,7 +120,7 @@ void Game::playerOption()
     }
     else if(option.find("breed") != string::npos)
     {
-        // player->engimonBreed()
+       
     }
     else if (option == "quit")
     {
@@ -425,6 +426,18 @@ void Game::battle(Player& P, Engimon& E, bool& winStat)
         P.getActiveEngimon()->levelUp();
         cout << E.getName() << " will be added to your inventory! " << endl;
         P.addEngimon(E);
+
+        Skill* S = GetRandomSkillItem(E.getElement());
+        cout << "You get " << S->getSkillName() << " skill item!" << endl;
+        if(P.isSkillItemExist(*S) != NULL)
+        {
+            P.isSkillItemExist(*S)->addSkill();
+            delete S;
+        }
+        else
+        {
+            P.addSkillItem(*S);
+        }
         auto j = wildEngimon.begin();
         for(int i = 0; i < wildEngimon.size(); i++)
         {
@@ -441,5 +454,25 @@ void Game::battle(Player& P, Engimon& E, bool& winStat)
         winStat = false;
         cout << endl << P.getActiveEngimon()->getName() << " is defeated! " << endl;
         cout <<P.getActiveEngimon()->getName() << " will be removed from your inventory! " << endl;
+        Point Ptmp(player->getActiveEngimon()->getPosition());
+        player->removeEngimon(*player->getActiveEngimon());
+        if(player->getNumOfEngimon() == 0)
+        {
+            cout << "You don't have any engimon left!" << endl;
+            cout << "Game Over!" << endl << endl;
+            status = false;
+        }
+        else
+        {
+            player->showAllEngimon();
+            int num;
+            cout << endl << "Set another active engimon: "; cin >> num;
+            cout << endl;
+            player->setActiveEngimon(num-1);
+            player->getActiveEngimon()->setPosition(Ptmp);
+            cout << "Your active engimon changes to " << player->getActiveEngimon()->getName()  <<  " (" << player->getActiveEngimon()->getSpecies() <<") "<< endl;
+            cout << endl;
+        }
+        
     }
 }

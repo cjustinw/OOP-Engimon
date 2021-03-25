@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <time.h>
 #include "../Element/Element.hpp"
 #include "../Element/Electric.hpp"
 #include "../Element/Fire.hpp"
@@ -34,6 +35,7 @@ class Skill
         string getSkillName() const;
         int getSkillId() const;
         int getSkillDamage() const;
+        int getNumOfItem() const;
         vector<Element*> getPrereqElmt() const;
 
         /* Setter */
@@ -42,6 +44,7 @@ class Skill
         void useSkill();
 
         /* Other method */
+        bool operator==(Skill& other);
         // void learn(Engimon& E);
 };
 
@@ -230,7 +233,7 @@ Skill* CreateSkill(int ID);
 
 Skill* CreateSkillItem(int ID);
 
-Skill* RandomSkillItem(ElmtType);
+Skill* GetRandomSkillItem(vector<Element*> element);
 
 
 #endif

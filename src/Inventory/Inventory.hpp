@@ -14,6 +14,10 @@ class Inventory
 
         ~Inventory()
         {
+            for(int i = 0; i < numOfElement; i++)
+            {
+                delete elements[i];
+            }
             delete[] elements;
         }
 
@@ -50,6 +54,7 @@ class Inventory
             {
                 temp[i] = elements[i+1];
             }
+            delete elements[idx];
             delete[] elements;
             elements = temp;
             numOfElement--;
