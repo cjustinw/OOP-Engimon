@@ -55,6 +55,73 @@ TEST_CASE( "Cell object moved", "[CELL]" ) {
     }
 }
 
+TEST_CASE( "Map is constructed", "[MAP]" ) {
+    Map map;
+    Point P(1,1);
+
+    REQUIRE( map.getLength() == DEFAULT_LENGTH );
+    REQUIRE( map.getWidth() == DEFAULT_WIDTH );
+    REQUIRE( map.getSize() == DEFAULT_WIDTH*DEFAULT_LENGTH );
+    REQUIRE( (map.getPlayerPosition() == P) );
+
+    SECTION( "Copy Constructor" ) {
+        Map* newMap = new Map(map);
+
+        CHECK( newMap->getLength() == map.getLength() );
+        CHECK( newMap->getWidth() == map.getWidth() );
+
+        SECTION( "Destructor" ) {
+            delete newMap;
+
+            CHECK( map.at(1,1).isPlayer());
+        }
+    }
+    SECTION( "Operator Assignment" ) {
+        Map newMap(Point(5,5));
+
+        CHECK( ( newMap.getPlayerPosition() == Point(5,5) ) );
+
+        map = newMap;
+
+        CHECK( (map.getPlayerPosition() == P) == false);
+        CHECK( ( map.getPlayerPosition() == Point(5,5) ) );
+    }
+}
+
+TEST_CASE( "Map is updated", "[MAP]" ) {
+    Map m;
+
+    m.setLength(10);
+    REQUIRE( m.getLength() == 10 );
+    m.setWidth(100);
+    REQUIRE( m.getWidth() == 100 );
+}
+
+TEST_CASE( "Map & Cell", "[MAP][CELL]" ) {
+    Map map;
+    Point player(1,1);
+
+    REQUIRE( map.at(player).isPlayer() );
+
+    map.at(10,10).setObject('W');
+    REQUIRE( map.at(10,10).isOccupied() );
+
+    Point next(5,5);
+    map.moveObject(player, next);
+
+    REQUIRE( (map.getPlayerPosition() == next) == true);
+}
+
+TEST_CASE( "MapLoader", "[MAPLOADER][MAP][CELL]" ) {
+    MapLoader mapLoader;
+    Map * map;
+
+    map = mapLoader.load("testfile.txt");
+
+    REQUIRE( (map->getPlayerPosition() == Point(1,15)) );
+    REQUIRE( map->at(25,12).getType() == SEA );
+}
+
 // compile : g++ -o test Map-test.cpp Point.o Map.o Cell.o MapLoader.o
 // test : 
 // ./test 
