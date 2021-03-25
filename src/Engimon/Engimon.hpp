@@ -72,6 +72,7 @@ class Engimon
 
         /* Conditional Checking */
         bool isMaxCumulativeExp();
+        bool isSkillMax();
         bool isActiveEngimon();
         bool isChild();
 

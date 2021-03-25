@@ -34,12 +34,12 @@ void Game::startGame()
     if(option == "Entei")
     {
         player->addEngimon(*CreateEngimon(2, 5, P, false));
-        player->setActiveEngimon("Entei");
+        player->setActiveEngimon(0);
     }
     else if(option == "Raikou")
     {
         player->addEngimon(*CreateEngimon(4, 5, P, false));
-        player->setActiveEngimon("Raikou");
+        player->setActiveEngimon(0);
     }   
     else 
     {
@@ -60,7 +60,7 @@ void Game::printMenu()
          << "|| profile engimon : Menampilkan profile engimon                ||" << endl
          << "|| set active engimon : Menggunakan engimon                     ||" << endl
          << "|| show skill item : Menampilkan skill item                     ||" << endl
-         << "|| use skill item <nama skill item> : Menggunakan skill item    ||" << endl
+         << "|| use skill item  : Menggunakan skill item                     ||" << endl
          << "|| breed <engimon1> <engimon2> : Melakukan breeding Engimon     ||" << endl
          << "==================================================================" << endl;
     
@@ -79,7 +79,6 @@ void Game::playerOption()
     if(option == "w" || option == "a" || option == "s" || option == "d")
     {
        movePlayer(option);
-       
     }
     else if(option.find("show engimon") != string::npos)
     {
@@ -116,7 +115,17 @@ void Game::playerOption()
     }
     else if(option.find("use skill item") != string::npos)
     {
-
+        player->showAllSkillItem();
+        int num1, num2;
+        cout << endl << "Select skill item: "; cin >> num1;
+        Skill* S = player->getSkillByIndex(num1-1);
+        cout << endl;
+        player->showEngimonBySkillItem(*player->getSkillByIndex(num1-1));
+        cout << endl  <<"Select engimon: "; cin >> num2;
+        Engimon* E = player->getEngimonByIndex(num2-1);
+        player->useSkillItem(*S, *E);
+        cout << endl;
+        system("pause");
     }
     else if(option.find("breed") != string::npos)
     {
@@ -424,11 +433,19 @@ void Game::battle(Player& P, Engimon& E, bool& winStat)
         int exp = 20* E.getCurrentLevel();
         P.getActiveEngimon()->expUp(exp);
         P.getActiveEngimon()->levelUp();
+        cout << "NUM Inventory: " << P.getNumOfAllItem() << endl;
+        if(P.isInventoryFull())
+        {
+            //throw
+        }
         cout << E.getName() << " will be added to your inventory! " << endl;
         P.addEngimon(E);
-
+        if(P.isInventoryFull())
+        {
+            //throw
+        }
         Skill* S = GetRandomSkillItem(E.getElement());
-        cout << "You get " << S->getSkillName() << " skill item!" << endl;
+        cout << "You get " << S->getSkillName() << " skill item!" << endl << endl;
         if(P.isSkillItemExist(*S) != NULL)
         {
             P.isSkillItemExist(*S)->addSkill();

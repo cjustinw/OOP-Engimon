@@ -26,16 +26,16 @@ class Player
         ~Player();
 
         /* Getter */
-        int getNumOfItem();
+        int getNumOfAllItem();
+        int getNumOfSkillItem();
         int getNumOfEngimon();
         Engimon* getActiveEngimon();
         Engimon* getEngimonByIndex(int idx); 
-        Engimon* getEngimonByName(string name); 
+        Skill* getSkillByIndex(int idx);
         Point getPlayerPosition();
 
         /* Setter */
         void setActiveEngimon(int idx);
-        void setActiveEngimon(string name);
         void setEngimonName(int idx, string name);
 
         /* Conditional Checking */
@@ -49,12 +49,11 @@ class Player
         // void removeSkillItem(Skill& skill);
         void move(string command);
         void showEngimonDescription(int idx);
-        void showEngimonDescription(string name);
         void showAllEngimon();
         void showAllSkillItem();
+        void showEngimonBySkillItem(Skill& skill);
         void engimonBreed(int idx1, int idx2, string name);
-        void engimonBreed(string name1, string name2, string name);
-        // void useSkillItem();
+        void useSkillItem(Skill& skill, Engimon& engimon);
 };
 
 #endif

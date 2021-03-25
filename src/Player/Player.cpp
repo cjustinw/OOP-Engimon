@@ -8,7 +8,7 @@ Player::Player()
     position.setX(1);
     position.setY(1);
     maxSkillItem = 4;
-    maxInventory = 100;
+    maxInventory = 10;
     activeEngimon = NULL;
 }
 
@@ -17,9 +17,14 @@ Player::~Player()
     delete &engimonInventory;
 }
 
-int Player::getNumOfItem()
+int Player::getNumOfAllItem()
 {
-    return engimonInventory.getNumOfElement() /* + skillInventory.getNumOfElemet() */ ;
+    return skillInventory.getNumOfElement() + engimonInventory.getNumOfElement();
+}
+
+int Player::getNumOfSkillItem()
+{
+    return skillInventory.getNumOfElement();
 }
 
 int Player::getNumOfEngimon()
@@ -37,19 +42,9 @@ Engimon* Player::getEngimonByIndex(int idx)
     return &engimonInventory[idx];
 }
 
-Engimon* Player::getEngimonByName(string name)
+Skill* Player::getSkillByIndex(int idx)
 {
-    if(engimonInventory.getNumOfElement() == 0)
-    {
-        // throw;
-    }
-    for(int i = 0; i < engimonInventory.getNumOfElement(); i++)
-    {
-        if(engimonInventory[i].getName() == name)
-        {
-            return &engimonInventory[i];
-        }
-    }
+    return &skillInventory[idx];
 }
 
 Point Player::getPlayerPosition()
@@ -73,21 +68,6 @@ void Player::setActiveEngimon(int idx)
     activeEngimon->setPosition(P);
 }
 
-void Player::setActiveEngimon(string name)
-{
-    Point P(2,1);
-    if(activeEngimon != NULL)
-    {
-        activeEngimon->setActive(false);
-        P.setX(activeEngimon->getPosition().getX());
-        P.setY(activeEngimon->getPosition().getY());
-        activeEngimon->setPosition(0,0);
-    }
-    activeEngimon = getEngimonByName(name);
-    activeEngimon->setActive(true);
-    activeEngimon->setPosition(P);
-}
-
 void Player::setEngimonName(int idx, string name)
 {
     getEngimonByIndex(idx)->setName(name);
@@ -95,7 +75,7 @@ void Player::setEngimonName(int idx, string name)
 
 bool Player::isInventoryFull()
 {
-    return (getNumOfItem() >= maxInventory);
+    return (getNumOfAllItem() >= maxInventory);
 }
 
 Skill* Player::isSkillItemExist(Skill& skill)
@@ -167,11 +147,6 @@ void Player::showEngimonDescription(int idx)
     getEngimonByIndex(idx)->showDescription();
 }
 
-void Player::showEngimonDescription(string name)
-{
-    getEngimonByName(name)->showDescription();
-}
-
 void Player::showAllEngimon()
 {
     cout << "Engimon list: " << endl;
@@ -195,7 +170,42 @@ void Player::engimonBreed(int idx1, int idx2, string name)
     addEngimon(*getEngimonByIndex(idx1)->breed(*getEngimonByIndex(idx2), name));
 }
 
-void Player::engimonBreed(string name1, string name2, string name)
+void Player::showEngimonBySkillItem(Skill& skill)
 {
-    addEngimon(*getEngimonByName(name1)->breed(*getEngimonByName(name2), name));
+    cout << "Available engimon that can learn " << skill.getSkillName() << ": "  << endl;
+    for(int i = 0; i < engimonInventory.getNumOfElement(); i++)
+    {
+        for(int j = 0; j < engimonInventory[i].getElement().size(); j++)
+        {
+            for(int k = 0; k < skill.getPrereqElmt().size(); k++)
+            {
+                if(engimonInventory[i].getElement()[j]->getElmt() == skill.getPrereqElmt()[k]->getElmt())
+                {
+                    cout << "   " << i+1 << ". "<< engimonInventory[i].getName() << " (" << engimonInventory[i].getSpecies()  << ")" << " Lvl." << engimonInventory[i].getCurrentLevel() <<endl;
+                }
+            }
+        }
+    }
+}
+
+
+void Player::useSkillItem(Skill& skill, Engimon& engimon)
+{
+    if(engimon.isSkillMax())
+    {
+        //throw
+    }
+    engimon.learnSkill(CreateSkill(skill.getSkillId()));
+    skill.useSkill();
+    if(skill.getNumOfItem() == 0)
+    {
+        for(int i = 0; i < skillInventory.getNumOfElement(); i++)
+        {
+            if(skillInventory[i].getSkillId() == skill.getSkillId())
+            {
+                skillInventory.delAt(i);
+                break;
+            }
+        }
+    }
 }

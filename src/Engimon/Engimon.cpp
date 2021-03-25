@@ -11,7 +11,6 @@ Engimon::Engimon(int lvl, Point pos, bool child)
 {
     level = lvl;
     maxSkills = 4;
-    numOfSkill = 1;
     exp = 0;
     cumulativeExp = 0;
     active = false;
@@ -145,7 +144,7 @@ string Engimon::getParent() const
 
 int Engimon::getNumOfSkills() const
 {
-    return numOfSkill;
+    return skills.size();
 }
 
 /* Setter */
@@ -175,9 +174,9 @@ void Engimon::levelUp()
 
 void Engimon::learnSkill(Skill* skill)
 {
-    if(numOfSkill > maxSkills)
+    if(getNumOfSkills() > maxSkills)
     {
-        
+        //throw
     }
     bool found = false;
     for(int i = 0; i < elements.size(); i++)
@@ -208,7 +207,7 @@ void Engimon::learnSkill(Skill* skill)
     }
     skill->useSkill();
     skills.push_back(CreateSkill(skill->getSkillId()));
-    numOfSkill++;
+    cout << name << " has learned to use " << skill->getSkillName() << endl;
 }
 
 void Engimon::setActive(bool status)
@@ -242,6 +241,11 @@ void Engimon::setParent(string S)
 bool Engimon::isMaxCumulativeExp()
 {
     return exp >= MAX_CUMULATIVE_EXP;
+}
+
+bool Engimon::isSkillMax()
+{
+    return getNumOfSkills() >= maxSkills;
 }
 
 bool Engimon::isActiveEngimon()
