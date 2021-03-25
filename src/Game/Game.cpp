@@ -55,13 +55,13 @@ void Game::printMenu()
     cout << "==================================================================" << endl
          << "|| Welcome Player ! Type the menu below :                       ||" << endl
          << "==================================================================" << endl
-         << "|| move <w, a, s, d> : Bergerak 1 arah                          ||" << endl
-         << "|| show engimon : Menampilkan engimon yang dimiliki             ||" << endl
-         << "|| profile engimon : Menampilkan profile engimon                ||" << endl
-         << "|| set active engimon : Menggunakan engimon                     ||" << endl
-         << "|| show skill item : Menampilkan skill item                     ||" << endl
-         << "|| use skill item  : Menggunakan skill item                     ||" << endl
-         << "|| breed <engimon1> <engimon2> : Melakukan breeding Engimon     ||" << endl
+         << "|| <w, a, s, d> : Bergerak 1 arah                               ||" << endl
+         << "|| \"show engimon\" : Menampilkan engimon yang dimiliki           ||" << endl
+         << "|| \"profile engimon\" : Menampilkan profile engimon              ||" << endl
+         << "|| \"set active engimon\" : Menggunakan engimon                   ||" << endl
+         << "|| \"show skill item\" : Menampilkan skill item                   ||" << endl
+         << "|| \"use skill item\" : Menggunakan skill item                    ||" << endl
+         << "|| \"breed\" : Melakukan breeding Engimon                         ||" << endl
          << "==================================================================" << endl;
     
     cout << endl << "Map:" << endl;
@@ -129,7 +129,18 @@ void Game::playerOption()
     }
     else if(option.find("breed") != string::npos)
     {
-       
+        player->showAllEngimon();
+        int num1, num2;
+        string name;
+        cout << endl << "Select engimon 1 to breed: "; cin >> num1;
+        cout << endl << "Select engimon 2 to breed: "; cin >> num2;
+        cout << endl << "Select engimon chile name: "; cin >> name;
+        Engimon* E = player->getEngimonByIndex(num1-1)->breed(*player->getEngimonByIndex(num2-1), name);
+        cout << endl << "Congrats! " << name << " is born!";
+        cout << endl << name << " will be added to your inventory!";
+        player->addEngimon(*E);
+        cout << endl;
+        system("pause");
     }
     else if (option == "quit")
     {

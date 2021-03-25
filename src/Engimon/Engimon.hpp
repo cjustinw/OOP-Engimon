@@ -80,7 +80,7 @@ class Engimon
         bool operator==(Engimon& other);
         void showDescription(); 
         virtual void interact();
-        Engimon* breed(const Engimon&, string);
+        Engimon* breed(Engimon&, string);
         
 };
 

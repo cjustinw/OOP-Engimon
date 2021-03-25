@@ -290,31 +290,43 @@ void Engimon::interact()
     cout << "Pika-pika~" << endl;
 }
 
-Engimon* Engimon::breed(const Engimon& other, string name)
+Engimon* Engimon::breed(Engimon& other, string name)
 {
+    cout << "test1" << endl;
     Engimon* E;
     Point P(0,0);
-    if(this->elements.size() == 1 && other.elements.size() == 1)
+    if(this->getElement()[0]->getElmt() == other.getElement()[0]->getElmt())
     {
-        if(this->getElement()[0]->getElmt() == other.getElement()[0]->getElmt())
+        cout << "test2" << endl;
+        E = CreateEngimon(this->getID(), 1, P, true);
+    }
+    else
+    {
+        cout << "test3" << endl;
+        int thisAdvantage = this->getElement()[0]->elementAdvantage(other.getElement()[0]->getElmt());
+        int otherAdvantage = other.getElement()[0]->elementAdvantage(this->getElement()[0]->getElmt());
+        if(thisAdvantage > otherAdvantage)
         {
-           E = CreateEngimon(this->getID(), 0, P, true);
+            E = CreateEngimon(this->getID(), 1, P, true);
+        }
+        else if(thisAdvantage < otherAdvantage)
+        {
+            E = CreateEngimon(other.getID(), 1, P, true);
         }
         else
         {
-            int thisAdvantage = this->getElement()[0]->elementAdvantage(other.getElement()[0]->getElmt());
-            int otherAdvantage = other.getElement()[0]->elementAdvantage(this->getElement()[0]->getElmt());
-            if(thisAdvantage > otherAdvantage)
+            cout << "test" << endl;
+            if(this->getElement()[0]->getElmt() == FIRE && other.getElement()[0]->getElmt() == ELECTRIC)
             {
-                E = CreateEngimon(this->getID(), 1, P, true);
+                E = CreateEngimon(7, 1, P, true);
             }
-            else if(thisAdvantage < otherAdvantage)
+            else if(this->getElement()[0]->getElmt() == WATER && other.getElement()[0]->getElmt() == ICE)
             {
-                E = CreateEngimon(other.getID(), 1, P, true);
+                E = CreateEngimon(12, 1, P, true);
             }
-            else
+            else if(this->getElement()[0]->getElmt() == WATER && other.getElement()[0]->getElmt() == GROUND)
             {
-                /* Nanti untuk yang anaknya kombinasi element */
+                E = CreateEngimon(13, 1, P, true);
             }
         }
     }
