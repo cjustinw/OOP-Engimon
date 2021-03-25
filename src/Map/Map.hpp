@@ -15,7 +15,7 @@ using namespace std;
 //**** Struktur Map ****//
 /*
     ---------------------
-    |          (max,max)|
+    |           (30,15) |
     |                   |
     |                   |
     |                   |

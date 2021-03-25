@@ -19,7 +19,7 @@ int main() {
     while (1) {
         try {
             cin >> choice;     
-            map.setPlayerPosition(player, choice);
+            //map.setPlayerPosition(player, choice);
 
             map.view();
             map.getPlayerPosition().printPoint();   
