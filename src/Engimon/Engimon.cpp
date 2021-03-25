@@ -292,17 +292,14 @@ void Engimon::interact()
 
 Engimon* Engimon::breed(Engimon& other, string name)
 {
-    cout << "test1" << endl;
     Engimon* E;
     Point P(0,0);
     if(this->getElement()[0]->getElmt() == other.getElement()[0]->getElmt())
     {
-        cout << "test2" << endl;
         E = CreateEngimon(this->getID(), 1, P, true);
     }
     else
     {
-        cout << "test3" << endl;
         int thisAdvantage = this->getElement()[0]->elementAdvantage(other.getElement()[0]->getElmt());
         int otherAdvantage = other.getElement()[0]->elementAdvantage(this->getElement()[0]->getElmt());
         if(thisAdvantage > otherAdvantage)
@@ -315,16 +312,15 @@ Engimon* Engimon::breed(Engimon& other, string name)
         }
         else
         {
-            cout << "test" << endl;
-            if(this->getElement()[0]->getElmt() == FIRE && other.getElement()[0]->getElmt() == ELECTRIC)
+            if(this->getElement()[0]->getElmt() == FIRE && other.getElement()[0]->getElmt() == ELECTRIC || this->getElement()[0]->getElmt() == ELECTRIC && other.getElement()[0]->getElmt() == FIRE)
             {
                 E = CreateEngimon(7, 1, P, true);
             }
-            else if(this->getElement()[0]->getElmt() == WATER && other.getElement()[0]->getElmt() == ICE)
+            else if(this->getElement()[0]->getElmt() == WATER && other.getElement()[0]->getElmt() == ICE || this->getElement()[0]->getElmt() == ICE && other.getElement()[0]->getElmt() == WATER)
             {
                 E = CreateEngimon(12, 1, P, true);
             }
-            else if(this->getElement()[0]->getElmt() == WATER && other.getElement()[0]->getElmt() == GROUND)
+            else if(this->getElement()[0]->getElmt() == WATER && other.getElement()[0]->getElmt() == GROUND || this->getElement()[0]->getElmt() == GROUND && other.getElement()[0]->getElmt() == WATER)
             {
                 E = CreateEngimon(13, 1, P, true);
             }

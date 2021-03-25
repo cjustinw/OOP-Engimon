@@ -15,6 +15,18 @@ class Game
         vector<Engimon*> wildEngimon;
         bool status;
 
+        /* Game start */
+        void createWildEngimon();
+
+        /* Movement */
+        void movePlayer(string option);
+        void moveWildEngimon();
+
+        /* Other Methods */
+        void battle(Player& P, Engimon& E, bool& winStat);
+        void startLogo();
+        void gameOverLogo();
+
     public:
         /* Constructor */
         Game();
@@ -27,17 +39,10 @@ class Game
 
         /* Game start */
         void startGame();
-        void createWildEngimon();
-
-        /* Movement */
-        void movePlayer(string option);
-        void moveWildEngimon();
 
         /* Other Methods */
         void printMenu();
         void playerOption();
-        void battle(Player& P, Engimon& E, bool& winStat);
-        
 };
 
 #endif 
