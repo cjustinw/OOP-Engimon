@@ -80,9 +80,38 @@ Cell& Map::at(Point p) const {
 }
 
 void Map::view() {
-    for(int y = width; y >= 1; y--) {
-        for(int x = 1; x <= length; x++) {
-            cout << this->at(x, y).getObject();
+    for(int y = width+1; y >= 0; y--) {
+        if(y == width+1)
+        {
+            for(int x = 0; x <= length+1; x++) {
+                cout << "_";
+            }
+        }
+        else if( y == 0)
+        {
+            for(int x = 0; x <= length+1; x++) {
+                if(x == 0 || x == length+1)
+                {
+                    cout << "|" ;
+                }
+                else
+                {
+                    cout << "_";
+                }
+            }
+        }
+        else
+        {
+            for(int x = 0; x <= length+1; x++) {
+                if(x == 0 || x == length+1)
+                {
+                    cout << "|" ;
+                }
+                else
+                {
+                    cout << this->at(x, y).getObject();
+                }
+            }
         }
         cout << endl;
     }
@@ -91,30 +120,6 @@ void Map::view() {
 void Map::moveObject(Point P1, Point P2) {
     this->at(P1) >> this->at(P2);
 }
-
-/*
-void Map::setPlayerPosition(Point player, string option)
-{
-    int x = player.getX();
-    int y = player.getY();
-    if (option == "w")
-    {    
-        this->at(player) >> this->at(x, y+1);
-    }
-    else if (option == "a")
-    {
-        this->at(player) >> this->at(x-1, y);
-    }
-    else if (option == "s")
-    {
-        this->at(player) >> this->at(x, y-1);
-    }
-    else if (option == "d")
-    {
-        this->at(player) >> this->at(x+1, y);
-    }
-}
-*/
 
 // game-related
 
@@ -141,35 +146,7 @@ Point Map::getPlayerPosition() {
     // } 
     return Point(x,y);
 }
-/*
-void Map::movePlayerUp() {
-    Point player = this->getPlayerPosition();
-    int x = player.getX();
-    int y = player.getY();
-    this->at(player) >> this->at(x, y+1);
-}
 
-void Map::movePlayerDown() {
-    Point player = this->getPlayerPosition();
-    int x = player.getX();
-    int y = player.getY();
-    this->at(player) >> this->at(x, y-1);
-}
-
-void Map::movePlayerRight() {
-    Point player = this->getPlayerPosition();
-    int x = player.getX();
-    int y = player.getY();
-    this->at(player) >> this->at(x+1, y);
-}
-
-void Map::movePlayerLeft() {
-    Point player = this->getPlayerPosition();
-    int x = player.getX();
-    int y = player.getY();
-    this->at(player) >> this->at(x-1, y);
-}
-*/
 bool Map::isPositionValid(Point P)
 {
     if( P.getX() > 0 && P.getX() < length && P.getY() > 0 && P.getY() < width)
@@ -180,14 +157,4 @@ bool Map::isPositionValid(Point P)
         }
     }
     return false;
-}
-
-// starting state untuk map, spawn beberapa engimon
-void Map::initialSpawn() {
-
-}
-
-// semua engimon liar akan move randomly
-void Map::update() {
-
 }

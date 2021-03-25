@@ -79,11 +79,6 @@ public:
     */
     bool isPositionValid(Point P);
 
-    // starting state untuk map, spawn beberapa engimon
-    void initialSpawn();
-    
-    // semua engimon liar akan move randomly
-    void update();
 };
 
 #endif

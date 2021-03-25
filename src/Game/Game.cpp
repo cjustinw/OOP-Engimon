@@ -21,8 +21,33 @@ bool Game::getStatus()
     return this->status;
 }
 
+void Game::startLogo()
+{
+    cout << "  _______ .__   __.   _______  __  .___  ___.   ______   .__   __. " << endl 
+         << " |   ____||  \\ |  |  /  _____||  | |   \\/   |  /  __  \\  |  \\ |  | " << endl 
+         << " |  |__   |   \\|  | |  |  __  |  | |  \\  /  | |  |  |  | |   \\|  | " << endl 
+         << " |   __|  |  . `  | |  | |_ | |  | |  |\\/|  | |  |  |  | |  . `  | " << endl 
+         << " |  |____ |  |\\   | |  |__| | |  | |  |  |  | |  `--'  | |  |\\   | " << endl 
+         << " |_______||__| \\__|  \\______| |__| |__|  |__|  \\______/  |__| \\__| " << endl 
+         << " Created by Engimon.cpp                                    v.1.0.0 " << endl << endl;  
+}
+
+void Game::gameOverLogo()
+{
+    cout << "   ____                         ___                 _  " << endl
+         << "  / ___| __ _ _ __ ___   ___   / _ \\__   _____ _ __| | " << endl
+         << " | |  _ / _` | '_ ` _ \\ / _ \\ | | | \\ \\ / / _ \\ '__| | " << endl
+         << " | |_| | (_| | | | | | |  __/ | |_| |\\ V /  __/ |  |_| " << endl
+         << "  \\____|\\__,_|_| |_| |_|\\___|  \\___/  \\_/ \\___|_|  (_) " << endl << endl;
+                                                      
+}
+
 void Game::startGame()
 {
+    system("cls");     
+
+    startLogo();       
+    
     cout << "Choose your first Engimon!" << endl
          << "   - Entei" << endl 
          << "   - Raikou" << endl;
@@ -62,21 +87,23 @@ void Game::runGame() {
 
 void Game::printMenu()
 {
+    startLogo(); 
+
     cout << "==================================================================" << endl
          << "|| Welcome Player ! Type the menu below :                       ||" << endl
          << "==================================================================" << endl
-         << "|| move <w, a, s, d> : Bergerak 1 arah                          ||" << endl
-         << "|| show engimon : Menampilkan engimon yang dimiliki             ||" << endl
-         << "|| profile engimon : Menampilkan profile engimon                ||" << endl
-         << "|| set active engimon : Menggunakan engimon                     ||" << endl
-         << "|| show skill item : Menampilkan skill item                     ||" << endl
-         << "|| use skill item  : Menggunakan skill item                     ||" << endl
-         << "|| breed <engimon1> <engimon2> : Melakukan breeding Engimon     ||" << endl
+         << "|| <w, a, s, d> : Bergerak 1 arah                               ||" << endl
+         << "|| <show engimon> : Menampilkan engimon yang dimiliki           ||" << endl
+         << "|| <profile engimon> : Menampilkan profile engimon              ||" << endl
+         << "|| <set active engimon> : Menggunakan engimon                   ||" << endl
+         << "|| <show skill item> : Menampilkan skill item                   ||" << endl
+         << "|| <use skill item> : Menggunakan skill item                    ||" << endl
+         << "|| <breed> : Melakukan breeding Engimon                         ||" << endl
          << "==================================================================" << endl;
     
     cout << endl << "Map:" << endl;
     map->view();
-    cout << "Your position: (" << player->getPlayerPosition().getX() << "," << player->getPlayerPosition().getY() << ")"<< endl;
+    cout << "Your Position: (" << player->getPlayerPosition().getX() << "," << player->getPlayerPosition().getY() << ")"<< endl;
     cout << "Active Engimon: " << player->getActiveEngimon()->getName() <<  " (" << player->getActiveEngimon()->getSpecies() <<") "<< endl;
 }
 
@@ -465,8 +492,8 @@ void Game::battle(Player& P, Engimon& E, bool& winStat)
         player->removeEngimon(*player->getActiveEngimon());
         if(player->getNumOfEngimon() == 0)
         {
-            cout << "You don't have any engimon left!" << endl;
-            cout << "Game Over!" << endl << endl;
+            cout << "You don't have any engimon left!" << endl << endl;
+            gameOverLogo();
             status = false;
         }
         else
