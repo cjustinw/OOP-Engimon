@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <algorithm>
 #include "../Element/Element.hpp"
 #include "../Element/Electric.hpp"
 #include "../Element/Fire.hpp"

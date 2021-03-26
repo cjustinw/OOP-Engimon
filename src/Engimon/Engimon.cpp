@@ -291,42 +291,173 @@ void Engimon::showDescription()
 
 void Engimon::interact()
 {
-    cout << "Pika-pika~" << endl;
+    cout << "Engimon~~" << endl;
 }
 
 Engimon* Engimon::breed(Engimon& other, string name)
 {
     Engimon* E;
+    vector<Skill*> S;
     Point P(0,0);
-    if(this->getElement()[0]->getElmt() == other.getElement()[0]->getElmt())
+    int thisAdvantage = this->getElement()[0]->elementAdvantage(other.getElement()[0]->getElmt());
+    int otherAdvantage = other.getElement()[0]->elementAdvantage(this->getElement()[0]->getElmt());
+    if(thisAdvantage > otherAdvantage)
     {
         E = CreateEngimon(this->getID(), 1, P, true);
+        for(int i = 1; i < skills.size(); i++)
+        {
+            S.push_back(CreateSkill(skills[i]->getSkillId()));
+        }
+        sort(S.begin(), S.end(), [](const Skill* S1, const Skill* S2)
+        {
+            return S1->getMasteryLevel() > S2->getMasteryLevel();
+        });
+        int i = 0;
+        while(!E->isSkillMax() && S.size() != 0)
+        {
+            for(int k = 0; k < skills.size(); k++)
+            {
+                if(S[i]->getSkillId() == skills[k]->getSkillId())
+                {
+                    int masteryLvl = skills[k]->getMasteryLevel();
+                    S[i]->setMasteryLevel(masteryLvl);
+                    E->skills.push_back(S[i]);
+                    break;
+                }
+            }
+            i++;
+        }
+    }
+    else if(thisAdvantage < otherAdvantage)
+    {
+        E = CreateEngimon(other.getID(), 1, P, true);
+        for(int i = 1; i < other.skills.size(); i++)
+        {
+            S.push_back(CreateSkill(other.skills[i]->getSkillId()));
+        }
+        sort(S.begin(), S.end(), [](const Skill* S1, const Skill* S2)
+        {
+            return S1->getMasteryLevel() > S2->getMasteryLevel();
+        });
+        int i = 0;
+        while(!E->isSkillMax() && i < S.size())
+        {
+            for(int k = 0; k < other.skills.size(); k++)
+            {
+                if(S[i]->getSkillId() == other.skills[k]->getSkillId())
+                {
+                    int masteryLvl = other.skills[k]->getMasteryLevel();
+                    S[i]->setMasteryLevel(masteryLvl);
+                    E->skills.push_back(S[i]);
+                    break;
+                }
+            }
+            i++;
+        }
     }
     else
     {
-        int thisAdvantage = this->getElement()[0]->elementAdvantage(other.getElement()[0]->getElmt());
-        int otherAdvantage = other.getElement()[0]->elementAdvantage(this->getElement()[0]->getElmt());
-        if(thisAdvantage > otherAdvantage)
+        vector<Skill*> S2;
+        if(this->getElement()[0]->getElmt() == other.getElement()[0]->getElmt())
         {
             E = CreateEngimon(this->getID(), 1, P, true);
         }
-        else if(thisAdvantage < otherAdvantage)
+        else if(this->getElement()[0]->getElmt() == FIRE && other.getElement()[0]->getElmt() == ELECTRIC || this->getElement()[0]->getElmt() == ELECTRIC && other.getElement()[0]->getElmt() == FIRE)
         {
-            E = CreateEngimon(other.getID(), 1, P, true);
+            E = CreateEngimon(7, 1, P, true);
         }
-        else
+        else if(this->getElement()[0]->getElmt() == WATER && other.getElement()[0]->getElmt() == ICE || this->getElement()[0]->getElmt() == ICE && other.getElement()[0]->getElmt() == WATER)
         {
-            if(this->getElement()[0]->getElmt() == FIRE && other.getElement()[0]->getElmt() == ELECTRIC || this->getElement()[0]->getElmt() == ELECTRIC && other.getElement()[0]->getElmt() == FIRE)
+            E = CreateEngimon(12, 1, P, true);
+        }
+        else if(this->getElement()[0]->getElmt() == WATER && other.getElement()[0]->getElmt() == GROUND || this->getElement()[0]->getElmt() == GROUND && other.getElement()[0]->getElmt() == WATER)
+        {
+            E = CreateEngimon(13, 1, P, true);
+        }
+        for(int i = 1; i < skills.size(); i++)
+        {
+            S.push_back(CreateSkill(skills[i]->getSkillId()));
+        }
+        sort(S.begin(), S.end(), [](const Skill* S3, const Skill* S4)
+        {
+            return S3->getMasteryLevel() > S4->getMasteryLevel();
+        });
+        for(int i = 1; i < other.skills.size(); i++)
+        {
+            S2.push_back(CreateSkill(other.skills[i]->getSkillId()));
+        }
+        sort(S2.begin(), S2.end(), [](const Skill* S3, const Skill* S4)
+        {
+            return S3->getMasteryLevel() > S4->getMasteryLevel();
+        }); 
+        int i = 0, j = 0;
+        while(!E->isSkillMax() && i < S.size() && j < S2.size())
+        {
+            if(S[i]->getMasteryLevel() >= S2[j]->getMasteryLevel()) 
             {
-                E = CreateEngimon(7, 1, P, true);
+                for(int k = 0; k < skills.size(); k++)
+                {
+                    if(S[i]->getSkillId() == skills[k]->getSkillId())
+                    {
+                        int masteryLvl = skills[k]->getMasteryLevel();
+                        if(S[i]->getMasteryLevel() > S2[j]->getMasteryLevel())
+                        {
+                            S[i]->setMasteryLevel(masteryLvl);
+                        }
+                        else 
+                        {
+                            S[i]->setMasteryLevel(++masteryLvl);
+                        }
+                        E->skills.push_back(S[i]);
+                        break;
+                    }
+                }
+                i++;
             }
-            else if(this->getElement()[0]->getElmt() == WATER && other.getElement()[0]->getElmt() == ICE || this->getElement()[0]->getElmt() == ICE && other.getElement()[0]->getElmt() == WATER)
+            else if(S[i]->getMasteryLevel() < S2[j]->getMasteryLevel())
             {
-                E = CreateEngimon(12, 1, P, true);
+                for(int k = 0; k < other.skills.size(); k++)
+                {
+                    if(S2[j]->getSkillId() == other.skills[k]->getSkillId())
+                    {
+                        int masteryLvl = other.skills[k]->getMasteryLevel();
+                        S2[j]->setMasteryLevel(masteryLvl);
+                        E->skills.push_back(S2[j]);
+                        break;
+                    }
+                }
+                j++;
+            } 
+        }
+        if(!E->isSkillMax())
+        {
+            if(i < S.size())
+            {
+                for(int k = 0; k < skills.size(); k++)
+                {
+                    if(S[i]->getSkillId() == skills[k]->getSkillId())
+                    {
+                        int masteryLvl = skills[k]->getMasteryLevel();
+                        S[i]->setMasteryLevel(masteryLvl);
+                        E->skills.push_back(S[i]);
+                        break;
+                    }
+                }
+                i++;
             }
-            else if(this->getElement()[0]->getElmt() == WATER && other.getElement()[0]->getElmt() == GROUND || this->getElement()[0]->getElmt() == GROUND && other.getElement()[0]->getElmt() == WATER)
+            else
             {
-                E = CreateEngimon(13, 1, P, true);
+                for(int k = 0; k < other.skills.size(); k++)
+                {
+                    if(S2[j]->getSkillId() == other.skills[k]->getSkillId())
+                    {
+                        int masteryLvl = other.skills[k]->getMasteryLevel();
+                        S2[j]->setMasteryLevel(masteryLvl);
+                        E->skills.push_back(S2[j]);
+                        break;
+                    }
+                }
+                i++;
             }
         }
     }
@@ -363,7 +494,7 @@ Charmander::~Charmander()
 
 void Charmander::interact()
 {
-    cout << "Charmander: " << endl;
+    cout << "Charmander: Chaa~ Chaa~ Chaarmander" << endl;
 }
 
 /* Entei */
@@ -392,7 +523,7 @@ Entei::~Entei()
 
 void Entei::interact()
 {
-    cout << "Entei: " << endl;
+    cout << "Entei: Rrrrraaawrrrr~" << endl;
 }
 
 /* Pikachu */
@@ -421,7 +552,7 @@ Pikachu::~Pikachu()
 
 void Pikachu::interact()
 {
-    cout << "Pikachu: " << endl;
+    cout << "Pikachu: Pika~ Pika~" << endl;
 }
 
 /* Raikou */
@@ -450,7 +581,7 @@ Raikou::~Raikou()
 
 void Raikou::interact()
 {
-    cout << "Raikou: " << endl;
+    cout << "Raikou: Rrrrrooowrrrr~" << endl;
 }
 
 /* Diglet */
@@ -479,7 +610,7 @@ Diglet::~Diglet()
 
 void Diglet::interact()
 {
-    cout << "Diglet: " << endl;
+    cout << "Diglet: Didididi~ Diglet" << endl;
 }
 
 /* Groudon */
@@ -508,7 +639,7 @@ Groudon::~Groudon()
 
 void Groudon::interact()
 {
-    cout << "Groudon: " << endl;
+    cout << "Groudon: Rrrrrraaaaaaaa~" << endl;
 }
 
 /* Rotom */
@@ -538,7 +669,7 @@ Rotom::~Rotom()
 
 void Rotom::interact()
 {
-    cout << "Rotom: " << endl;
+    cout << "Rotom: Rotom~" << endl;
 }
 
 /* Squirtle */
@@ -567,7 +698,7 @@ Squirtle::~Squirtle()
 
 void Squirtle::interact()
 {
-    cout << "Squirtle: " << endl;
+    cout << "Squirtle: Squirtle~" << endl;
 }
 
 /* Gyarados */
@@ -596,7 +727,7 @@ Gyarados::~Gyarados()
 
 void Gyarados::interact()
 {
-    cout << "Gyarados: " << endl;
+    cout << "Gyarados: Groudon: Rrrrrroooooooo~" << endl;
 }
 
 /* Glaceon */
@@ -625,7 +756,7 @@ Glaceon::~Glaceon()
 
 void Glaceon::interact()
 {
-    cout << "Glaceon: " << endl;
+    cout << "Glaceon: Glaceon~" << endl;
 }
 
 /* Articuno */
@@ -654,7 +785,7 @@ Articuno::~Articuno()
 
 void Articuno::interact()
 {
-    cout << "Articuno: " << endl;
+    cout << "Articuno: Rrrrreeee~" << endl;
 }
 
 /* Lapras */
@@ -684,7 +815,7 @@ Lapras::~Lapras()
 
 void Lapras::interact()
 {
-    cout << "Lapras: " << endl;
+    cout << "Lapras: Aaaaarrrr~" << endl;
 }
 
 /* Swampert */
@@ -714,7 +845,7 @@ Swampert::~Swampert()
 
 void Swampert::interact()
 {
-    cout << "Swampert: " << endl;
+    cout << "Swampert: Swampert~" << endl;
 }
 
 

@@ -31,6 +31,11 @@ int Skill::getNumOfItem() const
     return numOfItem;
 }
 
+int Skill::getMasteryLevel() const 
+{
+    return masteryLevel;
+}
+
 vector<Element*> Skill::getPrereqElmt() const
 {
     return prereqElmt;
@@ -58,6 +63,11 @@ void Skill::useSkill()
         //throw
     }
     numOfItem--;
+}
+
+void Skill::setMasteryLevel(int lvl)
+{
+    masteryLevel == lvl;
 }
 
 bool Skill::operator==(Skill& other)

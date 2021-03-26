@@ -36,12 +36,14 @@ class Skill
         int getSkillId() const;
         int getSkillDamage() const;
         int getNumOfItem() const;
+        int getMasteryLevel() const;
         vector<Element*> getPrereqElmt() const;
 
         /* Setter */
         void setItemStatus(bool status);
         void addSkill();
         void useSkill();
+        void setMasteryLevel(int lvl);
 
         /* Other method */
         bool operator==(Skill& other);
