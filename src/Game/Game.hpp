@@ -35,6 +35,7 @@ class Game
         void showSkillItem();
         void useSkillItem();
         void breed();
+        void interact();
 
     public:
         /* Constructor */

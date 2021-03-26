@@ -8,7 +8,7 @@ Player::Player()
     position.setX(1);
     position.setY(1);
     maxSkillItem = 4;
-    maxInventory = 10;
+    maxInventory = 20;
     activeEngimon = NULL;
 }
 
@@ -188,7 +188,20 @@ void Player::showEngimonBySkillItem(Skill& skill)
             {
                 if(engimonInventory[i].getElement()[j]->getElmt() == skill.getPrereqElmt()[k]->getElmt())
                 {
-                    cout << "   " << i+1 << ". "<< engimonInventory[i].getName() << " (" << engimonInventory[i].getSpecies()  << ")" << " Lvl." << engimonInventory[i].getCurrentLevel() <<endl;
+                    bool exist = false;
+                    for(int l = 0; l < engimonInventory[i].getSkill().size(); l++)
+                    {
+                        if(engimonInventory[i].getSkill()[l]->getSkillId() == skill.getSkillId())
+                        {
+                            exist = true;
+                            break;
+                        }
+                    }
+                    if(!exist)
+                    {
+                        cout << "   " << i+1 << ". "<< engimonInventory[i].getName() << " (" << engimonInventory[i].getSpecies()  << ")" << " Lvl." << engimonInventory[i].getCurrentLevel() <<endl;
+                    }
+                    break;
                 }
             }
         }
@@ -198,10 +211,6 @@ void Player::showEngimonBySkillItem(Skill& skill)
 
 void Player::useSkillItem(Skill& skill, Engimon& engimon)
 {
-    if(engimon.isSkillMax())
-    {
-        //throw
-    }
     engimon.learnSkill(CreateSkill(skill.getSkillId()));
     skill.useSkill();
     if(skill.getNumOfItem() == 0)

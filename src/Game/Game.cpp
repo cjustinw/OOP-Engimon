@@ -58,12 +58,12 @@ void Game::startGame()
     map->at(P).setObject('X');
     if(option == "Entei")
     {
-        player->addEngimon(*CreateEngimon(2, 5, P, false));
+        player->addEngimon(*CreateEngimon(2, 50, P, false));
         player->setActiveEngimon(0);
     }
     else if(option == "Raikou")
     {
-        player->addEngimon(*CreateEngimon(4, 5, P, false));
+        player->addEngimon(*CreateEngimon(4, 50, P, false));
         player->setActiveEngimon(0);
     }   
     else 
@@ -98,6 +98,7 @@ void Game::printMenu()
          << "|| <show skill item> : Menampilkan skill item                   ||" << endl
          << "|| <use skill item> : Menggunakan skill item                    ||" << endl
          << "|| <breed> : Melakukan breeding Engimon                         ||" << endl
+         << "|| <interact> : Melakukan interaksi dengan active Engimon       ||" << endl
          << "==================================================================" << endl;
     
     cout << endl << "Map:" << endl;
@@ -145,6 +146,10 @@ void Game::playerOption()
         {
             breed();
         }
+        else if(option.find("interact") != string::npos)
+        {
+            interact();
+        }
         else if (option == "quit")
         {
             this->status = false;
@@ -155,6 +160,10 @@ void Game::playerOption()
             // system("pause");
         }
     }
+    catch (InvalidInputException& err){
+        cout << err.what() << endl << endl;
+        system("pause");
+    }
     catch (PositionOutOfBoundaryException& err){
         cout << err.what() << endl << endl;
         system("pause");
@@ -163,7 +172,15 @@ void Game::playerOption()
         cout << err.what() << endl << endl;
         system("pause");
     }
+    catch (EngimonException& err){
+        cout << err.what() << endl << endl;
+        system("pause");
+    }
     catch (SkillItemException& err){
+        cout << err.what() << endl << endl;
+        system("pause");
+    }
+    catch (BreedingLevelException& err){
         cout << err.what() << endl << endl;
         system("pause");
     }
@@ -182,7 +199,7 @@ void Game::createWildEngimon()
             Position.setY(rand() % map->getWidth() + 1);
         } while (!map->isPositionValid(Position));
 
-        int level = rand() % 10 + 1;
+        int level = rand() % 50 + 1;
 
         int random;
 
@@ -202,7 +219,7 @@ void Game::createWildEngimon()
             switch (wildEngimon.back()->getElement()[0]->getElmt())
             {
             case FIRE:
-                if(level > 5){
+                if(level > 30){
                     map->at(Position).setObject('F');
                 }
                 else{
@@ -210,7 +227,7 @@ void Game::createWildEngimon()
                 }
                 break;
             case ELECTRIC:
-                if(level > 5){
+                if(level > 30){
                     map->at(Position).setObject('E');
                 }
                 else{
@@ -218,7 +235,7 @@ void Game::createWildEngimon()
                 }
                 break; 
             case WATER:
-                if(level > 5){
+                if(level > 30){
                     map->at(Position).setObject('W');
                 }
                 else{
@@ -226,7 +243,7 @@ void Game::createWildEngimon()
                 }
                 break;
             case GROUND:
-                if(level > 5){
+                if(level > 30){
                     map->at(Position).setObject('G');
                 }
                 else{
@@ -234,7 +251,7 @@ void Game::createWildEngimon()
                 }
                 break; 
             case ICE:
-                if(level > 5){
+                if(level > 30){
                     map->at(Position).setObject('I');
                 }
                 else{
@@ -249,7 +266,7 @@ void Game::createWildEngimon()
         {
             if(wildEngimon.back()->getElement()[0]->getElmt() == FIRE && wildEngimon.back()->getElement()[1]->getElmt() == ELECTRIC)
             {
-                if(level > 5){
+                if(level > 30){
                     map->at(Position).setObject('L');
                 }
                 else{
@@ -258,7 +275,7 @@ void Game::createWildEngimon()
             }
             else if(wildEngimon.back()->getElement()[0]->getElmt() == WATER && wildEngimon.back()->getElement()[1]->getElmt() == ICE)
             {
-                if(level > 5){
+                if(level > 30){
                     map->at(Position).setObject('S');
                 }
                 else{
@@ -267,7 +284,7 @@ void Game::createWildEngimon()
             }
             else if(wildEngimon.back()->getElement()[0]->getElmt() == WATER && wildEngimon.back()->getElement()[1]->getElmt() == GROUND)
             {
-                if(level > 5){
+                if(level > 30){
                     map->at(Position).setObject('N');
                 }
                 else{
@@ -467,6 +484,30 @@ void Game::battle(Player& P, Engimon& E, bool& winStat)
         cout << endl << P.getActiveEngimon()->getName() << " wins! " << endl;
         int exp = 20* E.getCurrentLevel();
         P.getActiveEngimon()->expUp(exp);
+        if(P.getActiveEngimon()->isMaxCumulativeExp())
+        {
+            cout << endl << P.getActiveEngimon()->getName() << " has reached maximum cumulative exp! " << endl;
+            cout <<P.getActiveEngimon()->getName() << " will be removed from your inventory! " << endl;
+            Point Ptmp(player->getActiveEngimon()->getPosition());
+            player->removeEngimon(*player->getActiveEngimon());
+            if(player->getNumOfEngimon() == 0)
+            {
+                cout << "You don't have any engimon left!" << endl << endl;
+                gameOverLogo();
+                status = false;
+            }
+            else
+            {
+                player->showAllEngimon();
+                int num;
+                cout << endl << "Set another active engimon: "; cin >> num;
+                cout << endl;
+                player->setActiveEngimon(num-1);
+                player->getActiveEngimon()->setPosition(Ptmp);
+                cout << "Your active engimon changes to " << player->getActiveEngimon()->getName()  <<  " (" << player->getActiveEngimon()->getSpecies() <<") "<< endl;
+                cout << endl;
+            }
+        }
         P.getActiveEngimon()->levelUp();
         cout << E.getName() << " will be added to your inventory! " << endl;
         if(P.isInventoryFull())
@@ -474,6 +515,16 @@ void Game::battle(Player& P, Engimon& E, bool& winStat)
             throw FullInventoryException();
         }
         P.addEngimon(E);
+        auto j = wildEngimon.begin();
+        for(int i = 0; i < wildEngimon.size(); i++)
+        {
+           if(wildEngimon[i]->getPosition() == E.getPosition())
+           {
+                wildEngimon.erase(j);
+                break;
+           }
+           j++;
+        }
         Skill* S = GetRandomSkillItem(E.getElement());
         cout << "You get " << S->getSkillName() << " skill item!" << endl << endl;
         if(P.isInventoryFull())
@@ -489,16 +540,6 @@ void Game::battle(Player& P, Engimon& E, bool& winStat)
         else
         {
             P.addSkillItem(*S);
-        }
-        auto j = wildEngimon.begin();
-        for(int i = 0; i < wildEngimon.size(); i++)
-        {
-           if(wildEngimon[i]->getPosition() == E.getPosition())
-           {
-                wildEngimon.erase(j);
-                break;
-           }
-           j++;
         }
     }
     else
@@ -525,7 +566,6 @@ void Game::battle(Player& P, Engimon& E, bool& winStat)
             cout << "Your active engimon changes to " << player->getActiveEngimon()->getName()  <<  " (" << player->getActiveEngimon()->getSpecies() <<") "<< endl;
             cout << endl;
         }
-        
     }
 }
 
@@ -542,16 +582,28 @@ void Game::profileEngimon() {
     int num;
     cout << endl << "Input number: "; cin >> num; 
     cout << endl;
+    if(num-1 >= player->getNumOfEngimon() || num-1 < 0)
+    {
+        throw InvalidInputException();
+    }
     player->showEngimonDescription(num-1);
     cout << endl;
     system("pause");    
 }
 
 void Game::setActiveEngimon() {
+    if(player->getNumOfEngimon() <= 1)
+    {
+        throw EngimonException();
+    }
     player->showAllEngimon();
     int num;
     cout << endl << "Input number: "; cin >> num;
     cout << endl;
+    if(num-1 >= player->getNumOfEngimon() || num-1 < 0)
+    {
+        throw InvalidInputException();
+    }
     player->setActiveEngimon(num-1);
     cout << "Your active engimon changes to " << player->getActiveEngimon()->getName()  <<  " (" << player->getActiveEngimon()->getSpecies() <<") "<< endl;
     cout << endl;
@@ -576,11 +628,46 @@ void Game::useSkillItem() {
     player->showAllSkillItem();
     int num1, num2;
     cout << endl << "Select skill item: "; cin >> num1;
+    if(num1-1 >= player->getNumOfSkillItem() || num1-1 < 0)
+    {
+        throw InvalidInputException();
+    }
     Skill* S = player->getSkillByIndex(num1-1);
     cout << endl;
     player->showEngimonBySkillItem(*player->getSkillByIndex(num1-1));
     cout << endl  <<"Select engimon: "; cin >> num2;
+    if(num2-1 >= player->getNumOfEngimon() || num2-1 < 0)
+    {
+        throw InvalidInputException();
+    }
     Engimon* E = player->getEngimonByIndex(num2-1);
+    if(E->isSkillMax())
+    {
+        cout << endl  <<"your engimon can't learn new skills anymore";
+        cout << endl  << E->getName() << " skills: " << endl;
+        for(int i = 0; i < E->getSkill().size(); i++)
+        {
+            cout << "   " << i+1 << ". "<< E->getSkill()[i]->getSkillName() << endl;
+        }
+        int num3;
+        cout << endl  <<"Select skill you want to remove: "; cin >> num3;
+
+        if(num3-1 >= E->getSkill().size() && num3-1 < 0)
+        {
+            throw InvalidInputException();
+        }
+
+        auto j = E->getSkill().begin();
+        for(int i = 0; i < E->getSkill().size(); i++)
+        {
+           if(i == num3-1)
+           {
+                E->getSkill().erase(j);
+                break;
+           }
+           j++;
+        }
+    }
     player->useSkillItem(*S, *E);
     cout << endl;
     system("pause");
@@ -588,16 +675,45 @@ void Game::useSkillItem() {
 
 void Game::breed()
 {
+    if(player->getNumOfEngimon() < 2)
+    {
+        throw EngimonException();
+    }
     player->showAllEngimon();
     int num1, num2;
     string name;
-    cout << endl << "Select engimon 1 to breed: "; cin >> num1;
-    cout << endl << "Select engimon 2 to breed: "; cin >> num2;
+    cout << endl << "Select 1st engimon want to breed: "; cin >> num1;
+    if(num1-1 >= player->getNumOfEngimon() && num1-1 < 0)
+    {
+        throw InvalidInputException();
+    }
+    Engimon* E1 = player->getEngimonByIndex(num1-1);
+    if(!E1->canBreeding())
+    {
+        throw BreedingLevelException();
+    }
+    cout << endl << "Select 2nd engimon want to breed: "; cin >> num2;
+    if(num2-1 >= player->getNumOfEngimon() && num2-1 < 0)
+    {
+        throw InvalidInputException();
+    }
+    Engimon* E2 = player->getEngimonByIndex(num2-1);
+    if(!E2->canBreeding())
+    {
+        throw BreedingLevelException();
+    }
     cout << endl << "Select engimon chile name: "; cin >> name;
-    Engimon* E = player->getEngimonByIndex(num1-1)->breed(*player->getEngimonByIndex(num2-1), name);
+    Engimon* E = E1->breed(*E2, name);
     cout << endl << "Congrats! " << name << " has born!";
     cout << endl << name << " will be added to your inventory!" << endl;
     player->addEngimon(*E);
+    cout << endl;
+    system("pause");
+}
+
+void Game::interact()
+{
+    player->getActiveEngimon()->interact();
     cout << endl;
     system("pause");
 }

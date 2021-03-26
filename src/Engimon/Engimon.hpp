@@ -11,10 +11,11 @@
 #include "../Element/Water.hpp"
 #include "../Skill/Skill.hpp"
 #include "../Point/Point.hpp"
+#include "../Exception/Exception.hpp"
 
 using namespace std;
 
-#define MAX_CUMULATIVE_EXP 1000
+#define MAX_CUMULATIVE_EXP 10000
 
 class Engimon
 {
@@ -49,7 +50,7 @@ class Engimon
         string getName() const;
         string getSpecies() const;
         vector<Element*> getElement() const;
-        vector<Skill*> getSkill() const;
+        vector<Skill*> getSkill();
         string getElementName() const;
         string getParent() const;
         int getCurrentLevel() const;
@@ -75,6 +76,7 @@ class Engimon
         bool isSkillMax();
         bool isActiveEngimon();
         bool isChild();
+        bool canBreeding();
 
         /* Other Methods */
         bool operator==(Engimon& other);

@@ -4,6 +4,13 @@
 #include <exception>
 using namespace std;
 
+class InvalidInputException : public exception {
+public:
+    const char * what() const throw() {
+        return "Error: Invalid input!";
+    }
+};
+
 class ItemNotFoundException : public exception {
 public:
     const char * what() const throw() {
@@ -29,6 +36,20 @@ class SkillItemException : public exception {
 public:
     const char * what() const throw() {
         return "You don't have any skill item!";
+    }
+};
+
+class EngimonException : public exception {
+public:
+    const char * what() const throw() {
+        return "You don't have any other engimon !";
+    }
+};
+
+class BreedingLevelException : public exception {
+public:
+    const char * what() const throw() {
+        return "Your engimon must reach level 31 before start breeding!";
     }
 };
 

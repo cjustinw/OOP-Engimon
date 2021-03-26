@@ -54,7 +54,7 @@ vector<Element*> Engimon::getElement() const
     return elements;
 }
 
-vector<Skill*> Engimon::getSkill() const
+vector<Skill*> Engimon::getSkill() 
 {
     return skills;
 }
@@ -174,10 +174,6 @@ void Engimon::levelUp()
 
 void Engimon::learnSkill(Skill* skill)
 {
-    if(getNumOfSkills() > maxSkills)
-    {
-        //throw
-    }
     bool found = false;
     for(int i = 0; i < elements.size(); i++)
     {
@@ -192,17 +188,13 @@ void Engimon::learnSkill(Skill* skill)
     }
     if(!found)
     {
-        //throw
-        cout << "error1" << endl;
-        return;
+        throw InvalidInputException();
     }
     for(int i = 0; i < skills.size(); i++)
     {
         if(skills[i]->getSkillId() == skill->getSkillId())
         {
-            //throw
-            cout << "error2" << endl;
-            return;
+            throw InvalidInputException();
         }
     }
     skill->useSkill();
@@ -240,7 +232,7 @@ void Engimon::setParent(string S)
 /* Conditional Checking */
 bool Engimon::isMaxCumulativeExp()
 {
-    return exp >= MAX_CUMULATIVE_EXP;
+    return cumulativeExp >= MAX_CUMULATIVE_EXP;
 }
 
 bool Engimon::isSkillMax()
@@ -257,6 +249,12 @@ bool Engimon::isChild()
 {
     return child;
 }
+
+bool Engimon::canBreeding()
+{
+    return level > 30;
+}
+
 bool Engimon::operator==(Engimon& other)
 {
     return this == &other;
@@ -281,7 +279,8 @@ void Engimon::showDescription()
         cout << "                 - " << skills[i]->getSkillName() << endl; 
     }
     cout << "   Level       : " << getCurrentLevel() <<endl
-         << "   EXP         : " << getCurrentExp() << endl
+         << "   EXP         : " << getCurrentExp() << "/" << level*100 << endl
+         << "   Max EXP     : " << cumulativeExp << "/" << MAX_CUMULATIVE_EXP << endl
          << "========================================" << endl;
 }       
 
@@ -328,6 +327,8 @@ Engimon* Engimon::breed(Engimon& other, string name)
     }
     E->setName(name);
     E->setParent(this->getName() + " (" + this->getSpecies() + "), " + other.getName() + " (" + other.getSpecies() + ")");
+    this->setLevelAfterBreeding();
+    other.setLevelAfterBreeding();
     return E;
 }
 
