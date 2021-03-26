@@ -4,57 +4,59 @@
 #include <exception>
 using namespace std;
 
-class InvalidInputException : public exception {
+class Exception {
+public:
+    virtual const char * what() const throw() = 0;
+};
+
+class InvalidInputException : public Exception {
 public:
     const char * what() const throw() {
         return "Error: Invalid input!";
     }
 };
 
-class ItemNotFoundException : public exception {
+class ItemNotFoundException : public Exception {
 public:
     const char * what() const throw() {
         return "Error: Item not found!";
     }
 };
 
-class PositionOutOfBoundaryException : public exception {
+class PositionOutOfBoundaryException : public Exception {
 public:
     const char * what() const throw() {
         return "Error: Invalid position!";
     }
 };
 
-class FullInventoryException : public exception {
+class FullInventoryException : public Exception {
 public:
     const char * what() const throw() {
         return "Your inventory is full!";
     }
 };
 
-class SkillItemException : public exception {
+class SkillItemException : public Exception {
 public:
     const char * what() const throw() {
         return "You don't have any skill item!";
     }
 };
 
-class EngimonException : public exception {
+class EngimonException : public Exception {
 public:
     const char * what() const throw() {
         return "You don't have any other engimon !";
     }
 };
 
-class BreedingLevelException : public exception {
+class BreedingLevelException : public Exception {
 public:
     const char * what() const throw() {
         return "Your engimon must reach level 31 before start breeding!";
     }
 };
 
-class BattleException : public exception {
-
-};
 
 #endif

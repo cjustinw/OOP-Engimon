@@ -303,7 +303,7 @@ Engimon* Engimon::breed(Engimon& other, string name)
     int otherAdvantage = other.getElement()[0]->elementAdvantage(this->getElement()[0]->getElmt());
     if(thisAdvantage > otherAdvantage)
     {
-        E = CreateEngimon(this->getID(), 1, P, true);
+        E = CreateEngimon(this->getID(), 30, P, true);
         for(int i = 1; i < skills.size(); i++)
         {
             S.push_back(CreateSkill(skills[i]->getSkillId()));
@@ -313,7 +313,7 @@ Engimon* Engimon::breed(Engimon& other, string name)
             return S1->getMasteryLevel() > S2->getMasteryLevel();
         });
         int i = 0;
-        while(!E->isSkillMax() && S.size() != 0)
+        while(!E->isSkillMax() && i < S.size())
         {
             for(int k = 0; k < skills.size(); k++)
             {
@@ -330,7 +330,7 @@ Engimon* Engimon::breed(Engimon& other, string name)
     }
     else if(thisAdvantage < otherAdvantage)
     {
-        E = CreateEngimon(other.getID(), 1, P, true);
+        E = CreateEngimon(other.getID(), 30, P, true);
         for(int i = 1; i < other.skills.size(); i++)
         {
             S.push_back(CreateSkill(other.skills[i]->getSkillId()));
@@ -360,19 +360,19 @@ Engimon* Engimon::breed(Engimon& other, string name)
         vector<Skill*> S2;
         if(this->getElement()[0]->getElmt() == other.getElement()[0]->getElmt())
         {
-            E = CreateEngimon(this->getID(), 1, P, true);
+            E = CreateEngimon(this->getID(), 30, P, true);
         }
         else if(this->getElement()[0]->getElmt() == FIRE && other.getElement()[0]->getElmt() == ELECTRIC || this->getElement()[0]->getElmt() == ELECTRIC && other.getElement()[0]->getElmt() == FIRE)
         {
-            E = CreateEngimon(7, 1, P, true);
+            E = CreateEngimon(7, 30, P, true);
         }
         else if(this->getElement()[0]->getElmt() == WATER && other.getElement()[0]->getElmt() == ICE || this->getElement()[0]->getElmt() == ICE && other.getElement()[0]->getElmt() == WATER)
         {
-            E = CreateEngimon(12, 1, P, true);
+            E = CreateEngimon(12, 30, P, true);
         }
         else if(this->getElement()[0]->getElmt() == WATER && other.getElement()[0]->getElmt() == GROUND || this->getElement()[0]->getElmt() == GROUND && other.getElement()[0]->getElmt() == WATER)
         {
-            E = CreateEngimon(13, 1, P, true);
+            E = CreateEngimon(13, 30, P, true);
         }
         for(int i = 1; i < skills.size(); i++)
         {
@@ -395,69 +395,114 @@ Engimon* Engimon::breed(Engimon& other, string name)
         {
             if(S[i]->getMasteryLevel() >= S2[j]->getMasteryLevel()) 
             {
-                for(int k = 0; k < skills.size(); k++)
+                bool found = false;
+                for(int k = 0; k < E->skills.size(); k++)
                 {
-                    if(S[i]->getSkillId() == skills[k]->getSkillId())
+                    if(E->skills[k]->getSkillId() == S[i]->getSkillId())
                     {
-                        int masteryLvl = skills[k]->getMasteryLevel();
-                        if(S[i]->getMasteryLevel() > S2[j]->getMasteryLevel())
+                        found = true;
+                    }
+                }
+                if(!found)
+                {
+                    for(int k = 0; k < skills.size(); k++)
+                    {
+                        if(S[i]->getSkillId() == skills[k]->getSkillId())
                         {
-                            S[i]->setMasteryLevel(masteryLvl);
+                            int masteryLvl = skills[k]->getMasteryLevel();
+                            if(S[i]->getMasteryLevel() > S2[j]->getMasteryLevel())
+                            {
+                                S[i]->setMasteryLevel(masteryLvl);
+                            }
+                            else 
+                            {
+                                masteryLvl++;
+                                S[i]->setMasteryLevel(masteryLvl);
+                            }
+                            E->skills.push_back(S[i]);
+                            break;
                         }
-                        else 
-                        {
-                            S[i]->setMasteryLevel(++masteryLvl);
-                        }
-                        E->skills.push_back(S[i]);
-                        break;
                     }
                 }
                 i++;
             }
             else if(S[i]->getMasteryLevel() < S2[j]->getMasteryLevel())
             {
-                for(int k = 0; k < other.skills.size(); k++)
+                bool found = false;
+                for(int k = 0; k < E->skills.size(); k++)
                 {
-                    if(S2[j]->getSkillId() == other.skills[k]->getSkillId())
+                    if(E->skills[k]->getSkillId() == S2[j]->getSkillId())
                     {
-                        int masteryLvl = other.skills[k]->getMasteryLevel();
-                        S2[j]->setMasteryLevel(masteryLvl);
-                        E->skills.push_back(S2[j]);
-                        break;
+                        found = true;
                     }
                 }
-                j++;
+                if(!found)
+                {
+                    for(int k = 0; k < other.skills.size(); k++)
+                    {
+                        if(S2[j]->getSkillId() == other.skills[k]->getSkillId())
+                        {
+                            int masteryLvl = other.skills[k]->getMasteryLevel();
+                            S2[j]->setMasteryLevel(masteryLvl);
+                            E->skills.push_back(S2[j]);
+                            break;
+                        }
+                    }
+                    j++;
+                }
             } 
         }
         if(!E->isSkillMax())
         {
             if(i < S.size())
             {
-                for(int k = 0; k < skills.size(); k++)
+                bool found = false;
+                for(int k = 0; k < E->skills.size(); k++)
                 {
-                    if(S[i]->getSkillId() == skills[k]->getSkillId())
+                    if(E->skills[k]->getSkillId() == S[i]->getSkillId())
                     {
-                        int masteryLvl = skills[k]->getMasteryLevel();
-                        S[i]->setMasteryLevel(masteryLvl);
-                        E->skills.push_back(S[i]);
-                        break;
+                        found = true;
                     }
                 }
-                i++;
+                if(!found)
+                {
+                    for(int k = 0; k < skills.size(); k++)
+                    {
+                        if(S[i]->getSkillId() == skills[k]->getSkillId())
+                        {
+                            int masteryLvl = skills[k]->getMasteryLevel();
+                            S[i]->setMasteryLevel(masteryLvl);
+                            E->skills.push_back(S[i]);
+                            break;
+                        }
+                    }
+                    i++;
+                }
             }
-            else
+            else if(j < S2.size())
             {
-                for(int k = 0; k < other.skills.size(); k++)
+                bool found = false;
+                for(int k = 0; k < E->skills.size(); k++)
                 {
-                    if(S2[j]->getSkillId() == other.skills[k]->getSkillId())
+                    if(E->skills[k]->getSkillId() == S2[j]->getSkillId())
                     {
-                        int masteryLvl = other.skills[k]->getMasteryLevel();
-                        S2[j]->setMasteryLevel(masteryLvl);
-                        E->skills.push_back(S2[j]);
-                        break;
+                        found = true;
                     }
                 }
-                i++;
+                if(!found)
+                {
+                    for(int k = 0; k < other.skills.size(); k++)
+                    {
+                        if(S2[j]->getSkillId() == other.skills[k]->getSkillId())
+                        {
+                            int masteryLvl = other.skills[k]->getMasteryLevel();
+                            S2[j]->setMasteryLevel(masteryLvl);
+                            E->skills.push_back(S2[j]);
+                            break;
+                        }
+                    }
+                    j++;
+                }
             }
         }
     }

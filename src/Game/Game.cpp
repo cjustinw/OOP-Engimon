@@ -158,27 +158,7 @@ void Game::playerOption()
             // throw InvalidInputException();
         }
     }
-    catch (InvalidInputException& err){
-        cout << err.what() << endl << endl;
-        system("pause");
-    }
-    catch (PositionOutOfBoundaryException& err){
-        cout << err.what() << endl << endl;
-        system("pause");
-    }
-    catch (FullInventoryException& err){
-        cout << err.what() << endl << endl;
-        system("pause");
-    }
-    catch (EngimonException& err){
-        cout << err.what() << endl << endl;
-        system("pause");
-    }
-    catch (SkillItemException& err){
-        cout << err.what() << endl << endl;
-        system("pause");
-    }
-    catch (BreedingLevelException& err){
+    catch (Exception& err){
         cout << err.what() << endl << endl;
         system("pause");
     }
@@ -321,7 +301,11 @@ void Game::movePlayer(string option)
         {
             if(wildEngimon[i]->getPosition() == P)
             {
-                battle(*player, *wildEngimon[i], winStat);
+                try{
+                    battle(*player, *wildEngimon[i], winStat);
+                } catch(Exception& err){
+                    cout << err.what() << endl << endl;
+                }
                 system("pause");
             }
         }

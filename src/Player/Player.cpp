@@ -8,7 +8,7 @@ Player::Player()
     position.setX(1);
     position.setY(1);
     maxSkillItem = 4;
-    maxInventory = 20;
+    maxInventory = 30;
     activeEngimon = NULL;
 }
 

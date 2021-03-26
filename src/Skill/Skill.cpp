@@ -67,7 +67,7 @@ void Skill::useSkill()
 
 void Skill::setMasteryLevel(int lvl)
 {
-    masteryLevel == lvl;
+    masteryLevel = lvl;
 }
 
 bool Skill::operator==(Skill& other)
