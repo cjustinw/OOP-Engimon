@@ -70,6 +70,7 @@ class Engimon
         void setPosition(Point);
         void setLevelAfterBreeding();
         void setParent(string);
+        void removeSkillByIndex(int idx);
 
         /* Conditional Checking */
         bool isMaxCumulativeExp();

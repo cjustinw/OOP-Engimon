@@ -78,9 +78,10 @@ void Game::startGame()
 }
 
 void Game::runGame() {
-    while(this->getStatus())
+    while(getStatus())
     {
-        this->playerOption();
+        printMenu(); 
+        playerOption();
     }
 }
 
@@ -99,6 +100,7 @@ void Game::printMenu()
          << "|| <use skill item> : Menggunakan skill item                    ||" << endl
          << "|| <breed> : Melakukan breeding Engimon                         ||" << endl
          << "|| <interact> : Melakukan interaksi dengan active Engimon       ||" << endl
+         << "|| <quit> : Keluar dari permainan                               ||" << endl
          << "==================================================================" << endl;
     
     cout << endl << "Map:" << endl;
@@ -109,11 +111,8 @@ void Game::printMenu()
 
 void Game::playerOption()
 {
-    printMenu() ; 
-
-    string option = "";
-    cout << endl << "Player input: "; 
-    getline(cin, option);
+    string option;
+    cout << endl << "Player input: "; getline(cin, option);
     cout << endl;
 
     try
@@ -150,14 +149,13 @@ void Game::playerOption()
         {
             interact();
         }
-        else if (option == "quit")
+        else if (option.find("quit") != string::npos)
         {
             this->status = false;
         }
         else
         {
-            // cout << "Invalid command!" << endl << endl;
-            // system("pause");
+            // throw InvalidInputException();
         }
     }
     catch (InvalidInputException& err){
@@ -184,7 +182,6 @@ void Game::playerOption()
         cout << err.what() << endl << endl;
         system("pause");
     }
-
 }
 
 void Game::createWildEngimon()
@@ -510,10 +507,6 @@ void Game::battle(Player& P, Engimon& E, bool& winStat)
         }
         P.getActiveEngimon()->levelUp();
         cout << E.getName() << " will be added to your inventory! " << endl;
-        if(P.isInventoryFull())
-        {
-            throw FullInventoryException();
-        }
         P.addEngimon(E);
         auto j = wildEngimon.begin();
         for(int i = 0; i < wildEngimon.size(); i++)
@@ -525,6 +518,11 @@ void Game::battle(Player& P, Engimon& E, bool& winStat)
            }
            j++;
         }
+        if(P.isInventoryFull())
+        {
+            throw FullInventoryException();
+        }
+        
         Skill* S = GetRandomSkillItem(E.getElement());
         cout << "You get " << S->getSkillName() << " skill item!" << endl << endl;
         if(P.isInventoryFull())
@@ -643,7 +641,7 @@ void Game::useSkillItem() {
     Engimon* E = player->getEngimonByIndex(num2-1);
     if(E->isSkillMax())
     {
-        cout << endl  <<"your engimon can't learn new skills anymore";
+        cout << endl  <<"Your engimon can't learn new skills anymore";
         cout << endl  << E->getName() << " skills: " << endl;
         for(int i = 0; i < E->getSkill().size(); i++)
         {
@@ -656,17 +654,7 @@ void Game::useSkillItem() {
         {
             throw InvalidInputException();
         }
-
-        auto j = E->getSkill().begin();
-        for(int i = 0; i < E->getSkill().size(); i++)
-        {
-           if(i == num3-1)
-           {
-                E->getSkill().erase(j);
-                break;
-           }
-           j++;
-        }
+        E->removeSkillByIndex(num3-1);
     }
     player->useSkillItem(*S, *E);
     cout << endl;

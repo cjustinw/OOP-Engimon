@@ -229,6 +229,11 @@ void Engimon::setParent(string S)
     this->parent.assign(S);
 }
 
+void Engimon::removeSkillByIndex(int idx)
+{
+    skills.erase(skills.begin() + idx);
+}
+
 /* Conditional Checking */
 bool Engimon::isMaxCumulativeExp()
 {
